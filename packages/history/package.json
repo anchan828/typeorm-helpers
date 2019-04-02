@@ -19,14 +19,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anchan828/typeorm-transformers.git"
+    "url": "git+https://github.com/anchan828/typeorm-helpers.git"
   },
   "author": "anchan828 <anchan828@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/anchan828/typeorm-transformers/issues"
+    "url": "https://github.com/anchan828/typeorm-helpers/issues"
   },
-  "homepage": "https://github.com/anchan828/typeorm-transformers#readme",
+  "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/history#readme",
   "devDependencies": {
     "@types/jest": "^24.0.11",
     "@types/node": "^11.12.2",
