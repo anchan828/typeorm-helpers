@@ -7,10 +7,12 @@
 
 Create History Entity for [TypeORM](http://typeorm.io)
 
+Tested: mysql5, mysql8 and postgres.
+
 ## Installation
 
 ```bash
-$ npm i --save @anchan828/typeorm-history
+$ npm i --save typeorm @anchan828/typeorm-history
 ```
 
 ## Quick Start
@@ -23,11 +25,6 @@ class TestEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id!: number;
 
-  @Column({
-    default: false,
-  })
-  public deleted!: boolean;
-
   @Column()
   public test!: string;
 }
@@ -38,8 +35,6 @@ class TestEntity extends BaseEntity {
 ```ts
 @Entity()
 class TestHistoryEntity extends TestEntity implements HistoryEntityInterface {
-  @PrimaryGeneratedColumn()
-  public id!: number;
 
   @Column()
   public originalID!: number;
@@ -57,19 +52,30 @@ class TestHistoryEntity extends TestEntity implements HistoryEntityInterface {
 ```ts
 @EventSubscriber()
 class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, TestHistoryEntity> {
-  public createHistoryEntity(entity: TestEntity): TestHistoryEntity {
-    const history = TestHistoryEntity.create(entity);
-    history.originalID = entity.id;
-    return history;
-  }
-
-  public listenTo(): Function {
+  public get entity() {
     return TestEntity;
+  }
+  public get historyEntity() {
+    return TestHistoryEntity;
   }
 }
 ```
 
-### 4. Insert/Update/Remove entity
+### 4. Create connection
+
+```ts
+await createConnection({
+  type: 'mysql',
+  entities: [TestEntity, TestHistoryEntity],
+  subscribers: [TestHistoryEntitySubscriber],
+  username: 'root',
+  password: 'test',
+  database: 'test',
+});
+```
+
+
+### 5. Insert/Update/Remove entity
 
 ```ts
 // Insert
@@ -80,15 +86,11 @@ testEntity.test = 'updated';
 await testEntity.save();
 
 // Remove
-testEntity.deleted = true;
-await testEntity.save();
-
-// Remove
 await testEntity.remove();
 
 ```
 
-![](https://i.gyazo.com/469466502dd8cbab540a8115336d2f07.png)
+![](https://i.gyazo.com/14df4832443c22a72042e20a84a5aa57.png)
 
 ## Advanced
 
@@ -97,13 +99,15 @@ You can hook before/after insert/update/remove history.
 ```ts
 @EventSubscriber()
 class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, TestHistoryEntity> {
-  public listenTo(): Function {
+  public get entity() {
     return TestEntity;
   }
-  
-  public createHistoryEntity(entity: TestEntity): TestHistoryEntity {
-    const history = TestHistoryEntity.create(entity);
-    history.originalID = entity.id;
+
+  public get historyEntity() {
+    return TestHistoryEntity;
+  }
+
+  public beforeInsertHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType> {
     return history;
   }
 

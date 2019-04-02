@@ -15,7 +15,7 @@ import {
   HistoryEntitySubscriber,
 } from './history-entity';
 
-describe('test', () => {
+describe.each(['mysql', 'postgres'])('%s test', (type: string) => {
   @Entity()
   class TestEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -49,20 +49,23 @@ describe('test', () => {
     TestEntity,
     TestHistoryEntity
   > {
-    public createHistoryEntity(entity: TestEntity): TestHistoryEntity {
-      const history = TestHistoryEntity.create(entity);
-      history.originalID = entity.id;
-      return history;
-    }
-    public listenTo(): Function {
+    public get entity() {
       return TestEntity;
+    }
+    public get historyEntity() {
+      return TestHistoryEntity;
+    }
+
+    public beforeUpdateHistory(history: TestHistoryEntity): TestHistoryEntity {
+      if (history.deleted) {
+        history.action = HistoryActionType.DELETED;
+      }
+      return history;
     }
   }
   beforeEach(async () => {
     const connection = await createConnection({
-      type: 'mysql',
-      supportBigNumbers: true,
-      bigNumberStrings: true,
+      type: type as any,
       entities: [TestEntity, TestHistoryEntity],
       subscribers: [TestHistoryEntitySubscriber],
       username: 'root',
@@ -99,7 +102,7 @@ describe('test', () => {
     expect(histories[1].test).toBe('updated');
   });
 
-  it('delete history1', async () => {
+  it('should be delete action when deleted column is true', async () => {
     const testEntity = await TestEntity.create({ test: 'test' }).save();
     testEntity.deleted = true;
     await testEntity.save();
@@ -123,7 +126,7 @@ describe('test', () => {
     expect(histories[0].deleted).toBeFalsy();
 
     expect(histories[1].action).toBe(HistoryActionType.DELETED);
-    expect(histories[1].deleted).toBeTruthy();
+    expect(histories[1].deleted).toBeFalsy();
   });
 
   it('create many histories', async () => {
