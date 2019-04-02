@@ -52,4 +52,4 @@ class JsonTransformerTest extends BaseEntity {
 
 ## License
 
-[MIT](LICENSE).
+[MIT](LICENSE)

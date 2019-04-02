@@ -92,4 +92,4 @@ await testEntity.remove();
 
 ## License
 
-[MIT](LICENSE).
+[MIT](LICENSE)
