@@ -10,7 +10,7 @@ Transformer collection for [TypeORM](http://typeorm.io)
 ## Installation
 
 ```bash
-$ npm i --save @anchan828/typeorm-transformers
+$ npm i --save typeorm @anchan828/typeorm-transformers
 ```
 
 ## Quick Start
