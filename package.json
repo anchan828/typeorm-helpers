@@ -1,0 +1,27 @@
+{
+  "name": "@anchan828/typeorm-helpers",
+  "private": true,
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run build",
+    "test": "lerna run test",
+    "test:e2e": "lerna run test:e2e",
+    "publish": "lerna publish --yes patch",
+    "publish:minor": "lerna lerna publish --yes minor",
+    "publish:major": "lerna lerna publish --yes major"
+  },
+  "devDependencies": {
+    "atob-lite": "^2.0.0",
+    "husky": "^1.3.1",
+    "lerna": "^3.13.1",
+    "lint-staged": "^8.1.5",
+    "prettier": "^1.16.4"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "dependencies": {}
+}
