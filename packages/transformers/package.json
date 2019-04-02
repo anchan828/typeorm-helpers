@@ -1,6 +1,6 @@
 {
   "name": "@anchan828/typeorm-transformers",
-  "version": "0.1.3",
+  "version": "0.2.1",
   "description": "[TypeORM](https://github.com/typeorm/typeorm) transformers",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -34,6 +34,5 @@
     "tslint-config-prettier": "1.18.0",
     "typeorm": "0.2.16",
     "typescript": "3.4.1"
-  },
-  "dependencies": {}
+  }
 }
