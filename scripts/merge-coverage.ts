@@ -22,7 +22,7 @@ class JsonSummary {
     [filePath: string]: TotalProperty;
   } = {
     total: {
-      lines: {
+      branches: {
         covered: 0,
         pct: 0,
         skipped: 0,
@@ -34,13 +34,13 @@ class JsonSummary {
         skipped: 0,
         total: 0,
       },
-      statements: {
+      lines: {
         covered: 0,
         pct: 0,
         skipped: 0,
         total: 0,
       },
-      branches: {
+      statements: {
         covered: 0,
         pct: 0,
         skipped: 0,
@@ -129,17 +129,11 @@ class JsonSummary {
 }
 
 class Lcov {
-  data: string[] = [];
+  public data: string[] = [];
 
   constructor(filePath?: string) {
     if (filePath) {
       this.read(filePath);
-    }
-  }
-
-  private read(filePath: string) {
-    if (fs.existsSync(filePath)) {
-      this.data.push(fs.readFileSync(filePath, 'utf8'));
     }
   }
 
@@ -153,6 +147,12 @@ class Lcov {
     }
 
     fs.writeFileSync(dist, this.data.filter(d => d).join('\n'));
+  }
+
+  private read(filePath: string) {
+    if (fs.existsSync(filePath)) {
+      this.data.push(fs.readFileSync(filePath, 'utf8'));
+    }
   }
 }
 

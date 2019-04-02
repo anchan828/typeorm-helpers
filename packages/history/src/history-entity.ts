@@ -12,9 +12,9 @@ import { HistoryActionType } from './history-action.enum';
 const ulid = monotonicFactory();
 export function HistoryActionColumn() {
   return Column({
-    type: 'enum',
-    enum: Object.values(HistoryActionType),
     default: HistoryActionType.CREATED,
+    enum: Object.values(HistoryActionType),
+    type: 'enum',
   });
 }
 export interface HistoryEntityInterface {

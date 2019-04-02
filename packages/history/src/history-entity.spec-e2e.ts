@@ -104,19 +104,19 @@ describe.each(['mysql', 'postgres'])('%s test', (type: string) => {
   }
   beforeEach(async () => {
     const connection = await createConnection({
-      type: type as any,
+      database: 'test',
+      dropSchema: true,
       entities: [
         TestEntity,
         TestHistoryEntity,
         TestEntity2,
         TestHistoryEntity2,
       ],
-      subscribers: [TestHistoryEntitySubscriber, TestHistoryEntitySubscriber2],
-      username: 'root',
       password: 'test',
-      database: 'test',
+      subscribers: [TestHistoryEntitySubscriber, TestHistoryEntitySubscriber2],
       synchronize: true,
-      dropSchema: true,
+      type: type as any,
+      username: 'root',
     });
     expect(connection).toBeDefined();
     expect(connection.isConnected).toBeTruthy();

@@ -14,10 +14,10 @@ describe('BigintTransformer', () => {
     public id!: number;
 
     @Column({
-      type: 'tinyint',
-      width: 1,
       nullable: true,
       transformer: new BooleanTransformer(),
+      type: 'tinyint',
+      width: 1,
     })
     public bool!: boolean;
   }
@@ -29,8 +29,8 @@ describe('BigintTransformer', () => {
     const test = await BooleanTransformerTest.create({}).save();
 
     expect(await BooleanTransformerTest.findOne(test.id)).toEqual({
-      id: 1,
       bool: undefined,
+      id: 1,
     });
   });
   it('should return true', async () => {
@@ -39,8 +39,8 @@ describe('BigintTransformer', () => {
     }).save();
 
     expect(await BooleanTransformerTest.findOne(test.id)).toEqual({
-      id: 1,
       bool: true,
+      id: 1,
     });
 
     const rawQuery = await getConnection().query(
@@ -58,8 +58,8 @@ describe('BigintTransformer', () => {
     }).save();
 
     expect(await BooleanTransformerTest.findOne(test.id)).toEqual({
-      id: 1,
       bool: false,
+      id: 1,
     });
 
     const rawQuery = await getConnection().query(

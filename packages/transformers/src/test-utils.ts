@@ -1,15 +1,14 @@
 import { ConnectionOptions, createConnection } from 'typeorm';
 export const createTestConnection = async (entities: any[]) => {
   return createConnection({
-    type: 'mysql',
-    supportBigNumbers: true,
     bigNumberStrings: true,
-    entities,
-    username: 'root',
-    password: 'test',
     database: 'test',
-    synchronize: true,
     dropSchema: true,
-    // logging: 'all',
+    entities,
+    password: 'test',
+    supportBigNumbers: true,
+    synchronize: true,
+    type: 'mysql',
+    username: 'root',
   } as ConnectionOptions);
 };

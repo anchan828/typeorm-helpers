@@ -9,7 +9,7 @@ import { JsonTransformer } from './json';
 import { createTestConnection } from './test-utils';
 describe('JsonTransformer', () => {
   class TestJson {
-    name!: string;
+    public name!: string;
   }
 
   @Entity()
@@ -18,10 +18,10 @@ describe('JsonTransformer', () => {
     public id!: number;
 
     @Column({
-      type: 'varchar',
-      width: 255,
       nullable: true,
       transformer: new JsonTransformer<TestJson>({ name: 'test' }),
+      type: 'varchar',
+      width: 255,
     })
     public data!: TestJson;
   }
@@ -37,10 +37,10 @@ describe('JsonTransformer', () => {
       public id!: number;
 
       @Column({
-        type: 'varchar',
-        width: 255,
         nullable: true,
         transformer: new JsonTransformer(),
+        type: 'varchar',
+        width: 255,
       })
       public data!: TestJson;
     }
@@ -49,8 +49,8 @@ describe('JsonTransformer', () => {
     const test = await NoDefaultValueTest.create({}).save();
 
     expect(await NoDefaultValueTest.findOne(test.id)).toEqual({
-      id: 1,
       data: undefined,
+      id: 1,
     });
   });
 
@@ -58,10 +58,10 @@ describe('JsonTransformer', () => {
     const test = await JsonTransformerTest.create().save();
 
     expect(await JsonTransformerTest.findOne(test.id)).toEqual({
-      id: test.id,
       data: {
         name: 'test',
       },
+      id: test.id,
     });
 
     const rawQuery = await getConnection().query(
@@ -83,10 +83,10 @@ describe('JsonTransformer', () => {
     );
 
     expect(await JsonTransformerTest.findOne(1)).toEqual({
-      id: 1,
       data: {
         name: 'test',
       },
+      id: 1,
     });
   });
 
