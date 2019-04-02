@@ -28,15 +28,15 @@
   },
   "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/history#readme",
   "devDependencies": {
-    "@types/jest": "^24.0.11",
-    "@types/node": "^11.12.2",
-    "jest": "^24.5.0",
-    "mysql": "^2.16.0",
-    "ts-jest": "^24.0.1",
-    "tslint": "^5.14.0",
-    "tslint-config-prettier": "^1.18.0",
-    "typeorm": "^0.2.16",
-    "typescript": "^3.4.1"
+    "@types/jest": "24.0.11",
+    "@types/node": "11.13.0",
+    "jest": "24.6.0",
+    "mysql": "2.16.0",
+    "ts-jest": "24.0.1",
+    "tslint": "5.15.0",
+    "tslint-config-prettier": "1.18.0",
+    "typeorm": "0.2.16",
+    "typescript": "3.4.1"
   },
   "dependencies": {
     "ulid": "^2.3.0"
