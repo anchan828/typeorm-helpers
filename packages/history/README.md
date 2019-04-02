@@ -35,15 +35,11 @@ class TestEntity extends BaseEntity {
 ```ts
 @Entity()
 class TestHistoryEntity extends TestEntity implements HistoryEntityInterface {
-
   @Column()
   public originalID!: number;
 
   @HistoryActionColumn()
   public action!: HistoryActionType;
-
-  @Column()
-  public historyReportID!: string;
 }
 ```
 
@@ -90,7 +86,7 @@ await testEntity.remove();
 
 ```
 
-![](https://i.gyazo.com/14df4832443c22a72042e20a84a5aa57.png)
+![](https://i.gyazo.com/c5c25280122bfe423533f8db269d04f4.png)
 
 ## Advanced
 

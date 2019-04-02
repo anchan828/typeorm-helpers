@@ -34,9 +34,6 @@ describe.each(['mysql', 'postgres'])('%s test', (type: string) => {
     public action!: HistoryActionType;
     @PrimaryGeneratedColumn()
     public id!: number;
-
-    @Column()
-    public historyReportID!: string;
   }
 
   @EventSubscriber()
@@ -76,9 +73,6 @@ describe.each(['mysql', 'postgres'])('%s test', (type: string) => {
     public action!: HistoryActionType;
     @PrimaryGeneratedColumn()
     public id!: number;
-
-    @Column()
-    public historyReportID!: string;
   }
 
   @EventSubscriber()
@@ -180,6 +174,18 @@ describe.each(['mysql', 'postgres'])('%s test', (type: string) => {
     await expect(TestHistoryEntity.count()).resolves.toBe(200);
     await TestEntity.remove(entities);
     await expect(TestHistoryEntity.count()).resolves.toBe(300);
+  });
+
+  it('a', async () => {
+    // Insert
+    const testEntity = await TestEntity.create({ test: 'test' }).save();
+
+    // Update
+    testEntity.test = 'updated';
+    await testEntity.save();
+
+    // Remove
+    await testEntity.remove();
   });
 
   afterEach(() => getConnection().close());
