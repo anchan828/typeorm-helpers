@@ -34,7 +34,8 @@ jobs:
       - run: ./cc-test-reporter before-build
       - run: export MYSQL_ROOT_PASSWORD=test
       - run: export MYSQL_DATABASE=test
-      - run: npm run test
       - run: npm run test:e2e -- --scope=@anchan828/typeorm-history
       - run: npm run test:e2e -- --scope=@anchan828/typeorm-transformers
+      - run: npm run test
+      - run: npx ts-node scripts/merge-coverage.ts
       - run: ./cc-test-reporter after-build --coverage-input-type lcov
