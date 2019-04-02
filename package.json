@@ -7,8 +7,8 @@
     "test": "lerna run test",
     "test:e2e": "lerna run test:e2e",
     "publish": "lerna publish --yes patch",
-    "publish:minor": "lerna lerna publish --yes minor",
-    "publish:major": "lerna lerna publish --yes major"
+    "publish:minor": "lerna publish --yes minor",
+    "publish:major": "lerna publish --yes major"
   },
   "devDependencies": {
     "@types/node": "11.13.0",
