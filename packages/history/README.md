@@ -90,6 +90,45 @@ await testEntity.remove();
 
 ![](https://i.gyazo.com/469466502dd8cbab540a8115336d2f07.png)
 
+## Advanced
+
+You can hook before/after insert/update/remove history.
+
+```ts
+@EventSubscriber()
+class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, TestHistoryEntity> {
+  public listenTo(): Function {
+    return TestEntity;
+  }
+  
+  public createHistoryEntity(entity: TestEntity): TestHistoryEntity {
+    const history = TestHistoryEntity.create(entity);
+    history.originalID = entity.id;
+    return history;
+  }
+
+  public afterInsertHistory(history: HistoryEntityType): void | Promise<void> {
+    
+  }
+
+  public beforeUpdateHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType> {
+    return history;
+  }
+
+  public afterUpdateHistory(history: HistoryEntityType): void | Promise<void> {
+    
+  }
+
+  public beforeRemoveHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType> {
+    return history;
+  }
+  
+  public afterRemoveHistory(history: HistoryEntityType): void | Promise<void> {
+    
+  }
+}
+```
+
 ## License
 
 [MIT](LICENSE)
