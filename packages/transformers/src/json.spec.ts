@@ -1,6 +1,6 @@
 import { JsonTransformer } from './json';
 
-describe('BooleanTransformer', () => {
+describe('JsonTransformer', () => {
   const jsonTransformer = new JsonTransformer({ test: 'defaultValue' });
 
   it('should be defined', () => {
