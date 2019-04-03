@@ -14,7 +14,7 @@ export function StaticFileColumn(
         transformer: new StaticFileTransformer(trasformerOptions),
         type: 'varchar',
         width: 255,
-      },
+      } as ColumnOptions,
       options || {},
     ),
   );

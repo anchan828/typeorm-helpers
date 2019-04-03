@@ -13,7 +13,7 @@ export function UlidColumn(
     {
       type: 'varchar',
       width: 26,
-    },
+    } as ColumnOptions,
     options || {},
   ) as ColumnOptions;
 
