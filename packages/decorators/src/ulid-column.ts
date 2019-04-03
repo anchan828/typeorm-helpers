@@ -7,7 +7,6 @@ export interface UlidColumnOptions {
   isMonotonic: boolean;
 }
 export function UlidColumn(
-  this: any,
   trasformerOptions?: UlidColumnOptions,
   options?: ColumnOptions,
 ) {
@@ -21,14 +20,15 @@ export function UlidColumn(
   const defaultFunction = (): string => {
     return `'${trasformerOptions!.isMonotonic ? monotonic() : ulid()}'`;
   };
+
   options = Object.assign(
     {
-      default: defaultFunction.bind(this),
+      default: defaultFunction,
       length: '26',
       type: 'varchar',
     } as ColumnOptions,
     options || {},
   ) as ColumnOptions;
 
-  return Column(options).bind(this);
+  return Column(options);
 }

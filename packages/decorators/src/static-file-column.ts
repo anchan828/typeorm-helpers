@@ -5,7 +5,6 @@ import {
 import { Column, ColumnOptions } from 'typeorm';
 
 export function StaticFileColumn(
-  this: any,
   trasformerOptions: StaticFileTransformerOptions,
   options?: ColumnOptions,
 ) {
@@ -18,5 +17,5 @@ export function StaticFileColumn(
       } as ColumnOptions,
       options || {},
     ),
-  ).bind(this);
+  );
 }
