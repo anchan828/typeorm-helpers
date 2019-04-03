@@ -22,6 +22,7 @@ jobs:
 
       - run: npm ci
       - run: npm run bootstrap
+      - run: npm run build
 
       - save_cache:
           paths:
@@ -39,6 +40,7 @@ jobs:
       - run: ./cc-test-reporter before-build
       - run: npm run test:e2e -- --scope=@anchan828/typeorm-history
       - run: npm run test:e2e -- --scope=@anchan828/typeorm-transformers
+      - run: npm run test:e2e -- --scope=@anchan828/typeorm-decorators
       - run: npm run test
       - run: npx ts-node scripts/merge-coverage.ts
       - run: ./cc-test-reporter after-build --coverage-input-type lcov
