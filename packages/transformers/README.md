@@ -13,7 +13,11 @@ Transformer collection for [TypeORM](http://typeorm.io)
 $ npm i --save typeorm @anchan828/typeorm-transformers
 ```
 
-## Quick Start
+## Transformers
+
+### BooleanTransformer
+
+Transform value between integer and boolean.
 
 ```ts
 @Entity()
@@ -31,6 +35,10 @@ class BooleanTransformerTest extends BaseEntity {
 }
 ```
 
+### JsonTransformer
+
+Transform value between object and json.
+
 ```ts
 class TestJson {
   name!: string;
@@ -47,6 +55,24 @@ class JsonTransformerTest extends BaseEntity {
     transformer: new JsonTransformer<TestJson>({ name: 'test' }),
   })
   public data!: TestJson;
+}
+```
+
+### StaticFileTransformer
+
+Transform value between data and filePath.
+
+```ts
+@Entity()
+class StaticFileTransformerTest extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  public id!: number;
+
+  @Column({
+    transformer: new StaticFileTransformer({ dirname: tmpdir() }),
+    type: 'varchar',
+  })
+  public file!: BinaryLike;
 }
 ```
 
