@@ -1,6 +1,6 @@
 {
   "name": "@anchan828/typeorm-decorators",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "[TypeORM](https://github.com/typeorm/typeorm) decorators",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -39,7 +39,7 @@
     "typescript": "3.4.1"
   },
   "dependencies": {
-    "@anchan828/typeorm-transformers": "^0.3.1",
+    "@anchan828/typeorm-transformers": "^0.3.2",
     "ulid": "^2.3.0"
   }
 }
