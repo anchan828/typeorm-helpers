@@ -1,0 +1,45 @@
+{
+  "name": "@anchan828/typeorm-decorators",
+  "version": "0.3.1",
+  "description": "[TypeORM](https://github.com/typeorm/typeorm) decorators",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublishOnly": "rm -rf dist && npm run build && rm -f dist/*.tsbuildinfo && npm run copy:license",
+    "copy:license": "cp ../../LICENSE ./",
+    "build": "tsc -p tsconfig.build.json",
+    "watch": "tsc --watch",
+    "test": "jest --coverage --runInBand",
+    "test:e2e": "jest --coverage --runInBand --config=jest-e2e.config.js",
+    "test:watch": "npm run test -- --watch",
+    "test:e2e:watch": "npm run test:e2e -- --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anchan828/typeorm-helpers.git"
+  },
+  "author": "anchan828 <anchan828@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anchan828/typeorm-helpers/issues"
+  },
+  "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/decorators#readme",
+  "devDependencies": {
+    "@types/jest": "24.0.11",
+    "@types/node": "11.13.0",
+    "jest": "24.6.0",
+    "mysql": "2.16.0",
+    "ts-jest": "24.0.1",
+    "tslint": "5.15.0",
+    "tslint-config-prettier": "1.18.0",
+    "typeorm": "^0.2.16",
+    "typescript": "3.4.1"
+  },
+  "dependencies": {
+    "@anchan828/typeorm-transformers": "^0.3.1",
+    "ulid": "^2.3.0"
+  }
+}
