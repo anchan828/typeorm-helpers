@@ -1,7 +1,7 @@
 import { BooleanTransformer } from '@anchan828/typeorm-transformers';
 import { Column, ColumnOptions } from 'typeorm';
 
-export function BooleanColumn(options?: ColumnOptions) {
+export function BooleanColumn(this: any, options?: ColumnOptions) {
   return Column(
     Object.assign(
       {
@@ -11,5 +11,5 @@ export function BooleanColumn(options?: ColumnOptions) {
       } as ColumnOptions,
       options || {},
     ),
-  );
+  ).bind(this);
 }

@@ -6,6 +6,7 @@ export interface UlidColumnOptions {
   isMonotonic: boolean;
 }
 export function UlidColumn(
+  this: any,
   trasformerOptions?: UlidColumnOptions,
   options?: ColumnOptions,
 ) {
@@ -25,5 +26,5 @@ export function UlidColumn(
     options || {},
   ) as ColumnOptions;
 
-  return Column(options);
+  return Column(options).bind(this);
 }
