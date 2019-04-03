@@ -9,23 +9,21 @@ export function UlidColumn(
   trasformerOptions?: UlidColumnOptions,
   options?: ColumnOptions,
 ) {
-  options = Object.assign(
-    {
-      type: 'varchar',
-      width: 26,
-    } as ColumnOptions,
-    options || {},
-  ) as ColumnOptions;
-
   trasformerOptions = Object.assign(
     {
       isMonotonic: true,
     },
     trasformerOptions || {},
   );
+  options = Object.assign(
+    {
+      default: () =>
+        `'${trasformerOptions!.isMonotonic ? monotonic() : ulid()}'`,
+      length: '26',
+      type: 'varchar',
+    } as ColumnOptions,
+    options || {},
+  ) as ColumnOptions;
 
-  return Column({
-    ...options,
-    default: () => `'${trasformerOptions!.isMonotonic ? monotonic() : ulid()}'`,
-  });
+  return Column(options);
 }
