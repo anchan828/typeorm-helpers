@@ -1,5 +1,6 @@
 import {
   BaseEntity,
+  Column,
   Entity,
   getConnection,
   PrimaryGeneratedColumn,
@@ -15,6 +16,9 @@ describe('UlidColumn', () => {
 
     @UlidColumn()
     public text!: string;
+
+    @Column({ nullable: true })
+    public text2!: string;
   }
 
   @Entity()
@@ -37,5 +41,28 @@ describe('UlidColumn', () => {
   it('should be defined', async () => {
     await UlidColumnMonotonicTest.create().save();
     await UlidColumnNotMonotonicTest.create().save();
+  });
+
+  it('should set ulid', async () => {
+    await UlidColumnMonotonicTest.create().save()!;
+    let test = await UlidColumnMonotonicTest.findOne();
+    test!.text2 = 'a';
+    await test!.save();
+    const test2 = await UlidColumnMonotonicTest.findOne();
+
+    expect(test!.text).toBe(test2!.text);
+    test2!.text = 'a';
+    await test2!.save();
+    const test3 = await UlidColumnMonotonicTest.findOne();
+    expect(test3!.text).toBe('a');
+  });
+
+  it('should not set ulid when set to text', async () => {
+    await UlidColumnMonotonicTest.create().save()!;
+    let test = await UlidColumnMonotonicTest.findOne();
+    test!.text = 'a';
+    await test!.save();
+    const test2 = await UlidColumnMonotonicTest.findOne();
+    expect(test2!.text).toBe('a');
   });
 });
