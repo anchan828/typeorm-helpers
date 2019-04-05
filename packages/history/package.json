@@ -38,7 +38,7 @@
     "tslint": "5.15.0",
     "tslint-config-prettier": "1.18.0",
     "typeorm": "0.2.16",
-    "typescript": "3.4.1"
+    "typescript": "3.4.2"
   },
   "dependencies": {
     "ulid": "^2.3.0"
