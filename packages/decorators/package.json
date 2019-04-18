@@ -36,7 +36,7 @@
     "tslint": "5.16.0",
     "tslint-config-prettier": "1.18.0",
     "typeorm": "0.2.16",
-    "typescript": "3.4.3"
+    "typescript": "3.4.4"
   },
   "dependencies": {
     "@anchan828/typeorm-transformers": "^0.3.2",
