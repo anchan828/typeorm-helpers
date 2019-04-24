@@ -23,6 +23,9 @@
     "tslint-config-prettier": "1.18.0",
     "typescript": "3.4.5"
   },
+  "hooks": {
+    "pre-commit": "lint-staged"
+  },
   "lint-staged": {
     "*.ts": [
       "prettier --write",
