@@ -83,7 +83,7 @@ export class StaticFileTransformer implements ValueTransformer {
 
     const filePath = join(this.options.dirname, filename);
     mkdirSync(dirname(filePath), { recursive: true });
-    writeFileSync(filePath, value);
+    writeFileSync(filePath, value, this.options.encoding);
 
     return filePath;
   }
