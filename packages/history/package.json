@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/history#readme",
   "devDependencies": {
-    "@types/jest": "24.0.11",
+    "@types/jest": "24.0.12",
     "@types/node": "11.13.8",
     "jest": "24.7.1",
     "mongodb": "3.2.3",
