@@ -44,5 +44,18 @@ describe('HmacColumn', () => {
     });
   });
 
+  it('should find entity by password', async () => {
+    const test = await HmacTransformerTest.create({
+      password: 'test',
+      password2: 'test',
+    }).save();
+
+    await expect(
+      HmacTransformerTest.findOne({ where: { password: 'test' } }),
+    ).resolves.toEqual({
+      id: 1,
+    });
+  });
+
   afterEach(() => getConnection().close());
 });
