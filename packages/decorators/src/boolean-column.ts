@@ -1,15 +1,15 @@
 import { BooleanTransformer } from '@anchan828/typeorm-transformers';
+import * as deepmerge from 'deepmerge';
 import { Column, ColumnOptions } from 'typeorm';
-
 export function BooleanColumn(options?: ColumnOptions) {
-  const columnOptions = Object.assign(
+  const columnOptions = deepmerge(
     {
-      transformer: new BooleanTransformer(),
       type: 'tinyint',
       width: 1,
     } as ColumnOptions,
     options || {},
   );
+  columnOptions.transformer = new BooleanTransformer();
 
   if (columnOptions.default !== undefined) {
     columnOptions.default = columnOptions.default ? 1 : 0;
