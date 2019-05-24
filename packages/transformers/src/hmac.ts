@@ -25,10 +25,7 @@ export class HmacTransformer implements ValueTransformer {
       return;
     }
 
-    const { algorithm, key } = this.options!;
-    return createHmac(algorithm!, key ? key : value)
-      .update(value)
-      .digest('hex');
+    return value;
   }
 
   public to(value?: string | null): string | undefined {
@@ -36,6 +33,9 @@ export class HmacTransformer implements ValueTransformer {
       return;
     }
 
-    return value;
+    const { algorithm, key } = this.options!;
+    return createHmac(algorithm!, key ? key : value)
+      .update(value)
+      .digest('hex');
   }
 }
