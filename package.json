@@ -18,7 +18,7 @@
     "lerna": "3.14.1",
     "lint-staged": "8.1.7",
     "prettier": "1.17.1",
-    "ts-node": "8.1.0",
+    "ts-node": "8.1.1",
     "tslint": "5.16.0",
     "tslint-config-prettier": "1.18.0",
     "typescript": "3.4.5"
