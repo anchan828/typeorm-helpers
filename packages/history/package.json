@@ -35,7 +35,7 @@
     "mysql": "2.17.1",
     "pg": "7.11.0",
     "ts-jest": "24.0.2",
-    "tslint": "5.16.0",
+    "tslint": "5.17.0",
     "tslint-config-prettier": "1.18.0",
     "typeorm": "0.2.17",
     "typescript": "3.5.1"
