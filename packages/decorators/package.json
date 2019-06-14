@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@anchan828/typeorm-transformers": "^0.3.12",
-    "deepmerge": "3.2.0",
+    "deepmerge": "3.2.1",
     "ulid": "^2.3.0"
   }
 }
