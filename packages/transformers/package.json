@@ -36,7 +36,7 @@
     "tslint": "5.18.0",
     "tslint-config-prettier": "1.18.0",
     "typeorm": "0.2.18",
-    "typescript": "3.5.2"
+    "typescript": "3.5.3"
   },
   "dependencies": {
     "deepmerge": "3.3.0"
