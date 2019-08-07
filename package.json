@@ -11,7 +11,7 @@
     "publish:major": "lerna publish --yes major"
   },
   "devDependencies": {
-    "@types/node": "11.13.18",
+    "@types/node": "11.13.19",
     "atob-lite": "2.0.0",
     "fast-glob": "3.0.4",
     "husky": "3.0.2",
