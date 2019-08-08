@@ -14,7 +14,7 @@
     "@types/node": "11.13.19",
     "atob-lite": "2.0.0",
     "fast-glob": "3.0.4",
-    "husky": "3.0.2",
+    "husky": "3.0.3",
     "lerna": "3.16.4",
     "lint-staged": "9.2.1",
     "prettier": "1.18.2",
