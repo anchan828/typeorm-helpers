@@ -8,7 +8,8 @@ export const createTestConnection = async (entities: any[]) => {
     password: 'root',
     supportBigNumbers: true,
     synchronize: true,
-    type: 'mysql',
+    host: process.env.DB_HOST || 'localhost',
+    type: (process.env.DB_TYPE || 'mysql') as any,
     username: 'root',
   } as ConnectionOptions);
 };
