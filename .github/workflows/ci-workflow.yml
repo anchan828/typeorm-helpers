@@ -11,13 +11,15 @@ jobs:
     services:
       mysql:
         image: mysql:5
+        ports:
+          - '3306'
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: test
       postgres:
         image: postgres:11
         ports:
-          - '5432:5432'
+          - '5432'
         env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: root
@@ -32,19 +34,22 @@ jobs:
         run: |
           npm run bootstrap
           npm run build
-      - name: Setup cc-test-reporter
-        run: |
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
-          ./cc-test-reporter before-build
-      - name: Unit test monorepo packages
-        run: | 
-          npm test
-          npx ts-node scripts/merge-coverage.ts
       - name: e2e test monorepo packages
         run: | 
           DB_TYPE=${{ matrix.db }} DB_HOST=${{ matrix.db }} npm run test:e2e -- --scope=@anchan828/typeorm-history
           DB_TYPE=${{ matrix.db }} DB_HOST=${{ matrix.db }} npm run test:e2e -- --scope=@anchan828/typeorm-transformers
           DB_TYPE=${{ matrix.db }} DB_HOST=${{ matrix.db }} npm run test:e2e -- --scope=@anchan828/typeorm-decorators
+      - name: Setup cc-test-reporter
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
+        if: matrix.db == 'mysql'
+      - name: Unit test monorepo packages
+        run: | 
+          npm test
+          npx ts-node scripts/merge-coverage.ts
+        if: matrix.db == 'mysql'
       - name: Report coverage
         run: ./cc-test-reporter after-build -r ${{ secrets.CC_TEST_REPORTER_ID }} --coverage-input-type lcov
+        if: matrix.db == 'mysql'
