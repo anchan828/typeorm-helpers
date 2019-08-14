@@ -107,10 +107,10 @@ describe('e2e test', () => {
         TestEntity2,
         TestHistoryEntity2,
       ],
+      host: process.env.DB_HOST || 'localhost',
       password: 'root',
       subscribers: [TestHistoryEntitySubscriber, TestHistoryEntitySubscriber2],
       synchronize: true,
-      host: process.env.DB_HOST || 'localhost',
       type: (process.env.DB_TYPE || 'mysql') as any,
       username: 'root',
     });
