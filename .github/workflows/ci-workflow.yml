@@ -6,7 +6,7 @@ jobs:
   test:
     strategy:
       matrix:
-        db: [mysql, postgres]
+        db: [mysql]
     runs-on: ubuntu-latest
     container:
       image: node:lts
