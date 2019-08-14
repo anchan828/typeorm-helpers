@@ -6,7 +6,7 @@ jobs:
   test:
     strategy:
       matrix:
-        node: [11, 12]
+        node: [11]
     name: Test Node v${{ matrix.node }}
     runs-on: ubuntu-latest
     services: 
