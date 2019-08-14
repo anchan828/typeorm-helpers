@@ -6,16 +6,8 @@ services:
     ports:
       - '3306:3306'
     environment:
-      MYSQL_ROOT_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: test
-  # mysql:
-  #   image: mysql:8
-  #   ports:
-  #     - '3306:3306'
-  #   command: --default-authentication-plugin=mysql_native_password
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: test
-  #     MYSQL_DATABASE: test
 
   postgres:
     image: postgres:11
@@ -23,5 +15,5 @@ services:
       - '5432:5432'
     environment:
       POSTGRES_USER: root
-      POSTGRES_PASSWORD: test
+      POSTGRES_PASSWORD: root
       POSTGRES_DB: test

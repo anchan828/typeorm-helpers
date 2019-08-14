@@ -106,7 +106,7 @@ describe.each(['mysql', 'postgres'])('%s test', (type: string) => {
         TestEntity2,
         TestHistoryEntity2,
       ],
-      password: 'test',
+      password: 'root',
       subscribers: [TestHistoryEntitySubscriber, TestHistoryEntitySubscriber2],
       synchronize: true,
       type: type as any,

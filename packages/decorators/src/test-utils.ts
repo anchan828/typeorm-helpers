@@ -5,7 +5,7 @@ export const createTestConnection = async (entities: any[]) => {
     database: 'test',
     dropSchema: true,
     entities,
-    password: 'test',
+    password: 'root',
     supportBigNumbers: true,
     synchronize: true,
     type: 'mysql',
