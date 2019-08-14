@@ -38,33 +38,10 @@ jobs:
           ./cc-test-reporter before-build
       - name: Test monorepo packages
         run: | 
+          npm run test:e2e -- --scope=@anchan828/typeorm-history
+          npm run test:e2e -- --scope=@anchan828/typeorm-transformers
+          npm run test:e2e -- --scope=@anchan828/typeorm-decorators
           npm test
           npx ts-node scripts/merge-coverage.ts
       - name: Report coverage
         run: ./cc-test-reporter after-build -r ${{ secrets.CC_TEST_REPORTER_ID }} --coverage-input-type lcov
-
-
-      # - run: npm ci
-      # - run: npm run bootstrap
-      # - run: npm run build
-
-      # - save_cache:
-      #     paths:
-      #       - node_modules
-      #       - packages/history/node_modules
-      #       - packages/transformers/node_modules
-      #     key: v1-dependencies-{{ checksum "package-lock.json" }}-{{ checksum "packages/history/package-lock.json" }}-{{ checksum "packages/transformers/package-lock.json" }}
-
-      # # Setup cc-test-reporter
-      # - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-      # - run: chmod +x ./cc-test-reporter
-      # - run: export GIT_COMMIT_SHA=$CIRCLE_SHA1
-      # - run: export GIT_BRANCH=$CIRCLE_BRANCH
-      
-      # - run: ./cc-test-reporter before-build
-      # - run: npm run test:e2e -- --scope=@anchan828/typeorm-history
-      # - run: npm run test:e2e -- --scope=@anchan828/typeorm-transformers
-      # - run: npm run test:e2e -- --scope=@anchan828/typeorm-decorators
-      # - run: npm run test
-      # - run: npx ts-node scripts/merge-coverage.ts
-      # - run: ./cc-test-reporter after-build --coverage-input-type lcov
