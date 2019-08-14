@@ -14,14 +14,14 @@ jobs:
         image: mysql:5
         ports:
           - '3306:3306'
-        environment:
+        env:
           MYSQL_ROOT_PASSWORD: test
           MYSQL_DATABASE: test
       postgres:
         image: postgres:11
         ports:
           - '5432:5432'
-        environment:
+        env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: test
           POSTGRES_DB: test
