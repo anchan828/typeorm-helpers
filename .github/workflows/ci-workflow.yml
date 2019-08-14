@@ -4,10 +4,6 @@ on: [push]
 
 jobs:
   test:
-    strategy:
-      matrix:
-        node: [11]
-    name: Test Node v${{ matrix.node }}
     runs-on: ubuntu-latest
     services: 
       postgres:
@@ -22,9 +18,8 @@ jobs:
       - uses: actions/checkout@master
         with:
           fetch-depth: 1
-      - uses: actions/setup-node@v1
-        with:
-          version: ${{ matrix.node }}    
+      - name: Setup MySQL
+        run: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS test"
       - name: Install npm packages
         run: npm ci
       - name: Bootstrap monorepo packages
