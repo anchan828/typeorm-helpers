@@ -2,5 +2,14 @@
   "packages": [
     "packages/*"
   ],
+  "command": {
+    "publish": {
+      "ignoreChanges": [
+        "dist/**/*"
+      ],
+      "message": "chore(release): publish",
+      "conventionalCommits": true
+    }
+  },
   "version": "0.3.13"
 }
