@@ -8,6 +8,8 @@ jobs:
       matrix:
         db: [mysql, postgres]
     runs-on: ubuntu-latest
+    container:
+      image: node:lts
     services:
       mysql:
         image: mysql:5
