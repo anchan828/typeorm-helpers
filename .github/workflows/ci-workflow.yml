@@ -4,54 +4,32 @@ on: [push]
 
 jobs:
   test:
-    strategy:
-      matrix:
-        db: [mysql]
     runs-on: ubuntu-latest
-    container:
-      image: node:lts
-    services:
-      mysql:
-        image: mysql:5
-        ports:
-          - '3306'
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: test
-      postgres:
-        image: postgres:11
-        ports:
-          - '5432'
-        env:
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: root
-          POSTGRES_DB: test
     steps:
       - uses: actions/checkout@master
         with:
           fetch-depth: 1
+      - name: Create mysql database
+        run: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS test"
       - name: Install npm packages
         run: npm ci
       - name: Bootstrap monorepo packages
         run: |
           npm run bootstrap
           npm run build
-      - name: e2e test monorepo packages
-        run: | 
-          DB_TYPE=${{ matrix.db }} DB_HOST=${{ matrix.db }} npm run test:e2e -- --scope=@anchan828/typeorm-history
-          DB_TYPE=${{ matrix.db }} DB_HOST=${{ matrix.db }} npm run test:e2e -- --scope=@anchan828/typeorm-transformers
-          DB_TYPE=${{ matrix.db }} DB_HOST=${{ matrix.db }} npm run test:e2e -- --scope=@anchan828/typeorm-decorators
       - name: Setup cc-test-reporter
         run: |
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           chmod +x ./cc-test-reporter
           ./cc-test-reporter before-build
-        if: matrix.db == 'mysql'
       - name: Unit test monorepo packages
         run: | 
           npm test
           npx ts-node scripts/merge-coverage.ts
-        if: matrix.db == 'mysql'
+      - name: e2e test monorepo packages
+        run: | 
+          npm run test:e2e -- --scope=@anchan828/typeorm-history
+          npm run test:e2e -- --scope=@anchan828/typeorm-transformers
+          npm run test:e2e -- --scope=@anchan828/typeorm-decorators
       - name: Report coverage
         run: ./cc-test-reporter after-build -r ${{ secrets.CC_TEST_REPORTER_ID }} --coverage-input-type lcov
-        if: matrix.db == 'mysql'
