@@ -5,10 +5,11 @@ export const createTestConnection = async (entities: any[]) => {
     database: 'test',
     dropSchema: true,
     entities,
-    password: 'test',
+    host: process.env.DB_HOST || 'localhost',
+    password: 'root',
     supportBigNumbers: true,
     synchronize: true,
-    type: 'mysql',
+    type: (process.env.DB_TYPE || 'mysql') as any,
     username: 'root',
   } as ConnectionOptions);
 };

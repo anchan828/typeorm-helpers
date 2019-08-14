@@ -1,0 +1,35 @@
+name: CI
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 1
+      - name: Create mysql database
+        run: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS test"
+      - name: Install npm packages
+        run: npm ci
+      - name: Bootstrap monorepo packages
+        run: |
+          npm run bootstrap
+          npm run build
+      - name: Setup cc-test-reporter
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
+      - name: Unit test monorepo packages
+        run: | 
+          npm test
+          npx ts-node scripts/merge-coverage.ts
+      - name: e2e test monorepo packages
+        run: | 
+          npm run test:e2e -- --scope=@anchan828/typeorm-history
+          npm run test:e2e -- --scope=@anchan828/typeorm-transformers
+          npm run test:e2e -- --scope=@anchan828/typeorm-decorators
+      - name: Report coverage
+        run: ./cc-test-reporter after-build -r ${{ secrets.CC_TEST_REPORTER_ID }} --coverage-input-type lcov

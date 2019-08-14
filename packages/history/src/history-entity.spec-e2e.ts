@@ -6,6 +6,7 @@ import {
   EventSubscriber,
   getConnection,
   PrimaryGeneratedColumn,
+  DatabaseType,
 } from 'typeorm';
 import { ulid } from 'ulid';
 import { HistoryActionType } from './history-action.enum';
@@ -15,7 +16,7 @@ import {
   HistoryEntitySubscriber,
 } from './history-entity';
 
-describe.each(['mysql', 'postgres'])('%s test', (type: string) => {
+describe('e2e test', () => {
   @Entity()
   class TestEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -106,10 +107,11 @@ describe.each(['mysql', 'postgres'])('%s test', (type: string) => {
         TestEntity2,
         TestHistoryEntity2,
       ],
-      password: 'test',
+      host: process.env.DB_HOST || 'localhost',
+      password: 'root',
       subscribers: [TestHistoryEntitySubscriber, TestHistoryEntitySubscriber2],
       synchronize: true,
-      type: type as any,
+      type: (process.env.DB_TYPE || 'mysql') as any,
       username: 'root',
     });
     expect(connection).toBeDefined();
