@@ -32,7 +32,7 @@ class StaticFileColumnTest extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id!: number;
 
-  @StaticFileColumn({dirname: "/path/to/"})
+  @StaticFileColumn({ dirname: "/path/to/" })
   public file!: BinaryLike;
 }
 ```

@@ -1,5 +1,5 @@
-import { ValueTransformer } from 'typeorm';
-import { isNullOrUndefined } from './utils';
+import { ValueTransformer } from "typeorm";
+import { isNullOrUndefined } from "./utils";
 
 /**
  * Transform value between integer and boolean.

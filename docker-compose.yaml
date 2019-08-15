@@ -1,10 +1,10 @@
-version: '3.4'
+version: "3.4"
 
 services:
   mysql:
     image: mysql:5
     ports:
-      - '3306:3306'
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: test
@@ -12,7 +12,7 @@ services:
   postgres:
     image: postgres:11
     ports:
-      - '5432:5432'
+      - "5432:5432"
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root

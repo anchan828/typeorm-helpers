@@ -1,10 +1,10 @@
-import { BooleanTransformer } from '@anchan828/typeorm-transformers';
-import * as deepmerge from 'deepmerge';
-import { Column, ColumnOptions } from 'typeorm';
-export function BooleanColumn(options?: ColumnOptions) {
+import { BooleanTransformer } from "@anchan828/typeorm-transformers";
+import * as deepmerge from "deepmerge";
+import { Column, ColumnOptions } from "typeorm";
+export function BooleanColumn(options?: ColumnOptions): Function {
   const columnOptions = deepmerge(
     {
-      type: 'tinyint',
+      type: "tinyint",
       width: 1,
     } as ColumnOptions,
     options || {},

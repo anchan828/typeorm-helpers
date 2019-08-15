@@ -1,15 +1,10 @@
-import { BinaryLike } from 'crypto';
-import { tmpdir } from 'os';
-import {
-  BaseEntity,
-  Entity,
-  getConnection,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { StaticFileColumn } from './static-file-column';
-import { createTestConnection } from './test-utils';
+import { BinaryLike } from "crypto";
+import { tmpdir } from "os";
+import { BaseEntity, Entity, getConnection, PrimaryGeneratedColumn } from "typeorm";
+import { StaticFileColumn } from "./static-file-column";
+import { createTestConnection } from "./test-utils";
 
-describe('StaticFileColumn', () => {
+describe("StaticFileColumn", () => {
   @Entity()
   class StaticFileColumnTest extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -24,7 +19,7 @@ describe('StaticFileColumn', () => {
   });
   afterEach(() => getConnection().close());
 
-  it('should be defined', async () => {
-    await StaticFileColumnTest.create({ file: 'test' }).save();
+  it("should be defined", async () => {
+    await StaticFileColumnTest.create({ file: "test" }).save();
   });
 });

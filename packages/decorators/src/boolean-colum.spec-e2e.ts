@@ -1,14 +1,10 @@
-import {
-  BaseEntity,
-  Entity,
-  getConnection,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { BooleanColumn } from './boolean-column';
-import { createTestConnection } from './test-utils';
+/* eslint-disable @typescript-eslint/camelcase */
+import { BaseEntity, Entity, getConnection, PrimaryGeneratedColumn } from "typeorm";
+import { BooleanColumn } from "./boolean-column";
+import { createTestConnection } from "./test-utils";
 
-describe('BooleanColumn', () => {
-  @Entity({ name: 'test' })
+describe("BooleanColumn", () => {
+  @Entity({ name: "test" })
   class BooleanColumnTest extends BaseEntity {
     @PrimaryGeneratedColumn()
     public id!: number;
@@ -28,7 +24,7 @@ describe('BooleanColumn', () => {
   });
   afterEach(() => getConnection().close());
 
-  it('should save entity', async () => {
+  it("should save entity", async () => {
     await BooleanColumnTest.create({
       test: true,
       test2: true,
@@ -36,7 +32,7 @@ describe('BooleanColumn', () => {
     }).save();
   });
 
-  it('should use default value', async () => {
+  it("should use default value", async () => {
     const { id } = await BooleanColumnTest.create({ test3: true }).save();
     const entity = await BooleanColumnTest.findOne(id);
 
@@ -47,7 +43,7 @@ describe('BooleanColumn', () => {
       test3: true,
     });
 
-    const rawEntity = await BooleanColumnTest.createQueryBuilder('test')
+    const rawEntity = await BooleanColumnTest.createQueryBuilder("test")
       .whereInIds([id])
       .getRawOne();
     expect(rawEntity).toEqual({

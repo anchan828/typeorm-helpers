@@ -1,7 +1,7 @@
-import { HistoryActionType } from './history-action.enum';
+import { HistoryActionType } from "./history-action.enum";
 
-describe('HistoryAction', () => {
-  it('should get history action names', () => {
+describe("HistoryAction", () => {
+  it("should get history action names", () => {
     expect(Object.values(HistoryActionType)).toStrictEqual([
       HistoryActionType.CREATED,
       HistoryActionType.UPDATED,

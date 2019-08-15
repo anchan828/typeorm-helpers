@@ -12,22 +12,20 @@ jobs:
       - name: Create mysql database
         run: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS test"
       - name: Install npm packages
-        run: npm ci
-      - name: Bootstrap monorepo packages
-        run: |
-          npm run bootstrap
-          npm run build
+        run: npm i
+      - name: Lint
+        run: npm run lint
       - name: Setup cc-test-reporter
         run: |
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           chmod +x ./cc-test-reporter
           ./cc-test-reporter before-build
       - name: Unit test monorepo packages
-        run: | 
+        run: |
           npm test
           npx ts-node scripts/merge-coverage.ts
       - name: e2e test monorepo packages
-        run: | 
+        run: |
           npm run test:e2e -- --scope=@anchan828/typeorm-history
           npm run test:e2e -- --scope=@anchan828/typeorm-transformers
           npm run test:e2e -- --scope=@anchan828/typeorm-decorators

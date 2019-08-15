@@ -1,6 +1,6 @@
-import * as glob from 'fast-glob';
-import * as fs from 'fs';
-import * as path from 'path';
+import * as glob from "fast-glob";
+import * as fs from "fs";
+import * as path from "path";
 
 interface CoverageProperty {
   total: number;
@@ -51,26 +51,26 @@ class JsonSummary {
 
   constructor(filePath?: string) {
     if (filePath) {
-      const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+      const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
       this.data = data;
     }
   }
 
-  public merge(filePath: string) {
+  public merge(filePath: string): void {
     const { data } = new JsonSummary(filePath);
 
     if (data.total) {
       this.data.total = this.mergeTotalProperty(this.data.total, data.total);
     }
 
-    const fileCoverageKeys = Object.keys(data).filter(key => key !== 'total');
+    const fileCoverageKeys = Object.keys(data).filter(key => key !== "total");
 
     for (const fileCoverageKey of fileCoverageKeys) {
       this.data[fileCoverageKey] = data[fileCoverageKey];
     }
   }
 
-  public write(dist: string) {
+  public write(dist: string): void {
     if (!fs.existsSync(path.dirname(dist))) {
       fs.mkdirSync(path.dirname(dist));
     }
@@ -78,31 +78,18 @@ class JsonSummary {
     fs.writeFileSync(dist, JSON.stringify(this.data));
   }
 
-  private mergeTotalProperty(
-    left: TotalProperty,
-    right: TotalProperty,
-  ): TotalProperty {
-    const coveragePropertyKeys = Object.keys(left).map(
-      (key: string) => key as CoveragePropertyType,
-    );
+  private mergeTotalProperty(left: TotalProperty, right: TotalProperty): TotalProperty {
+    const coveragePropertyKeys = Object.keys(left).map((key: string) => key as CoveragePropertyType);
 
-    coveragePropertyKeys.forEach(
-      (coveragePropertyType: CoveragePropertyType) => {
-        left[coveragePropertyType] = this.mergeCoverageProperty(
-          left[coveragePropertyType],
-          right[coveragePropertyType],
-        );
-      },
-    );
+    coveragePropertyKeys.forEach((coveragePropertyType: CoveragePropertyType) => {
+      left[coveragePropertyType] = this.mergeCoverageProperty(left[coveragePropertyType], right[coveragePropertyType]);
+    });
     return left;
   }
-  private mergeCoverageProperty(
-    left: CoverageProperty,
-    right: CoverageProperty,
-  ): CoverageProperty {
+  private mergeCoverageProperty(left: CoverageProperty, right: CoverageProperty): CoverageProperty {
     Object.keys(left).forEach((coveragePropertyType: CoveragePropertyType) => {
-      if (typeof right[coveragePropertyType] === 'number') {
-        if (coveragePropertyType !== 'pct') {
+      if (typeof right[coveragePropertyType] === "number") {
+        if (coveragePropertyType !== "pct") {
           left[coveragePropertyType] += right[coveragePropertyType];
         }
       }
@@ -115,13 +102,7 @@ class JsonSummary {
 
   private calcPercent(coverageProperty: CoverageProperty): number {
     if (coverageProperty.total > 0) {
-      return (
-        Math.floor(
-          ((1000 * 100 * coverageProperty.covered) / coverageProperty.total +
-            5) /
-            10,
-        ) / 100
-      );
+      return Math.floor(((1000 * 100 * coverageProperty.covered) / coverageProperty.total + 5) / 10) / 100;
     } else {
       return 100.0;
     }
@@ -137,31 +118,27 @@ class Lcov {
     }
   }
 
-  public merge(filePath: string) {
+  public merge(filePath: string): void {
     this.read(filePath);
   }
 
-  public write(dist: string) {
+  public write(dist: string): void {
     if (!fs.existsSync(path.dirname(dist))) {
       fs.mkdirSync(path.dirname(dist));
     }
 
-    fs.writeFileSync(dist, this.data.filter(d => d).join('\n'));
+    fs.writeFileSync(dist, this.data.filter(d => d).join("\n"));
   }
 
-  private read(filePath: string) {
+  private read(filePath: string): void {
     if (fs.existsSync(filePath)) {
-      this.data.push(fs.readFileSync(filePath, 'utf8'));
+      this.data.push(fs.readFileSync(filePath, "utf8"));
     }
   }
 }
 
-const summaryFiles = glob.sync(
-  path.resolve(__dirname, '../packages/*/coverage/coverage-summary.json'),
-);
-const lcovFiles = glob.sync(
-  path.resolve(__dirname, '../packages/*/coverage/lcov.info'),
-);
+const summaryFiles = glob.sync(path.resolve(__dirname, "../packages/*/coverage/coverage-summary.json"));
+const lcovFiles = glob.sync(path.resolve(__dirname, "../packages/*/coverage/lcov.info"));
 
 const jsonSummary = new JsonSummary();
 const lcov = new Lcov();
@@ -174,5 +151,5 @@ for (const lcovFile of lcovFiles) {
   lcov.merge(lcovFile.toString());
 }
 
-jsonSummary.write(path.resolve(__dirname, '../coverage/coverage-summary.json'));
-lcov.write(path.resolve(__dirname, '../coverage/lcov.info'));
+jsonSummary.write(path.resolve(__dirname, "../coverage/coverage-summary.json"));
+lcov.write(path.resolve(__dirname, "../coverage/lcov.info"));

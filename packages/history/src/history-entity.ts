@@ -6,13 +6,13 @@ import {
   InsertEvent,
   RemoveEvent,
   UpdateEvent,
-} from 'typeorm';
-import { HistoryActionType } from './history-action.enum';
-export function HistoryActionColumn() {
+} from "typeorm";
+import { HistoryActionType } from "./history-action.enum";
+export function HistoryActionColumn(): Function {
   return Column({
     default: HistoryActionType.CREATED,
     enum: Object.values(HistoryActionType),
-    type: 'enum',
+    type: "enum",
   });
 }
 export interface HistoryEntityInterface {
@@ -21,51 +21,35 @@ export interface HistoryEntityInterface {
 
   action: HistoryActionType;
 }
-export interface HistoryEntitySubscriberInterface<
-  EntityType,
-  HistoryEntityType
-> extends EntitySubscriberInterface<EntityType> {
+export interface HistoryEntitySubscriberInterface<EntityType, HistoryEntityType>
+  extends EntitySubscriberInterface<EntityType> {
   entity: Function;
   historyEntity: Function;
-  createHistoryEntity(
-    manager: EntityManager,
-    entity: EntityType,
-  ): HistoryEntityType | Promise<HistoryEntityType>;
+  createHistoryEntity(manager: EntityManager, entity: EntityType): HistoryEntityType | Promise<HistoryEntityType>;
 
-  beforeInsertHistory(
-    history: HistoryEntityType,
-  ): HistoryEntityType | Promise<HistoryEntityType>;
+  beforeInsertHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType>;
   afterInsertHistory(history: HistoryEntityType): void | Promise<void>;
-  beforeUpdateHistory(
-    history: HistoryEntityType,
-  ): HistoryEntityType | Promise<HistoryEntityType>;
+  beforeUpdateHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType>;
   afterUpdateHistory(history: HistoryEntityType): void | Promise<void>;
-  beforeRemoveHistory(
-    history: HistoryEntityType,
-  ): HistoryEntityType | Promise<HistoryEntityType>;
+  beforeRemoveHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType>;
   afterRemoveHistory(history: HistoryEntityType): void | Promise<void>;
 }
-export abstract class HistoryEntitySubscriber<
-  EntityType,
-  HistoryEntityType extends HistoryEntityInterface & EntityType
-> implements HistoryEntitySubscriberInterface<EntityType, HistoryEntityType> {
-  public beforeInsertHistory(
-    history: HistoryEntityType,
-  ): HistoryEntityType | Promise<HistoryEntityType> {
+export abstract class HistoryEntitySubscriber<EntityType, HistoryEntityType extends HistoryEntityInterface & EntityType>
+  implements HistoryEntitySubscriberInterface<EntityType, HistoryEntityType> {
+  public beforeInsertHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType> {
     return history;
   }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
   public afterInsertHistory(history: HistoryEntityType): void | Promise<void> {}
-  public beforeUpdateHistory(
-    history: HistoryEntityType,
-  ): HistoryEntityType | Promise<HistoryEntityType> {
+  public beforeUpdateHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType> {
     return history;
   }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
   public afterUpdateHistory(history: HistoryEntityType): void | Promise<void> {}
-  public beforeRemoveHistory(
-    history: HistoryEntityType,
-  ): HistoryEntityType | Promise<HistoryEntityType> {
+  public beforeRemoveHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType> {
     return history;
   }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
   public afterRemoveHistory(history: HistoryEntityType): void | Promise<void> {}
 
   public abstract get entity(): Function;
@@ -117,14 +101,12 @@ export abstract class HistoryEntitySubscriber<
   private async createHistory(
     manager: Readonly<EntityManager>,
     metadata: Readonly<EntityMetadata>,
-    beforeHistoryFunction: (
-      history: HistoryEntityType,
-    ) => HistoryEntityType | Promise<HistoryEntityType>,
+    beforeHistoryFunction: (history: HistoryEntityType) => HistoryEntityType | Promise<HistoryEntityType>,
     afterHistoryFunction: (history: HistoryEntityType) => void | Promise<void>,
     action: Readonly<HistoryActionType>,
     entity?: EntityType,
   ): Promise<void> {
-    if (!entity || Object.keys(metadata.propertiesMap).includes('action')) {
+    if (!entity || Object.keys(metadata.propertiesMap).includes("action")) {
       return;
     }
 

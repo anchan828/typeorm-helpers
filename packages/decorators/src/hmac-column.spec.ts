@@ -1,11 +1,11 @@
-import { HmacColumn } from './hmac-column';
+import { HmacColumn } from "./hmac-column";
 
-describe('HmacColumn', () => {
-  it('should be defined', () => {
+describe("HmacColumn", () => {
+  it("should be defined", () => {
     expect(HmacColumn).toBeDefined();
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     class Test {
       @HmacColumn()
       public test!: string;

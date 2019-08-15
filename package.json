@@ -2,35 +2,38 @@
   "name": "@anchan828/typeorm-helpers",
   "private": true,
   "scripts": {
+    "postinstall": "npm run bootstrap && npm run build",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
-    "test": "lerna run test",
-    "test:e2e": "lerna run test:e2e",
+    "format": "prettier --write '**/*.{js,json,yml,yaml,md}'",
+    "lint": "eslint --ignore-pattern packages '**/*.ts' && lerna run --parallel lint",
+    "lint:fix": "eslint --ignore-pattern packages --fix '**/*.ts' && lerna run --parallel lint:fix",
     "publish": "lerna publish --yes patch",
     "publish:minor": "lerna publish --yes minor",
-    "publish:major": "lerna publish --yes major"
+    "publish:major": "lerna publish --yes major",
+    "test": "lerna run test",
+    "test:e2e": "lerna run test:e2e"
   },
   "devDependencies": {
+    "@commitlint/cli": "8.1.0",
+    "@commitlint/config-conventional": "8.1.0",
+    "@types/jest": "24.0.17",
     "@types/node": "11.13.19",
-    "atob-lite": "2.0.0",
-    "fast-glob": "3.0.4",
+    "@typescript-eslint/eslint-plugin": "2.0.0",
+    "@typescript-eslint/parser": "2.0.0",
+    "eslint": "6.1.0",
+    "eslint-config-prettier": "6.0.0",
+    "eslint-plugin-prettier": "3.1.0",
     "husky": "3.0.3",
+    "jest": "24.8.0",
     "lerna": "3.16.4",
     "lint-staged": "9.2.1",
     "prettier": "1.18.2",
+    "ts-jest": "24.0.2",
     "ts-node": "8.3.0",
-    "tslint": "5.18.0",
-    "tslint-config-prettier": "1.18.0",
-    "typescript": "3.5.3"
-  },
-  "hooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.ts": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "dependencies": {}
+    "typescript": "3.5.3",
+    "fast-glob": "3.0.4",
+    "mysql": "2.17.1",
+    "typeorm": "0.2.18"
+  }
 }
