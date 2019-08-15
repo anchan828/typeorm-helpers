@@ -15,10 +15,6 @@ jobs:
         run: git checkout master
       - name: Install npm packages
         run: npm i
-      - name: Bootstrap monorepo packages
-        run: |
-          npm run bootstrap
-          npm run build
       - name: Publish monorepo packages
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc

@@ -1,14 +1,9 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  getConnection,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { createTestConnection } from './test-utils';
-import { UlidColumn } from './ulid-column';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { BaseEntity, Column, Entity, getConnection, PrimaryGeneratedColumn } from "typeorm";
+import { createTestConnection } from "./test-utils";
+import { UlidColumn } from "./ulid-column";
 
-describe('UlidColumn', () => {
+describe("UlidColumn", () => {
   @Entity()
   class UlidColumnMonotonicTest extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -31,38 +26,35 @@ describe('UlidColumn', () => {
   }
 
   beforeEach(async () => {
-    await createTestConnection([
-      UlidColumnMonotonicTest,
-      UlidColumnNotMonotonicTest,
-    ]);
+    await createTestConnection([UlidColumnMonotonicTest, UlidColumnNotMonotonicTest]);
   });
   afterEach(() => getConnection().close());
 
-  it('should be defined', async () => {
+  it("should be defined", async () => {
     await UlidColumnMonotonicTest.create().save();
     await UlidColumnNotMonotonicTest.create().save();
   });
 
-  it('should set ulid', async () => {
-    await UlidColumnMonotonicTest.create().save()!;
-    let test = await UlidColumnMonotonicTest.findOne();
-    test!.text2 = 'a';
+  it("should set ulid", async () => {
+    await UlidColumnMonotonicTest.create().save();
+    const test = await UlidColumnMonotonicTest.findOne();
+    test!.text2 = "a";
     await test!.save();
     const test2 = await UlidColumnMonotonicTest.findOne();
 
     expect(test!.text).toBe(test2!.text);
-    test2!.text = 'a';
+    test2!.text = "a";
     await test2!.save();
     const test3 = await UlidColumnMonotonicTest.findOne();
-    expect(test3!.text).toBe('a');
+    expect(test3!.text).toBe("a");
   });
 
-  it('should not set ulid when set to text', async () => {
-    await UlidColumnMonotonicTest.create().save()!;
-    let test = await UlidColumnMonotonicTest.findOne();
-    test!.text = 'a';
+  it("should not set ulid when set to text", async () => {
+    await UlidColumnMonotonicTest.create().save();
+    const test = await UlidColumnMonotonicTest.findOne();
+    test!.text = "a";
     await test!.save();
     const test2 = await UlidColumnMonotonicTest.findOne();
-    expect(test2!.text).toBe('a');
+    expect(test2!.text).toBe("a");
   });
 });

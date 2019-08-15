@@ -1,7 +1,7 @@
-import { BinaryLike, createHash } from 'crypto';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
-import { dirname, join } from 'path';
-import { ValueTransformer } from 'typeorm';
+import { BinaryLike, createHash } from "crypto";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import { dirname, join } from "path";
+import { ValueTransformer } from "typeorm";
 
 type FilenameFunction = (filename: string) => string;
 
@@ -22,17 +22,17 @@ export interface StaticFileTransformerOptions {
 
   // https://github.com/nodejs/node/blob/master/lib/buffer.js#L922
   encoding?:
-    | 'ascii'
-    | 'base64'
-    | 'binary'
-    | 'hex'
-    | 'ucs2'
-    | 'ucs-2'
-    | 'utf16le'
-    | 'utf-16le'
-    | 'utf8'
-    | 'utf-8'
-    | 'latin1';
+    | "ascii"
+    | "base64"
+    | "binary"
+    | "hex"
+    | "ucs2"
+    | "ucs-2"
+    | "utf16le"
+    | "utf-16le"
+    | "utf8"
+    | "utf-8"
+    | "latin1";
 }
 
 /**
@@ -41,7 +41,7 @@ export interface StaticFileTransformerOptions {
 export class StaticFileTransformer implements ValueTransformer {
   constructor(private options: Readonly<StaticFileTransformerOptions>) {
     if (!options.dirname) {
-      throw new Error('Required dirname path or dirname function');
+      throw new Error("Required dirname path or dirname function");
     }
   }
   public from(value?: string | null): BinaryLike | undefined {
@@ -67,16 +67,16 @@ export class StaticFileTransformer implements ValueTransformer {
       return;
     }
 
-    if (typeof value === 'string' && value.startsWith(this.options.dirname)) {
+    if (typeof value === "string" && value.startsWith(this.options.dirname)) {
       return value;
     }
 
     let filename = this.createSHA1(value);
 
     if (this.options.filename) {
-      if (typeof this.options.filename === 'string') {
+      if (typeof this.options.filename === "string") {
         filename = this.options.filename;
-      } else if (typeof this.options.filename === 'function') {
+      } else if (typeof this.options.filename === "function") {
         filename = this.options.filename(filename);
       }
     }
@@ -89,7 +89,7 @@ export class StaticFileTransformer implements ValueTransformer {
   }
 
   private createSHA1(value: BinaryLike): string {
-    const shasum = createHash('sha1');
-    return shasum.update(value).digest('hex');
+    const shasum = createHash("sha1");
+    return shasum.update(value).digest("hex");
   }
 }

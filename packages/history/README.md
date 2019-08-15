@@ -61,29 +61,27 @@ class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, Te
 
 ```ts
 await createConnection({
-  type: 'mysql',
+  type: "mysql",
   entities: [TestEntity, TestHistoryEntity],
   subscribers: [TestHistoryEntitySubscriber],
-  username: 'root',
-  password: 'test',
-  database: 'test',
+  username: "root",
+  password: "test",
+  database: "test",
 });
 ```
-
 
 ### 5. Insert/Update/Remove entity
 
 ```ts
 // Insert
-const testEntity = await TestEntity.create({ test: 'test' }).save();
+const testEntity = await TestEntity.create({ test: "test" }).save();
 
 // Update
-testEntity.test = 'updated';
+testEntity.test = "updated";
 await testEntity.save();
 
 // Remove
 await testEntity.remove();
-
 ```
 
 ![](https://i.gyazo.com/c5c25280122bfe423533f8db269d04f4.png)
@@ -107,25 +105,19 @@ class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, Te
     return history;
   }
 
-  public afterInsertHistory(history: HistoryEntityType): void | Promise<void> {
-    
-  }
+  public afterInsertHistory(history: HistoryEntityType): void | Promise<void> {}
 
   public beforeUpdateHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType> {
     return history;
   }
 
-  public afterUpdateHistory(history: HistoryEntityType): void | Promise<void> {
-    
-  }
+  public afterUpdateHistory(history: HistoryEntityType): void | Promise<void> {}
 
   public beforeRemoveHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType> {
     return history;
   }
-  
-  public afterRemoveHistory(history: HistoryEntityType): void | Promise<void> {
-    
-  }
+
+  public afterRemoveHistory(history: HistoryEntityType): void | Promise<void> {}
 }
 ```
 

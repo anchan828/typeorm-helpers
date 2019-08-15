@@ -1,11 +1,11 @@
-import { BooleanColumn } from './boolean-column';
+import { BooleanColumn } from "./boolean-column";
 
-describe('BooleanColumn', () => {
-  it('should be defined', () => {
+describe("BooleanColumn", () => {
+  it("should be defined", () => {
     expect(BooleanColumn).toBeDefined();
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     class Test {
       @BooleanColumn({ default: false })
       public test!: boolean;

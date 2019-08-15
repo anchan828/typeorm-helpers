@@ -26,7 +26,7 @@ class BooleanTransformerTest extends BaseEntity {
   public id!: number;
 
   @Column({
-    type: 'tinyint',
+    type: "tinyint",
     width: 1,
     nullable: true,
     transformer: new BooleanTransformer(),
@@ -49,10 +49,10 @@ class JsonTransformerTest extends BaseEntity {
   public id!: number;
 
   @Column({
-    type: 'varchar',
+    type: "varchar",
     width: 255,
     nullable: true,
-    transformer: new JsonTransformer<TestJson>({ name: 'test' }),
+    transformer: new JsonTransformer<TestJson>({ name: "test" }),
   })
   public data!: TestJson;
 }
@@ -70,7 +70,7 @@ class StaticFileTransformerTest extends BaseEntity {
 
   @Column({
     transformer: new StaticFileTransformer({ dirname: tmpdir() }),
-    type: 'varchar',
+    type: "varchar",
   })
   public file!: BinaryLike;
 }

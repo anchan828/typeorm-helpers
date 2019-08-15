@@ -7,11 +7,13 @@
   "scripts": {
     "prepublishOnly": "rm -rf dist && npm run build && rm -f dist/*.tsbuildinfo && npm run copy:license",
     "copy:license": "cp ../../LICENSE ./",
-    "build": "tsc -p tsconfig.build.json",
-    "watch": "tsc --watch",
-    "test": "jest --coverage --runInBand",
-    "test:e2e": "jest --coverage --runInBand --config=jest-e2e.config.js",
+    "build": "node ../../node_modules/typescript/bin/tsc -p tsconfig.build.json",
+    "lint": "node ../../node_modules/eslint/bin/eslint --ignore-path ../../.eslintignore '**/*.ts'",
+    "lint:fix": "npm run lint -- --fix",
+    "watch": "node ../../node_modules/typescript/bin/tsc --watch",
+    "test": "node ../../node_modules/jest/bin/jest --coverage",
     "test:watch": "npm run test -- --watch",
+    "test:e2e": "node ../../node_modules/jest/bin/jest --coverage --runInBand --config=jest-e2e.config.js",
     "test:e2e:watch": "npm run test:e2e -- --watch"
   },
   "publishConfig": {
@@ -27,17 +29,6 @@
     "url": "https://github.com/anchan828/typeorm-helpers/issues"
   },
   "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/transformers#readme",
-  "devDependencies": {
-    "@types/jest": "24.0.17",
-    "@types/node": "11.13.19",
-    "jest": "24.8.0",
-    "mysql": "2.17.1",
-    "ts-jest": "24.0.2",
-    "tslint": "5.18.0",
-    "tslint-config-prettier": "1.18.0",
-    "typeorm": "0.2.18",
-    "typescript": "3.5.3"
-  },
   "dependencies": {
     "deepmerge": "4.0.0"
   }
