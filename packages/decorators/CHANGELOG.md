@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.20](https://github.com/anchan828/typeorm-helpers/compare/v0.3.19...v0.3.20) (2019-09-29)
+
+**Note:** Version bump only for package @anchan828/typeorm-decorators
+
 ## [0.3.19](https://github.com/anchan828/typeorm-helpers/compare/v0.3.18...v0.3.19) (2019-09-22)
 
 **Note:** Version bump only for package @anchan828/typeorm-decorators
