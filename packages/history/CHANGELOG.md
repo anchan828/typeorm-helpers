@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.22](https://github.com/anchan828/typeorm-helpers/compare/v0.3.21...v0.3.22) (2019-10-08)
+
+**Note:** Version bump only for package @anchan828/typeorm-history
+
 ## [0.3.21](https://github.com/anchan828/typeorm-helpers/compare/v0.3.20...v0.3.21) (2019-10-06)
 
 **Note:** Version bump only for package @anchan828/typeorm-history
