@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.23](https://github.com/anchan828/typeorm-helpers/compare/v0.3.22...v0.3.23) (2019-10-08)
+
+### Bug Fixes
+
+- export EncryptColumn ([2db116c](https://github.com/anchan828/typeorm-helpers/commit/2db116c))
+
 ## [0.3.22](https://github.com/anchan828/typeorm-helpers/compare/v0.3.21...v0.3.22) (2019-10-08)
 
 ### Bug Fixes
