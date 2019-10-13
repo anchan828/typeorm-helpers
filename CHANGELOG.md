@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.24](https://github.com/anchan828/typeorm-helpers/compare/v0.3.23...v0.3.24) (2019-10-13)
+
+### Bug Fixes
+
+- **deps:** update dependency deepmerge to v4.1.1 ([a1b6d1f](https://github.com/anchan828/typeorm-helpers/commit/a1b6d1f1e68941719b981d735b4d86cd3086574d))
+
 ## [0.3.23](https://github.com/anchan828/typeorm-helpers/compare/v0.3.22...v0.3.23) (2019-10-08)
 
 ### Bug Fixes
