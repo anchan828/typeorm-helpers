@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.26](https://github.com/anchan828/typeorm-helpers/compare/v0.3.25...v0.3.26) (2019-10-27)
+
+### Bug Fixes
+
+- **deps:** update dependency deepmerge to v4.2.0 ([a404b8f](https://github.com/anchan828/typeorm-helpers/commit/a404b8f7a1e5f80ceea57874187eeb95c3003e04))
+- **deps:** update dependency deepmerge to v4.2.1 ([d617c06](https://github.com/anchan828/typeorm-helpers/commit/d617c063edabe2be9f4756b0ce11651fe9ad1628))
+
 ## [0.3.25](https://github.com/anchan828/typeorm-helpers/compare/v0.3.24...v0.3.25) (2019-10-20)
 
 **Note:** Version bump only for package @anchan828/typeorm-decorators
