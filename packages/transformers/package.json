@@ -30,6 +30,6 @@
   },
   "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/transformers#readme",
   "dependencies": {
-    "deepmerge": "4.2.1"
+    "deepmerge": "4.2.2"
   }
 }
