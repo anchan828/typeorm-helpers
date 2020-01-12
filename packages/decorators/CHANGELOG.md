@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.3.33 (2020-01-12)
+
+**Note:** Version bump only for package @anchan828/typeorm-decorators
+
 ## 0.3.32 (2020-01-05)
 
 **Note:** Version bump only for package @anchan828/typeorm-decorators
