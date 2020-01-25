@@ -131,9 +131,12 @@ class Lcov {
   }
 
   private read(filePath: string): void {
-    if (fs.existsSync(filePath)) {
-      this.data.push(fs.readFileSync(filePath, "utf8"));
+    if (!fs.existsSync(filePath)) {
+      return;
     }
+    const text = fs.readFileSync(filePath, "utf8");
+    const packageRoot = path.relative(process.cwd(), filePath).replace("/coverage/lcov.info", "");
+    this.data.push(text.replace(/^SF:src/gm, `SF:${packageRoot}/src`));
   }
 }
 
