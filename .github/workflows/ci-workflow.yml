@@ -10,7 +10,7 @@ jobs:
         with:
           fetch-depth: 1
       - name: Create mysql database
-        run: mysql -uroot -proot --host 127.0.0.1 -e "CREATE DATABASE IF NOT EXISTS test"
+        run: mysql -h127.0.0.1 -uroot -proot -e "CREATE DATABASE IF NOT EXISTS test"
       - name: Install npm packages
         run: npm i
       - name: Lint
