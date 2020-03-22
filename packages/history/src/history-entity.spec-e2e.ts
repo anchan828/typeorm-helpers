@@ -9,9 +9,9 @@ import {
 } from "typeorm";
 import { ulid } from "ulid";
 import { HistoryActionType } from "./history-action.enum";
-import { HistoryActionColumn, HistoryEntityInterface, HistoryEntitySubscriber } from "./history-entity";
+import { HistoryActionColumn, HistoryEntity, HistoryEntityInterface, HistoryEntitySubscriber } from "./history-entity";
 
-describe("e2e test", () => {
+describe("e2e test (basic)", () => {
   @Entity()
   class TestEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -144,7 +144,7 @@ describe("e2e test", () => {
     entities = await TestEntity.save(entities);
 
     await expect(TestHistoryEntity.count()).resolves.toBe(100);
-    entities.forEach(e => (e.test = ulid()));
+    entities.forEach((e) => (e.test = ulid()));
     await TestEntity.save(entities);
     await expect(TestHistoryEntity.count()).resolves.toBe(200);
     await TestEntity.remove(entities);
@@ -161,6 +161,42 @@ describe("e2e test", () => {
 
     // Remove
     await testEntity.remove();
+  });
+
+  afterEach(() => getConnection().close());
+});
+
+describe.only("e2e test (decorator)", () => {
+  @Entity()
+  @HistoryEntity()
+  class TestEntity extends BaseEntity {
+    @PrimaryGeneratedColumn()
+    public id!: number;
+
+    @Column()
+    public test!: string;
+  }
+
+  beforeEach(async () => {
+    const connection = await createConnection({
+      database: "test",
+      dropSchema: true,
+      entities: [TestEntity],
+      host: process.env.DB_HOST || "localhost",
+      password: "root",
+      subscribers: [],
+      synchronize: true,
+      type: (process.env.DB_TYPE || "mysql") as any,
+      username: "root",
+    });
+    expect(connection).toBeDefined();
+    expect(connection.isConnected).toBeTruthy();
+  });
+
+  it("create history", async () => {
+    const testEntity = await TestEntity.create({ test: "test" }).save();
+
+    console.log(testEntity);
   });
 
   afterEach(() => getConnection().close());
