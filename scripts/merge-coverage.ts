@@ -63,7 +63,7 @@ class JsonSummary {
       this.data.total = this.mergeTotalProperty(this.data.total, data.total);
     }
 
-    const fileCoverageKeys = Object.keys(data).filter(key => key !== "total");
+    const fileCoverageKeys = Object.keys(data).filter((key) => key !== "total");
 
     for (const fileCoverageKey of fileCoverageKeys) {
       this.data[fileCoverageKey] = data[fileCoverageKey];
@@ -127,7 +127,7 @@ class Lcov {
       fs.mkdirSync(path.dirname(dist));
     }
 
-    fs.writeFileSync(dist, this.data.filter(d => d).join("\n"));
+    fs.writeFileSync(dist, this.data.filter((d) => d).join("\n"));
   }
 
   private read(filePath: string): void {

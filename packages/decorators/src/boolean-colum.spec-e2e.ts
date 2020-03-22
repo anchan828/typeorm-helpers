@@ -43,9 +43,7 @@ describe("BooleanColumn", () => {
       test3: true,
     });
 
-    const rawEntity = await BooleanColumnTest.createQueryBuilder("test")
-      .whereInIds([id])
-      .getRawOne();
+    const rawEntity = await BooleanColumnTest.createQueryBuilder("test").whereInIds([id]).getRawOne();
     expect(rawEntity).toEqual({
       test_id: 1,
       test_test: 0,
