@@ -1,25 +1,24 @@
 {
-  "editor.formatOnSave": true,
   "[typescript]": {
     "editor.codeActionsOnSave": {
       "source.organizeImports": true
-    }
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "eslint.autoFixOnSave": true,
+  "editor.formatOnSave": true,
   "eslint.options": {
     "extensinons": [".js", ".ts"]
   },
-  "eslint.validate": [
+  "eslint.validate": ["javascript", "typescript"],
+  "eslint.workingDirectories": [
     {
-      "autoFix": true,
-      "language": "javascript"
-    },
-    {
-      "autoFix": true,
-      "language": "typescript"
+      "mode": "auto"
     }
   ],
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.preferences.importModuleSpecifier": "relative"
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
