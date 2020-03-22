@@ -58,9 +58,7 @@ describe("StaticFileTransformer", () => {
     expect(mock).toBeCalled();
     mock.mockReset();
 
-    await StaticFileTransformerTest.createQueryBuilder("test")
-      .select("test.id")
-      .getOne();
+    await StaticFileTransformerTest.createQueryBuilder("test").select("test.id").getOne();
     expect(mock).not.toBeCalled();
   });
 

@@ -8,6 +8,13 @@ import {
   UpdateEvent,
 } from "typeorm";
 import { HistoryActionType } from "./history-action.enum";
+
+export function HistoryEntity(): Function {
+  return (target: Record<string, any>): void => {
+    Reflect.defineMetadata("HistoryEntity", {}, target);
+  };
+}
+
 export function HistoryActionColumn(): Function {
   return Column({
     default: HistoryActionType.CREATED,
