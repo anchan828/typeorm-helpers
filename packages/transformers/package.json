@@ -1,6 +1,6 @@
 {
   "name": "@anchan828/typeorm-transformers",
-  "version": "0.3.42",
+  "version": "0.3.43",
   "description": "[TypeORM](https://github.com/typeorm/typeorm) transformers",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
