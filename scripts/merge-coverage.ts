@@ -1,5 +1,5 @@
-import * as glob from "fast-glob";
 import * as fs from "fs";
+import * as glob from "glob";
 import * as path from "path";
 
 interface CoverageProperty {
@@ -86,6 +86,7 @@ class JsonSummary {
     });
     return left;
   }
+
   private mergeCoverageProperty(left: CoverageProperty, right: CoverageProperty): CoverageProperty {
     Object.keys(left).forEach((coveragePropertyType: CoveragePropertyType) => {
       if (typeof right[coveragePropertyType] === "number") {
