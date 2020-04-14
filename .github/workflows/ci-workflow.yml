@@ -27,7 +27,5 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
-          coverageCommand: |
-            npm test
-            npx ts-node scripts/merge-coverage.ts
+          coverageCommand: npm test
           debug: true
