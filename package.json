@@ -29,7 +29,7 @@
     "lerna": "3.21.0",
     "lint-staged": "10.2.2",
     "prettier": "2.0.5",
-    "ts-jest": "25.5.1",
+    "ts-jest": "26.0.0",
     "ts-node": "8.10.1",
     "typescript": "3.9.2",
     "fast-glob": "3.2.2",
