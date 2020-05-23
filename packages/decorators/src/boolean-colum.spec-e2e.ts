@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { BaseEntity, Entity, getConnection, PrimaryGeneratedColumn } from "typeorm";
 import { BooleanColumn } from "./boolean-column";
 import { createTestConnection } from "./test-utils";

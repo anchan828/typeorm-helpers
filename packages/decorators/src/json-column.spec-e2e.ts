@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { BaseEntity, Entity, getConnection, getManager, PrimaryGeneratedColumn } from "typeorm";
 import { JsonColumn } from "./json-column";
 import { createTestConnection } from "./test-utils";
