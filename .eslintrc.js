@@ -15,6 +15,7 @@ module.exports = {
   rules: {
     "prettier/prettier": ["error", prettierRc],
     "no-unused-vars": "off",
+    "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/no-unused-vars": "error",
     "no-useless-constructor": "off",
     "@typescript-eslint/no-useless-constructor": "error",
