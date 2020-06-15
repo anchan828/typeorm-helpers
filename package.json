@@ -32,7 +32,7 @@
     "ts-jest": "26.1.0",
     "ts-node": "8.10.2",
     "typescript": "3.9.5",
-    "fast-glob": "3.2.2",
+    "fast-glob": "3.2.3",
     "mysql": "2.18.1",
     "typeorm": "0.2.25"
   }
