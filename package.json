@@ -15,8 +15,8 @@
     "test:e2e": "lerna run test:e2e"
   },
   "devDependencies": {
-    "@commitlint/cli": "8.3.5",
-    "@commitlint/config-conventional": "8.3.4",
+    "@commitlint/cli": "9.0.1",
+    "@commitlint/config-conventional": "9.0.1",
     "@types/jest": "26.0.0",
     "@types/node": "11.15.16",
     "@typescript-eslint/eslint-plugin": "3.3.0",
