@@ -3,149 +3,83 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.62](https://github.com/anchan828/typeorm-helpers/compare/v0.3.61...v0.3.62) (2020-08-12)
+
+### Bug Fixes
+
+- **decorators:** export JsonColumn ([03e11ad](https://github.com/anchan828/typeorm-helpers/commit/03e11ad303db3069079c17b6b07c9aa89f90edf6))
+
 ## 0.3.61 (2020-08-09)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
-
-
-
-
 
 ## 0.3.60 (2020-08-02)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
 
-
-
-
-
 ## 0.3.59 (2020-07-26)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
-
-
-
-
 
 ## 0.3.58 (2020-07-19)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
 
-
-
-
-
 ## 0.3.57 (2020-07-12)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
-
-
-
-
 
 ## 0.3.56 (2020-07-05)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
 
-
-
-
-
 ## 0.3.55 (2020-06-28)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
-
-
-
-
 
 ## 0.3.54 (2020-06-21)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
 
-
-
-
-
 ## 0.3.53 (2020-06-14)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
-
-
-
-
 
 ## 0.3.52 (2020-06-07)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
 
-
-
-
-
 ## 0.3.51 (2020-05-31)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
-
-
-
-
 
 ## 0.3.50 (2020-05-24)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
 
-
-
-
-
 ## 0.3.49 (2020-05-17)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
-
-
-
-
 
 ## 0.3.48 (2020-05-10)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
 
-
-
-
-
 ## 0.3.47 (2020-05-03)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
-
-
-
-
 
 ## 0.3.46 (2020-04-26)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
 
-
-
-
-
 ## 0.3.45 (2020-04-19)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
 
-
-
-
-
 ## 0.3.44 (2020-04-05)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
-
-
-
-
 
 ## 0.3.43 (2020-03-29)
 
