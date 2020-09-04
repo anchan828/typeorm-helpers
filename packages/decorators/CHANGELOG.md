@@ -3,29 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/anchan828/typeorm-helpers/compare/v0.3.65...v0.4.0) (2020-09-04)
+
+### Features
+
+- json culumn uses text type as default. and supported date string ([22e1ee9](https://github.com/anchan828/typeorm-helpers/commit/22e1ee9a8966378b3a5e346ca972b9ac53f4751f))
+
 ## 0.3.65 (2020-08-30)
 
 **Note:** Version bump only for package @anchan828/typeorm-decorators
-
-
-
-
 
 ## 0.3.64 (2020-08-23)
 
 **Note:** Version bump only for package @anchan828/typeorm-decorators
 
-
-
-
-
 ## 0.3.63 (2020-08-16)
 
 **Note:** Version bump only for package @anchan828/typeorm-decorators
-
-
-
-
 
 ## [0.3.62](https://github.com/anchan828/typeorm-helpers/compare/v0.3.61...v0.3.62) (2020-08-12)
 
