@@ -4,7 +4,7 @@ import { Column, ColumnOptions } from "typeorm";
 export function JsonColumn<T>(options?: ColumnOptions): Function {
   const columnOptions = deepmerge(
     {
-      type: "json",
+      type: "text",
     } as ColumnOptions,
     options || {},
   );
@@ -13,20 +13,8 @@ export function JsonColumn<T>(options?: ColumnOptions): Function {
   if (columnOptions.default) {
     columnOptions.default = undefined;
   }
-  const jsonTransformer = new JsonTransformer<T>(defaultValue);
-  columnOptions.transformer = {
-    to: (value: any): any => {
-      let result = jsonTransformer.to(value);
 
-      if (typeof result === "string") {
-        result = JSON.parse(result);
-      }
-      return result;
-    },
-    from: (value: any): any => {
-      return jsonTransformer.from(value);
-    },
-  };
+  columnOptions.transformer = new JsonTransformer<T>(defaultValue);
 
   return Column(columnOptions);
 }

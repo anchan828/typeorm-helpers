@@ -55,7 +55,9 @@ describe("JsonTransformer", () => {
     });
 
     it("should return json", () => {
-      expect(jsonTransformer.to({ test: "test" })).toStrictEqual(JSON.stringify({ test: "test" }));
+      const transformer = new JsonTransformer();
+      const date = new Date();
+      expect(transformer.from(transformer.to({ test: "test", date }))).toStrictEqual({ test: "test", date });
     });
   });
 });

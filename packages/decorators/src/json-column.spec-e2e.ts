@@ -13,8 +13,8 @@ describe("JsonColumn", () => {
     @PrimaryGeneratedColumn()
     public id!: number;
 
-    @JsonColumn<{ tags: number[] }>({ default: { tags: [] } })
-    public test!: { tags: number[] };
+    @JsonColumn<{ tags: number[]; date: Date }>({ default: { tags: [], date: new Date() } })
+    public test!: { tags: number[]; date: Date };
 
     @JsonColumn<TestInterface>({ nullable: true })
     public test2!: TestInterface;
@@ -30,23 +30,23 @@ describe("JsonColumn", () => {
 
   it("should save entity", async () => {
     await JsonColumnTest.create({
-      test: { tags: [1, 2, 3] },
+      test: { tags: [1, 2, 3], date: new Date() },
     }).save();
   });
 
   it("should search array", async () => {
     await JsonColumnTest.create({
-      test: { tags: [1, 2, 3] },
+      test: { tags: [1, 2, 3], date: new Date() },
     }).save();
 
     await JsonColumnTest.create({
-      test: { tags: [3, 4, 5] },
+      test: { tags: [3, 4, 5], date: new Date() },
     }).save();
 
     const result = await getManager()
       .createQueryBuilder(JsonColumnTest, "entity")
-      .where("JSON_CONTAINS(test, ':tag', '$.tags')", { tag: 1 })
+      .where("JSON_CONTAINS(test, ':tag', '$.tags')", { tag: 4 })
       .getRawMany();
-    expect(result).toBeDefined();
+    expect(result).toHaveLength(1);
   });
 });
