@@ -1,6 +1,6 @@
 {
   "name": "@anchan828/typeorm-history",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "History Entity for [TypeORM](http://typeorm.io)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
