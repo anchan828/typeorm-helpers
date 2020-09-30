@@ -34,6 +34,6 @@
     "typescript": "4.0.3",
     "fast-glob": "3.2.4",
     "mysql": "2.18.1",
-    "typeorm": "0.2.26"
+    "typeorm": "0.2.28"
   }
 }
