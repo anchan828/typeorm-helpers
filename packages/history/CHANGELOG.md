@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.4.12 (2020-11-29)
+
+**Note:** Version bump only for package @anchan828/typeorm-history
+
+
+
+
+
 ## 0.4.11 (2020-11-22)
 
 **Note:** Version bump only for package @anchan828/typeorm-history
