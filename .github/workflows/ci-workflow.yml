@@ -23,7 +23,7 @@ jobs:
           npm run test:e2e -- --scope=@anchan828/typeorm-transformers
           npm run test:e2e -- --scope=@anchan828/typeorm-decorators
       - name: Unit test monorepo packages
-        uses: paambaati/codeclimate-action@v2.7.4
+        uses: paambaati/codeclimate-action@v2.7.5
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
