@@ -39,6 +39,8 @@ class BooleanTransformerTest extends BaseEntity {
 
 Transform value between object and json.
 
+Note: The JsonTransformer stores JSON as a string, not as a JSON type.
+
 ```ts
 class TestJson {
   name!: string;
