@@ -13,8 +13,11 @@ jobs:
       - uses: actions/checkout@master
       - name: Checkout master
         run: git checkout master
+      - uses: actions/setup-node@v2.1.4
+        with:
+          node-version: 15
       - name: Install npm packages
-        run: npm i
+        run: npm ci
       - name: Publish monorepo packages
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
