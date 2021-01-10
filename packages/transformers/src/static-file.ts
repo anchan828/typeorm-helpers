@@ -20,19 +20,7 @@ export interface StaticFileTransformerOptions {
    */
   writeOnly?: boolean;
 
-  // https://github.com/nodejs/node/blob/master/lib/buffer.js#L922
-  encoding?:
-    | "ascii"
-    | "base64"
-    | "binary"
-    | "hex"
-    | "ucs2"
-    | "ucs-2"
-    | "utf16le"
-    | "utf-16le"
-    | "utf8"
-    | "utf-8"
-    | "latin1";
+  encoding?: "ascii" | "utf8" | "utf-8" | "utf16le" | "ucs2" | "ucs-2" | "base64" | "latin1" | "binary" | "hex";
 }
 
 /**
