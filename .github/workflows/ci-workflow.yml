@@ -13,7 +13,7 @@ jobs:
         run: |
           sudo /etc/init.d/mysql start
           mysql -h127.0.0.1 -uroot -proot -e "CREATE DATABASE IF NOT EXISTS test"
-      - uses: actions/setup-node@v2.1.4
+      - uses: actions/setup-node@v2.1.5
         with:
           node-version: 15
       - name: Install npm packages
