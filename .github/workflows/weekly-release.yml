@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@master
       - name: Checkout master
         run: git checkout master
-      - uses: actions/setup-node@v2.1.4
+      - uses: actions/setup-node@v2.1.5
         with:
           node-version: 15
       - name: Install npm packages
