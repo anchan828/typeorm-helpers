@@ -9,10 +9,8 @@ jobs:
       - uses: actions/checkout@master
         with:
           fetch-depth: 1
-      - name: Create mysql database
-        run: |
-          sudo /etc/init.d/mysql start
-          mysql -h127.0.0.1 -uroot -proot -e "CREATE DATABASE IF NOT EXISTS test"
+      - name: Run database
+        run: docker-compose up -d
       - uses: actions/setup-node@v2.1.5
         with:
           node-version: 15
