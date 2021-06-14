@@ -237,7 +237,7 @@ describe("e2e test (many-to-many)", () => {
 
   afterEach(() => getConnection().close());
 
-  it("should create/update many-to-many history", async () => {
+  it("should create many-to-many create/update/delete history", async () => {
     // create tests
     const category1 = new Category();
     category1.name = "animals";
@@ -319,6 +319,88 @@ describe("e2e test (many-to-many)", () => {
       { action: "CREATED", id: 1, name: "animals", originalID: 1 },
       { action: "CREATED", id: 2, name: "zoo", originalID: 2 },
       { action: "UPDATED", id: 3, name: "updated", originalID: 1 },
+    ]);
+
+    // delete tests
+    // remove first category
+    await getConnection().manager.remove(question.categories.shift());
+
+    await expect(getRepository(Question).find({})).resolves.toEqual([
+      {
+        id: 1,
+        text: "updated",
+        title: "dogs",
+      },
+    ]);
+
+    await expect(getRepository(QuestionHistory).find({})).resolves.toEqual([
+      {
+        action: "CREATED",
+        id: 1,
+        originalID: 1,
+        text: "who let the dogs out?",
+        title: "dogs",
+      },
+      {
+        action: "UPDATED",
+        id: 2,
+        originalID: 1,
+        text: "updated",
+        title: "dogs",
+      },
+    ]);
+
+    await expect(getRepository(Category).find({})).resolves.toEqual([{ id: 2, name: "zoo" }]);
+
+    await expect(getRepository(CategoryHistory).find({})).resolves.toEqual([
+      { action: "CREATED", id: 1, name: "animals", originalID: 1 },
+      { action: "CREATED", id: 2, name: "zoo", originalID: 2 },
+      { action: "UPDATED", id: 3, name: "updated", originalID: 1 },
+      { action: "DELETED", id: 4, name: "updated", originalID: 1 },
+    ]);
+
+    // add new category tests
+    const category3 = new Category();
+    category3.name = "bar";
+    question.categories.push(category3);
+    await getConnection().manager.save(question);
+
+    await expect(getRepository(Question).find({})).resolves.toEqual([
+      {
+        id: 1,
+        text: "updated",
+        title: "dogs",
+      },
+    ]);
+
+    await expect(getRepository(QuestionHistory).find({})).resolves.toEqual([
+      {
+        action: "CREATED",
+        id: 1,
+        originalID: 1,
+        text: "who let the dogs out?",
+        title: "dogs",
+      },
+      {
+        action: "UPDATED",
+        id: 2,
+        originalID: 1,
+        text: "updated",
+        title: "dogs",
+      },
+    ]);
+
+    await expect(getRepository(Category).find({})).resolves.toEqual([
+      { id: 2, name: "zoo" },
+      { id: 3, name: "bar" },
+    ]);
+
+    await expect(getRepository(CategoryHistory).find({})).resolves.toEqual([
+      { action: "CREATED", id: 1, name: "animals", originalID: 1 },
+      { action: "CREATED", id: 2, name: "zoo", originalID: 2 },
+      { action: "UPDATED", id: 3, name: "updated", originalID: 1 },
+      { action: "DELETED", id: 4, name: "updated", originalID: 1 },
+      { action: "CREATED", id: 5, name: "bar", originalID: 3 },
     ]);
   });
 });
