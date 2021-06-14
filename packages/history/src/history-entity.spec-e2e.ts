@@ -237,7 +237,7 @@ describe("e2e test (many-to-many)", () => {
 
   afterEach(() => getConnection().close());
 
-  it("should same", async () => {
+  it("should create/update many-to-many history", async () => {
     // create tests
     const category1 = new Category();
     category1.name = "animals";
