@@ -8,7 +8,16 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: test
-
+    command:
+      [
+        "mysqld",
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_bin",
+        "--default-authentication-plugin=mysql_native_password",
+        "--sync-binlog=0",
+        "--innodb-flush-log-at-trx-commit=2",
+        "--innodb-use-native-aio=0",
+      ]
   postgres:
     image: postgres:13
     ports:
