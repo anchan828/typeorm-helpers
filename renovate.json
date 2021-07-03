@@ -1,8 +1,3 @@
 {
-  "extends": ["config:base"],
-  "automerge": true,
-  "major": {
-    "automerge": false
-  },
-  "semanticCommits": true
+  "extends": ["github>anchan828/renovate-config"]
 }
