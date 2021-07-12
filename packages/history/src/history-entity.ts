@@ -28,31 +28,52 @@ export interface HistoryEntitySubscriberInterface<EntityType, HistoryEntityType>
   historyEntity: Function;
   createHistoryEntity(manager: EntityManager, entity: EntityType): HistoryEntityType | Promise<HistoryEntityType>;
 
-  beforeInsertHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType>;
-  afterInsertHistory(history: HistoryEntityType): void | Promise<void>;
-  beforeUpdateHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType>;
-  afterUpdateHistory(history: HistoryEntityType): void | Promise<void>;
-  beforeRemoveHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType>;
-  afterRemoveHistory(history: HistoryEntityType): void | Promise<void>;
+  beforeInsertHistory(
+    history: HistoryEntityType,
+    entity: Readonly<EntityType>,
+  ): HistoryEntityType | Promise<HistoryEntityType>;
+  afterInsertHistory(history: HistoryEntityType, entity: Readonly<EntityType>): void | Promise<void>;
+  beforeUpdateHistory(
+    history: HistoryEntityType,
+    entity: Readonly<EntityType>,
+  ): HistoryEntityType | Promise<HistoryEntityType>;
+  afterUpdateHistory(history: HistoryEntityType, entity: Readonly<EntityType>): void | Promise<void>;
+  beforeRemoveHistory(
+    history: HistoryEntityType,
+    entity: Readonly<EntityType>,
+  ): HistoryEntityType | Promise<HistoryEntityType>;
+  afterRemoveHistory(history: HistoryEntityType, entity: Readonly<EntityType>): void | Promise<void>;
 }
 export abstract class HistoryEntitySubscriber<EntityType, HistoryEntityType extends HistoryEntityInterface & EntityType>
   implements HistoryEntitySubscriberInterface<EntityType, HistoryEntityType>
 {
-  public beforeInsertHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType> {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  public beforeInsertHistory(
+    history: HistoryEntityType,
+    entity: Readonly<EntityType>,
+  ): HistoryEntityType | Promise<HistoryEntityType> {
     return history;
   }
   // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  public afterInsertHistory(history: HistoryEntityType): void | Promise<void> {}
-  public beforeUpdateHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType> {
+  public afterInsertHistory(history: HistoryEntityType, entity: Readonly<EntityType>): void | Promise<void> {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  public beforeUpdateHistory(
+    history: HistoryEntityType,
+    entity: Readonly<EntityType>,
+  ): HistoryEntityType | Promise<HistoryEntityType> {
     return history;
   }
   // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  public afterUpdateHistory(history: HistoryEntityType): void | Promise<void> {}
-  public beforeRemoveHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType> {
+  public afterUpdateHistory(history: HistoryEntityType, entity: Readonly<EntityType>): void | Promise<void> {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  public beforeRemoveHistory(
+    history: HistoryEntityType,
+    entity: Readonly<EntityType>,
+  ): HistoryEntityType | Promise<HistoryEntityType> {
     return history;
   }
   // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  public afterRemoveHistory(history: HistoryEntityType): void | Promise<void> {}
+  public afterRemoveHistory(history: HistoryEntityType, entity: Readonly<EntityType>): void | Promise<void> {}
 
   public abstract get entity(): Function;
   public abstract get historyEntity(): Function;
@@ -103,8 +124,11 @@ export abstract class HistoryEntitySubscriber<EntityType, HistoryEntityType exte
   private async createHistory(
     manager: Readonly<EntityManager>,
     metadata: Readonly<EntityMetadata>,
-    beforeHistoryFunction: (history: HistoryEntityType) => HistoryEntityType | Promise<HistoryEntityType>,
-    afterHistoryFunction: (history: HistoryEntityType) => void | Promise<void>,
+    beforeHistoryFunction: (
+      history: HistoryEntityType,
+      entity: Readonly<EntityType>,
+    ) => HistoryEntityType | Promise<HistoryEntityType>,
+    afterHistoryFunction: (history: HistoryEntityType, entity: Readonly<EntityType>) => void | Promise<void>,
     action: Readonly<HistoryActionType>,
     entity?: EntityType,
   ): Promise<void> {
@@ -120,8 +144,8 @@ export abstract class HistoryEntitySubscriber<EntityType, HistoryEntityType exte
       Reflect.deleteProperty(history, primaryColumn.propertyName);
     }
 
-    await beforeHistoryFunction(history);
+    await beforeHistoryFunction(history, entity);
     await manager.save(history);
-    await afterHistoryFunction(history);
+    await afterHistoryFunction(history, entity);
   }
 }
