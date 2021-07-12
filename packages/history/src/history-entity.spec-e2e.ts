@@ -406,73 +406,245 @@ describe("e2e test (many-to-many)", () => {
   });
 });
 
-describe("e2e test (custom property name)", () => {
-  @Entity()
-  class TestEntity extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    public id!: number;
+describe("e2e test (custom property)", () => {
+  describe("create history", () => {
+    @Entity()
+    class TestEntity extends BaseEntity {
+      @PrimaryGeneratedColumn()
+      public id!: number;
 
-    @Column()
-    public test!: string;
-  }
+      @Column()
+      public test!: string;
+    }
 
-  @Entity()
-  class TestHistoryEntity extends TestEntity {
-    @HistoryOriginalIdColumn()
-    public historyOriginalID!: number;
+    @Entity()
+    class TestHistoryEntity extends TestEntity {
+      @HistoryOriginalIdColumn()
+      public originalID!: number;
 
-    @HistoryActionColumn({ name: "action" })
-    public historyAction!: HistoryActionType;
+      @HistoryActionColumn()
+      public action!: HistoryActionType;
 
-    @PrimaryGeneratedColumn()
-    public id!: number;
-  }
+      @PrimaryGeneratedColumn()
+      public id!: number;
+    }
 
-  @EventSubscriber()
-  class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, TestHistoryEntity> {
-    public entity = TestEntity;
-    public historyEntity = TestHistoryEntity;
-  }
+    @EventSubscriber()
+    class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, TestHistoryEntity> {
+      public entity = TestEntity;
+      public historyEntity = TestHistoryEntity;
+    }
 
-  @Entity()
-  class TestEntity2 extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    public id!: number;
-
-    @Column({
-      default: false,
-    })
-    public deleted!: boolean;
-
-    @Column()
-    public test!: string;
-  }
-
-  beforeEach(async () => {
-    const connection = await createConnection({
-      database: "test",
-      dropSchema: true,
-      entities: [TestEntity, TestHistoryEntity, TestEntity2],
-      host: process.env.DB_HOST || "localhost",
-      password: "root",
-      subscribers: [TestHistoryEntitySubscriber],
-      synchronize: true,
-      type: (process.env.DB_TYPE || "mysql") as any,
-      username: "root",
+    beforeEach(async () => {
+      const connection = await createConnection({
+        database: "test",
+        dropSchema: true,
+        entities: [TestEntity, TestHistoryEntity],
+        host: process.env.DB_HOST || "localhost",
+        password: "root",
+        subscribers: [TestHistoryEntitySubscriber],
+        synchronize: true,
+        type: (process.env.DB_TYPE || "mysql") as any,
+        username: "root",
+      });
+      expect(connection).toBeDefined();
+      expect(connection.isConnected).toBeTruthy();
     });
-    expect(connection).toBeDefined();
-    expect(connection.isConnected).toBeTruthy();
+
+    it("basic", async () => {
+      const testEntity = await TestEntity.create({ test: "test" }).save();
+      const histories = await TestHistoryEntity.find();
+      expect(histories).toHaveLength(1);
+      expect(histories[0].originalID).toBe(testEntity.id);
+      expect(histories[0].action).toBe(HistoryActionType.CREATED);
+      expect(histories[0].test).toBe("test");
+    });
+
+    afterEach(() => getConnection().close());
   });
 
-  it("create history", async () => {
-    const testEntity = await TestEntity.create({ test: "test" }).save();
+  describe("throw error (A originalID has already been defined.)", () => {
+    @Entity()
+    class TestEntity extends BaseEntity {
+      @PrimaryGeneratedColumn()
+      public id!: number;
 
-    const histories = await TestHistoryEntity.find();
-    expect(histories).toHaveLength(1);
-    expect(histories[0].historyOriginalID).toBe(testEntity.id);
-    expect(histories[0].historyAction).toBe(HistoryActionType.CREATED);
-    expect(histories[0].test).toBe("test");
+      @Column({ nullable: true })
+      public originalID!: number;
+
+      @Column()
+      public test!: string;
+    }
+
+    @Entity()
+    class TestHistoryEntity extends TestEntity {
+      @HistoryActionColumn({ name: "action" })
+      public historyAction!: HistoryActionType;
+
+      @PrimaryGeneratedColumn()
+      public id!: number;
+    }
+
+    @EventSubscriber()
+    class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, TestHistoryEntity> {
+      public entity = TestEntity;
+      public historyEntity = TestHistoryEntity;
+    }
+
+    beforeEach(async () => {
+      const connection = await createConnection({
+        database: "test",
+        dropSchema: true,
+        entities: [TestEntity, TestHistoryEntity],
+        host: process.env.DB_HOST || "localhost",
+        password: "root",
+        subscribers: [TestHistoryEntitySubscriber],
+        synchronize: true,
+        type: (process.env.DB_TYPE || "mysql") as any,
+        username: "root",
+      });
+      expect(connection).toBeDefined();
+      expect(connection.isConnected).toBeTruthy();
+    });
+
+    it("test", async () => {
+      await expect(TestEntity.create({ test: "test" }).save()).rejects.toThrowError(
+        "The originalID has already been defined for TestEntity. An entity cannot have a property with the same name. Use @HistoryOriginalIdColumn instead.",
+      );
+      await expect(TestEntity.create({ test: "test", originalID: 1234 }).save()).rejects.toThrowError(
+        "The originalID has already been defined for TestEntity. An entity cannot have a property with the same name. Use @HistoryOriginalIdColumn instead.",
+      );
+    });
+
+    afterEach(() => getConnection().close());
   });
 
-  afterEach(() => getConnection().close());
+  describe("create history (change property name)", () => {
+    @Entity()
+    class TestEntity extends BaseEntity {
+      @PrimaryGeneratedColumn()
+      public id!: number;
+
+      @Column()
+      public test!: string;
+    }
+
+    @Entity()
+    class TestHistoryEntity extends TestEntity {
+      @HistoryOriginalIdColumn()
+      public historyOriginalID!: number;
+
+      @HistoryActionColumn()
+      public historyAction!: HistoryActionType;
+
+      @PrimaryGeneratedColumn()
+      public id!: number;
+    }
+
+    @EventSubscriber()
+    class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, TestHistoryEntity> {
+      public entity = TestEntity;
+      public historyEntity = TestHistoryEntity;
+    }
+
+    beforeEach(async () => {
+      const connection = await createConnection({
+        database: "test",
+        dropSchema: true,
+        entities: [TestEntity, TestHistoryEntity],
+        host: process.env.DB_HOST || "localhost",
+        password: "root",
+        subscribers: [TestHistoryEntitySubscriber],
+        synchronize: true,
+        type: (process.env.DB_TYPE || "mysql") as any,
+        username: "root",
+      });
+      expect(connection).toBeDefined();
+      expect(connection.isConnected).toBeTruthy();
+    });
+
+    it("test", async () => {
+      const testEntity = await TestEntity.create({ test: "test" }).save();
+      const histories = await TestHistoryEntity.find();
+      expect(histories).toHaveLength(1);
+      expect(histories[0].historyOriginalID).toBe(testEntity.id);
+      expect(histories[0].historyAction).toBe(HistoryActionType.CREATED);
+      expect(histories[0].test).toBe("test");
+    });
+
+    afterEach(() => getConnection().close());
+  });
+
+  describe("create history (change column name)", () => {
+    @Entity()
+    class TestEntity extends BaseEntity {
+      @PrimaryGeneratedColumn()
+      public id!: number;
+
+      @Column()
+      public test!: string;
+    }
+
+    @Entity()
+    class TestHistoryEntity extends TestEntity {
+      @HistoryOriginalIdColumn({ name: "historyOriginalID" })
+      public originalID!: number;
+
+      @HistoryActionColumn({ name: "historyAction" })
+      public action!: HistoryActionType;
+
+      @PrimaryGeneratedColumn()
+      public id!: number;
+    }
+
+    @EventSubscriber()
+    class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, TestHistoryEntity> {
+      public entity = TestEntity;
+      public historyEntity = TestHistoryEntity;
+    }
+
+    beforeEach(async () => {
+      const connection = await createConnection({
+        database: "test",
+        dropSchema: true,
+        entities: [TestEntity, TestHistoryEntity],
+        host: process.env.DB_HOST || "localhost",
+        password: "root",
+        subscribers: [TestHistoryEntitySubscriber],
+        synchronize: true,
+        type: (process.env.DB_TYPE || "mysql") as any,
+        username: "root",
+      });
+      expect(connection).toBeDefined();
+      expect(connection.isConnected).toBeTruthy();
+    });
+
+    it("test", async () => {
+      const testEntity = await TestEntity.create({ test: "test" }).save();
+      const histories = await TestHistoryEntity.find();
+      expect(histories).toHaveLength(1);
+      expect(histories[0].originalID).toBe(testEntity.id);
+      expect(histories[0].action).toBe(HistoryActionType.CREATED);
+      expect(histories[0].test).toBe("test");
+
+      await testEntity.remove();
+
+      await expect(getConnection().query("SELECT * FROM test_history_entity")).resolves.toEqual([
+        {
+          historyAction: "CREATED",
+          historyOriginalID: 1,
+          id: 1,
+          test: "test",
+        },
+        {
+          historyAction: "DELETED",
+          historyOriginalID: 1,
+          id: 2,
+          test: "test",
+        },
+      ]);
+    });
+
+    afterEach(() => getConnection().close());
+  });
 });
