@@ -142,7 +142,7 @@ export abstract class HistoryEntitySubscriber<EntityType, HistoryEntityType exte
     let originalIdPropertyName = Reflect.getMetadata(TYPEORM_HELPER_HISTORY_ORIGINAL_ID, history);
 
     if (!originalIdPropertyName) {
-      if (history.originalID) {
+      if (metadata.propertiesMap["originalID"]) {
         throw new Error(
           `The originalID has already been defined for ${this.entity.name}. An entity cannot have a property with the same name. Use @HistoryOriginalIdColumn instead.`,
         );
