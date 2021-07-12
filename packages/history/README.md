@@ -101,23 +101,32 @@ class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, Te
     return TestHistoryEntity;
   }
 
-  public beforeInsertHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType> {
+  public beforeInsertHistory(
+    history: HistoryEntityType,
+    entity: Readonly<EntityType>,
+  ): HistoryEntityType | Promise<HistoryEntityType> {
     return history;
   }
 
-  public afterInsertHistory(history: HistoryEntityType): void | Promise<void> {}
+  public afterInsertHistory(history: HistoryEntityType, entity: Readonly<EntityType>): void | Promise<void> {}
 
-  public beforeUpdateHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType> {
+  public beforeUpdateHistory(
+    history: HistoryEntityType,
+    entity: Readonly<EntityType>,
+  ): HistoryEntityType | Promise<HistoryEntityType> {
     return history;
   }
 
-  public afterUpdateHistory(history: HistoryEntityType): void | Promise<void> {}
+  public afterUpdateHistory(history: HistoryEntityType, entity: Readonly<EntityType>): void | Promise<void> {}
 
-  public beforeRemoveHistory(history: HistoryEntityType): HistoryEntityType | Promise<HistoryEntityType> {
+  public beforeRemoveHistory(
+    history: HistoryEntityType,
+    entity: Readonly<EntityType>,
+  ): HistoryEntityType | Promise<HistoryEntityType> {
     return history;
   }
 
-  public afterRemoveHistory(history: HistoryEntityType): void | Promise<void> {}
+  public afterRemoveHistory(history: HistoryEntityType, entity: Readonly<EntityType>): void | Promise<void> {}
 }
 ```
 
