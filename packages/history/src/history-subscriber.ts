@@ -141,13 +141,25 @@ export abstract class HistoryEntitySubscriber<EntityType, HistoryEntityType exte
 
     let originalIdPropertyName = Reflect.getMetadata(TYPEORM_HELPER_HISTORY_ORIGINAL_ID, history);
 
-    if (!originalIdPropertyName) {
-      if (metadata.propertiesMap["originalID"]) {
-        throw new Error(
-          `The originalID has already been defined for ${this.entity.name}. An entity cannot have a property with the same name. Use @HistoryOriginalIdColumn instead.`,
-        );
+    {
+      // for backward compatibility
+      if (!originalIdPropertyName) {
+        if (metadata.propertiesMap["originalID"]) {
+          throw new Error(
+            `The originalID has already been defined for ${this.entity.name}. An entity cannot have a property with the same name.`,
+          );
+        }
+
+        const historyMetadata = manager.connection.getMetadata(this.historyEntity);
+
+        if (historyMetadata.propertiesMap["originalID"]) {
+          originalIdPropertyName = "originalID";
+        }
       }
-      originalIdPropertyName = "originalID";
+    }
+
+    if (!originalIdPropertyName) {
+      throw new Error(`${this.historyEntity.name} does not have @HistoryOriginalIdColumn defined.`);
     }
 
     for (const primaryColumn of metadata.primaryColumns) {

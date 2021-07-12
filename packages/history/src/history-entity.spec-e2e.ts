@@ -407,7 +407,7 @@ describe("e2e test (many-to-many)", () => {
 });
 
 describe("e2e test (custom property)", () => {
-  describe("create history", () => {
+  describe("create history (basic)", () => {
     @Entity()
     class TestEntity extends BaseEntity {
       @PrimaryGeneratedColumn()
@@ -463,6 +463,56 @@ describe("e2e test (custom property)", () => {
     afterEach(() => getConnection().close());
   });
 
+  describe("throw error (A originalID is not defined.)", () => {
+    @Entity()
+    class TestEntity extends BaseEntity {
+      @PrimaryGeneratedColumn()
+      public id!: number;
+
+      @Column()
+      public test!: string;
+    }
+
+    @Entity()
+    class TestHistoryEntity extends TestEntity {
+      @HistoryActionColumn({ name: "action" })
+      public historyAction!: HistoryActionType;
+
+      @PrimaryGeneratedColumn()
+      public id!: number;
+    }
+
+    @EventSubscriber()
+    class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, TestHistoryEntity> {
+      public entity = TestEntity;
+      public historyEntity = TestHistoryEntity;
+    }
+
+    beforeEach(async () => {
+      const connection = await createConnection({
+        database: "test",
+        dropSchema: true,
+        entities: [TestEntity, TestHistoryEntity],
+        host: process.env.DB_HOST || "localhost",
+        password: "root",
+        subscribers: [TestHistoryEntitySubscriber],
+        synchronize: true,
+        type: (process.env.DB_TYPE || "mysql") as any,
+        username: "root",
+      });
+      expect(connection).toBeDefined();
+      expect(connection.isConnected).toBeTruthy();
+    });
+
+    it("test", async () => {
+      await expect(TestEntity.create({ test: "test" }).save()).rejects.toThrowError(
+        "TestHistoryEntity does not have @HistoryOriginalIdColumn defined.",
+      );
+    });
+
+    afterEach(() => getConnection().close());
+  });
+
   describe("throw error (A originalID has already been defined.)", () => {
     @Entity()
     class TestEntity extends BaseEntity {
@@ -509,10 +559,10 @@ describe("e2e test (custom property)", () => {
 
     it("test", async () => {
       await expect(TestEntity.create({ test: "test" }).save()).rejects.toThrowError(
-        "The originalID has already been defined for TestEntity. An entity cannot have a property with the same name. Use @HistoryOriginalIdColumn instead.",
+        "The originalID has already been defined for TestEntity. An entity cannot have a property with the same name.",
       );
       await expect(TestEntity.create({ test: "test", originalID: 1234 }).save()).rejects.toThrowError(
-        "The originalID has already been defined for TestEntity. An entity cannot have a property with the same name. Use @HistoryOriginalIdColumn instead.",
+        "The originalID has already been defined for TestEntity. An entity cannot have a property with the same name.",
       );
     });
 
