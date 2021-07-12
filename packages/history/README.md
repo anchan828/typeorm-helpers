@@ -35,10 +35,25 @@ class TestEntity extends BaseEntity {
 ```ts
 @Entity()
 class TestHistoryEntity extends TestEntity implements HistoryEntityInterface {
-  @Column()
+  @HistoryOriginalIdColumn()
   public originalID!: number;
 
   @HistoryActionColumn()
+  public action!: HistoryActionType;
+}
+```
+
+Note: Starting with version 0.5.0, column names can be defined freely.
+
+```ts
+@Entity()
+class TestHistoryEntity extends TestEntity implements HistoryEntityInterface {
+  // You can use any property name you like.
+  @HistoryOriginalIdColumn()
+  public history_originalID!: number;
+
+  // You can rename column name
+  @HistoryActionColumn({ name: "history_action" })
   public action!: HistoryActionType;
 }
 ```
