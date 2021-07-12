@@ -5,6 +5,7 @@ on:
     - cron: "0 4 * * 0"
       branches:
         - master
+  workflow_dispatch:
 
 jobs:
   publish:
