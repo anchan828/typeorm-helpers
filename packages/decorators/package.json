@@ -1,6 +1,6 @@
 {
   "name": "@anchan828/typeorm-decorators",
-  "version": "0.5.0",
+  "version": "0.4.39",
   "description": "[TypeORM](https://github.com/typeorm/typeorm) decorators",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
