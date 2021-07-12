@@ -12,7 +12,7 @@ import {
 } from "typeorm";
 import { ulid } from "ulid";
 import { HistoryActionType } from "./history-action.enum";
-import { HistoryActionColumn, HistoryEntityInterface } from "./history-entity";
+import { HistoryActionColumn, HistoryEntityInterface, HistoryOriginalIdColumn } from "./history-entity";
 import { HistoryEntitySubscriber } from "./history-subscriber";
 
 describe("e2e test (basic)", () => {
@@ -404,4 +404,75 @@ describe("e2e test (many-to-many)", () => {
       { action: "CREATED", id: 5, name: "bar", originalID: 3 },
     ]);
   });
+});
+
+describe("e2e test (custom property name)", () => {
+  @Entity()
+  class TestEntity extends BaseEntity {
+    @PrimaryGeneratedColumn()
+    public id!: number;
+
+    @Column()
+    public test!: string;
+  }
+
+  @Entity()
+  class TestHistoryEntity extends TestEntity {
+    @HistoryOriginalIdColumn()
+    public historyOriginalID!: number;
+
+    @HistoryActionColumn({ name: "action" })
+    public historyAction!: HistoryActionType;
+
+    @PrimaryGeneratedColumn()
+    public id!: number;
+  }
+
+  @EventSubscriber()
+  class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, TestHistoryEntity> {
+    public entity = TestEntity;
+    public historyEntity = TestHistoryEntity;
+  }
+
+  @Entity()
+  class TestEntity2 extends BaseEntity {
+    @PrimaryGeneratedColumn()
+    public id!: number;
+
+    @Column({
+      default: false,
+    })
+    public deleted!: boolean;
+
+    @Column()
+    public test!: string;
+  }
+
+  beforeEach(async () => {
+    const connection = await createConnection({
+      database: "test",
+      dropSchema: true,
+      entities: [TestEntity, TestHistoryEntity, TestEntity2],
+      host: process.env.DB_HOST || "localhost",
+      password: "root",
+      subscribers: [TestHistoryEntitySubscriber],
+      synchronize: true,
+      type: (process.env.DB_TYPE || "mysql") as any,
+      username: "root",
+    });
+    expect(connection).toBeDefined();
+    expect(connection.isConnected).toBeTruthy();
+  });
+
+  it("create history", async () => {
+    const testEntity = await TestEntity.create({ test: "test" }).save();
+
+    const histories = await TestHistoryEntity.find();
+    expect(histories).toHaveLength(1);
+    expect(histories[0].historyOriginalID).toBe(testEntity.id);
+    expect(histories[0].historyAction).toBe(HistoryActionType.CREATED);
+    expect(histories[0].test).toBe("test");
+  });
+
+  afterEach(() => getConnection().close());
 });

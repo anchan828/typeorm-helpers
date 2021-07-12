@@ -7,8 +7,8 @@ import {
   RemoveEvent,
   UpdateEvent,
 } from "typeorm";
+import { TYPEORM_HELPER_HISTORY_ACTION_TYPE, TYPEORM_HELPER_HISTORY_ORIGINAL_ID } from "./constants";
 import { HistoryActionType } from "./history-action.enum";
-import { HistoryEntityInterface } from "./history-entity";
 
 export interface HistoryEntitySubscriberInterface<EntityType, HistoryEntityType>
   extends EntitySubscriberInterface<EntityType> {
@@ -32,7 +32,7 @@ export interface HistoryEntitySubscriberInterface<EntityType, HistoryEntityType>
   ): HistoryEntityType | Promise<HistoryEntityType>;
   afterRemoveHistory(history: HistoryEntityType, entity: Readonly<EntityType>): void | Promise<void>;
 }
-export abstract class HistoryEntitySubscriber<EntityType, HistoryEntityType extends HistoryEntityInterface & EntityType>
+export abstract class HistoryEntitySubscriber<EntityType, HistoryEntityType extends EntityType>
   implements HistoryEntitySubscriberInterface<EntityType, HistoryEntityType>
 {
   public beforeInsertHistory(
@@ -119,15 +119,40 @@ export abstract class HistoryEntitySubscriber<EntityType, HistoryEntityType exte
     action: Readonly<HistoryActionType>,
     entity?: EntityType,
   ): Promise<void> {
-    if (!entity || Object.keys(metadata.propertiesMap).includes("action")) {
+    if (!entity) {
       return;
     }
 
-    const history = await this.createHistoryEntity(manager, entity);
-    history.action = action;
+    const hasActionColumn = Reflect.hasMetadata(TYPEORM_HELPER_HISTORY_ACTION_TYPE, entity);
+
+    if (!entity || hasActionColumn) {
+      return;
+    }
+
+    const history = (await this.createHistoryEntity(manager, entity)) as HistoryEntityType & { originalID?: number };
+
+    const actionPropertyName = Reflect.getMetadata(TYPEORM_HELPER_HISTORY_ACTION_TYPE, history);
+
+    if (!actionPropertyName) {
+      throw new Error(`${this.historyEntity.name} does not have @HistoryActionColumn defined.`);
+    }
+
+    Reflect.set(history, actionPropertyName, action);
+
+    let originalIdPropertyName = Reflect.getMetadata(TYPEORM_HELPER_HISTORY_ORIGINAL_ID, history);
+
+    if (!originalIdPropertyName) {
+      if (history.originalID) {
+        throw new Error(
+          `The originalID has already been defined for ${this.entity.name}. An entity cannot have a property with the same name. Use @HistoryOriginalIdColumn instead.`,
+        );
+      }
+      originalIdPropertyName = "originalID";
+    }
 
     for (const primaryColumn of metadata.primaryColumns) {
-      history.originalID = Reflect.get(history, primaryColumn.propertyName);
+      const originalID = Reflect.get(history, primaryColumn.propertyName);
+      Reflect.set(history, originalIdPropertyName, originalID);
       Reflect.deleteProperty(history, primaryColumn.propertyName);
     }
 
