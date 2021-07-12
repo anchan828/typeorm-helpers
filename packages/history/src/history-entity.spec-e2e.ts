@@ -12,7 +12,8 @@ import {
 } from "typeorm";
 import { ulid } from "ulid";
 import { HistoryActionType } from "./history-action.enum";
-import { HistoryActionColumn, HistoryEntityInterface, HistoryEntitySubscriber } from "./history-entity";
+import { HistoryActionColumn, HistoryEntityInterface } from "./history-entity";
+import { HistoryEntitySubscriber } from "./history-subscriber";
 
 describe("e2e test (basic)", () => {
   @Entity()
