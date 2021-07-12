@@ -152,7 +152,7 @@ export abstract class HistoryEntitySubscriber<EntityType, HistoryEntityType exte
 
         const historyMetadata = manager.connection.getMetadata(this.historyEntity);
 
-        if (historyMetadata.propertiesMap["originalID"]) {
+        if (historyMetadata?.propertiesMap["originalID"]) {
           originalIdPropertyName = "originalID";
         }
       }
