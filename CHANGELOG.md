@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.5.1 (2021-07-13)
+
+
+### Features
+
+* add dropUniqueIndices function (helper function for migration ([#657](https://github.com/anchan828/typeorm-helpers/issues/657)) ([92e7721](https://github.com/anchan828/typeorm-helpers/commit/92e77211e7f2cdc9390a9d512ae4c88613e1c866))
+
+
+
+
+
 # 0.5.0 (2021-07-12)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
