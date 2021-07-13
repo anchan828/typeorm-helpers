@@ -103,6 +103,8 @@ await testEntity.remove();
 
 ## Advanced
 
+### Hooks
+
 You can hook before/after insert/update/remove history.
 
 ```ts
@@ -142,6 +144,31 @@ class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, Te
   }
 
   public afterRemoveHistory(history: HistoryEntityType, entity: Readonly<EntityType>): void | Promise<void> {}
+}
+```
+
+### Drop unique indices
+
+The history table stores multiple entities with the same content, so it won't work well if there is a yunique index. You will need to drop the all unique indices.
+So I prepared a helper function for migration.
+
+```ts
+export class DropAllUniqueOfTestHistoryEntity1625470736630 {
+  async up(queryRunner: QueryRunner): Promise<void> {
+    await dropUniqueIndices(queryRunner, TestHistoryEntity /* "test_history_entity" */);
+  }
+
+  async down(queryRunner: QueryRunner): Promise<void> {}
+}
+```
+
+If you want to regenerate the index with the unique flag removed, please set keepIndex to true.
+
+```ts
+export class DropAllUniqueOfTestHistoryEntity1625470736630 {
+  async up(queryRunner: QueryRunner): Promise<void> {
+    await dropUniqueIndices(queryRunner, "test_history_entity", true);
+  }
 }
 ```
 
