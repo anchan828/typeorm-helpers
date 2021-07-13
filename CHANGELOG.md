@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.5.2 (2021-07-13)
+
+
+### Bug Fixes
+
+* export dropUniqueIndices ([3b53fe9](https://github.com/anchan828/typeorm-helpers/commit/3b53fe94debdcf94b2a33d84e202c727be537cc1))
+
+
+
+
+
 ## 0.5.1 (2021-07-13)
 
 
