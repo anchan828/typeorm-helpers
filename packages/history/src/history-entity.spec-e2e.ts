@@ -6,14 +6,18 @@ import {
   EventSubscriber,
   getConnection,
   getRepository,
+  Index,
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
+  QueryRunner,
+  Unique,
 } from "typeorm";
 import { ulid } from "ulid";
 import { HistoryActionType } from "./history-action.enum";
 import { HistoryActionColumn, HistoryEntityInterface, HistoryOriginalIdColumn } from "./history-entity";
 import { HistoryEntitySubscriber } from "./history-subscriber";
+import { removeAllUniqueIndices } from "./history-migration";
 
 describe("e2e test (basic)", () => {
   @Entity()
@@ -697,4 +701,88 @@ describe("e2e test (custom property)", () => {
 
     afterEach(() => getConnection().close());
   });
+});
+
+describe("e2e test (remove unique index)", () => {
+  @Entity()
+  @Unique(["uniqueId4"])
+  class TestEntity extends BaseEntity {
+    @PrimaryGeneratedColumn()
+    public id!: number;
+
+    @Column()
+    public test!: string;
+
+    @Column({ unique: true })
+    public uniqueId1!: number;
+
+    @Column()
+    @Index({ unique: true })
+    public uniqueId2!: number;
+
+    @Column()
+    @Unique(["uniqueId3"])
+    public uniqueId3!: number;
+
+    @Column()
+    public uniqueId4!: number;
+  }
+
+  @Entity()
+  class TestHistoryEntity extends TestEntity {
+    @HistoryOriginalIdColumn()
+    public originalID!: number;
+
+    @HistoryActionColumn()
+    public action!: HistoryActionType;
+
+    @PrimaryGeneratedColumn()
+    public id!: number;
+  }
+
+  @EventSubscriber()
+  class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, TestHistoryEntity> {
+    public entity = TestEntity;
+    public historyEntity = TestHistoryEntity;
+  }
+
+  beforeEach(async () => {
+    const connection = await createConnection({
+      database: "test",
+      dropSchema: true,
+      entities: [TestEntity, TestHistoryEntity],
+      host: process.env.DB_HOST || "localhost",
+      password: "root",
+      subscribers: [TestHistoryEntitySubscriber],
+      synchronize: true,
+      type: (process.env.DB_TYPE || "mysql") as any,
+      username: "root",
+      migrations: [
+        class RemoveAllUniqueOfTestHistoryEntity1625470736630 {
+          async up(queryRunner: QueryRunner): Promise<void> {
+            await removeAllUniqueIndices(queryRunner, TestHistoryEntity /* "test_history_entity" */);
+          }
+        },
+      ],
+      migrationsRun: true,
+    });
+    expect(connection).toBeDefined();
+    expect(connection.isConnected).toBeTruthy();
+  });
+
+  it("create history", async () => {
+    const testEntity = await TestEntity.create({
+      test: "test",
+      uniqueId1: 1,
+      uniqueId2: 2,
+      uniqueId3: 3,
+      uniqueId4: 4,
+    }).save();
+
+    testEntity.test = "updated";
+
+    await testEntity.save();
+  });
+
+  afterEach(() => getConnection().close());
 });
