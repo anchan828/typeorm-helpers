@@ -149,7 +149,7 @@ class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, Te
 
 ### Drop unique indices
 
-The history table stores multiple entities with the same content, so it won't work well if there is a yunique index. You will need to drop the all unique indices.
+The history table stores multiple entities with the same content, so it won't work well if there is a unique index. You will need to drop the all unique indices.
 So I prepared a helper function for migration.
 
 ```ts
