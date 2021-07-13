@@ -16,8 +16,8 @@ import {
 import { ulid } from "ulid";
 import { HistoryActionType } from "./history-action.enum";
 import { HistoryActionColumn, HistoryEntityInterface, HistoryOriginalIdColumn } from "./history-entity";
+import { dropUniqueIndices } from "./history-migration";
 import { HistoryEntitySubscriber } from "./history-subscriber";
-import { removeAllUniqueIndices } from "./history-migration";
 
 describe("e2e test (basic)", () => {
   @Entity()
@@ -706,6 +706,17 @@ describe("e2e test (custom property)", () => {
 describe("e2e test (remove unique index)", () => {
   @Entity()
   @Unique(["uniqueId4"])
+  @Index("test", ["uniqueId1", "uniqueId2"], { unique: true })
+  @Index(
+    () => {
+      return {
+        uniqueId1: 3,
+        uniqueId2: 2,
+        uniqueId3: 1,
+      };
+    },
+    { unique: true },
+  )
   class TestEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     public id!: number;
@@ -760,7 +771,7 @@ describe("e2e test (remove unique index)", () => {
       migrations: [
         class RemoveAllUniqueOfTestHistoryEntity1625470736630 {
           async up(queryRunner: QueryRunner): Promise<void> {
-            await removeAllUniqueIndices(queryRunner, TestHistoryEntity /* "test_history_entity" */);
+            await dropUniqueIndices(queryRunner, TestHistoryEntity /* "test_history_entity" */);
           }
         },
       ],
