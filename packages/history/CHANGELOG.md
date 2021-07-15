@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.5.3 (2021-07-15)
+
+
+### Bug Fixes
+
+* should remove one-to-one foreign key (key is unique) ([#658](https://github.com/anchan828/typeorm-helpers/issues/658)) ([c1994f3](https://github.com/anchan828/typeorm-helpers/commit/c1994f3729eb1136fade91e100b2bec9a21f22ab))
+
+
+
+
+
 ## 0.5.2 (2021-07-13)
 
 
