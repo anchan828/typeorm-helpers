@@ -20,29 +20,43 @@ export async function dropUniqueIndices(
   if (!metadata) {
     throw Error(`metadata not found`);
   }
-
-  for (const index of metadata.indices) {
-    if (!index.isUnique) {
-      continue;
+  const dropForeignKeyNames: string[] = [];
+  for (const foreignKey of metadata.foreignKeys) {
+    for (const column of foreignKey.columns) {
+      // @OneToOne creates a unique index.
+      if (column.relationMetadata?.isOneToOne) {
+        dropForeignKeyNames.push(foreignKey.name);
+        continue;
+      }
     }
+  }
 
-    await queryRunner.dropIndex(metadata.tableName, index.name);
+  for (const dropForeignKeyName of dropForeignKeyNames) {
+    await queryRunner.dropForeignKey(metadata.tableName, dropForeignKeyName);
+  }
+
+  const table = await queryRunner.getTable(metadata.tablePath);
+
+  if (!table) {
+    throw Error(`'${metadata.tablePath}' table not found`);
+  }
+
+  const uniqueIndices = table.indices.filter((i) => i.isUnique);
+
+  for (const uniqueIndex of uniqueIndices) {
+    await queryRunner.dropIndex(table, uniqueIndex);
 
     if (keepIndex) {
-      const columnNames = Object.entries(index.columnNamesWithOrderingMap)
-        .sort(([, a], [, b]) => a - b)
-        .map((x) => x[0]);
-
       await queryRunner.createIndex(
-        metadata.tableName,
+        table,
         new TableIndex({
-          columnNames,
+          columnNames: uniqueIndex.columnNames,
           isUnique: false,
-          isSpatial: index.isSpatial,
-          isFulltext: index.isFulltext,
-          name: index.name,
-          parser: index.parser,
-          where: index.where,
+          isSpatial: uniqueIndex.isSpatial,
+          isFulltext: uniqueIndex.isFulltext,
+          name: uniqueIndex.name,
+          parser: uniqueIndex.parser,
+          where: uniqueIndex.where,
         }),
       );
     }

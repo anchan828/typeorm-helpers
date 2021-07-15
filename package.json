@@ -11,8 +11,7 @@
     "publish": "lerna publish --yes patch",
     "publish:minor": "lerna publish --yes minor",
     "publish:major": "lerna publish --yes major",
-    "test": "lerna run test && npx @anchan828/merge-coverage",
-    "test:e2e": "lerna run test:e2e"
+    "test": "lerna run test && npx @anchan828/merge-coverage"
   },
   "devDependencies": {
     "@commitlint/cli": "12.1.4",
