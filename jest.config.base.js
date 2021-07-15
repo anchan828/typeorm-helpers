@@ -5,5 +5,5 @@ module.exports = {
   coverageReporters: ["text-summary", "json-summary", "lcov", "text", "clover"],
   testEnvironment: "node",
   verbose: true,
-  testMatch: ["<rootDir>/**/*.spec.ts", "<rootDir>/**/*.spec-e2e.ts"],
+  testMatch: ["<rootDir>/**/*.spec.ts"],
 };

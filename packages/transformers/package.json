@@ -11,8 +11,10 @@
     "lint": "node ../../node_modules/eslint/bin/eslint --ignore-path ../../.eslintignore '**/*.ts'",
     "lint:fix": "npm run lint -- --fix",
     "watch": "node ../../node_modules/typescript/bin/tsc --watch",
-    "test": "node ../../node_modules/jest/bin/jest --coverage --runInBand",
-    "test:watch": "npm run test -- --watch"
+    "test": "node ../../node_modules/jest/bin/jest --coverage",
+    "test:watch": "npm run test -- --watch",
+    "test:e2e": "node ../../node_modules/jest/bin/jest --coverage --runInBand --config=jest-e2e.config.js",
+    "test:e2e:watch": "npm run test:e2e -- --watch"
   },
   "publishConfig": {
     "access": "public"

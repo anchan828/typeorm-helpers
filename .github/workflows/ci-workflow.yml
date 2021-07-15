@@ -23,6 +23,11 @@ jobs:
         run: npm i
       - name: Lint
         run: npm run lint
+      - name: e2e test monorepo packages
+        run: |
+          npm run test:e2e -- --scope=@anchan828/typeorm-history
+          npm run test:e2e -- --scope=@anchan828/typeorm-transformers
+          npm run test:e2e -- --scope=@anchan828/typeorm-decorators
       - name: Unit test monorepo packages
         uses: paambaati/codeclimate-action@v2.7.5
         env:
