@@ -2,7 +2,7 @@
   "name": "@anchan828/typeorm-helpers",
   "private": true,
   "scripts": {
-    "postinstall": "npm run bootstrap && npm run build",
+    "postinstall": "husky install && npm run bootstrap && npm run build",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "format": "prettier --write '**/*.{js,json,yml,yaml,md}'",
