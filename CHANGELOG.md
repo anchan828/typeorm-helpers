@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.6.6 (2021-08-18)
+
+
+### Features
+
+* overwrite action column type ([#680](https://github.com/anchan828/typeorm-helpers/issues/680)) ([b845c6b](https://github.com/anchan828/typeorm-helpers/commit/b845c6b5aef099fe8db90a91043b9cb22fc951ae))
+
+
+
+
+
 ## 0.6.5 (2021-08-15)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
