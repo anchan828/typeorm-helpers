@@ -172,6 +172,17 @@ export class DropAllUniqueOfTestHistoryEntity1625470736630 {
 }
 ```
 
+### Overwrite action column type
+
+By default, the type of the action column uses enum. However, depending on the database used, enum may not be available.
+
+In this case, you can pass ColumnOptions as the first argument to the HistoryActionColumn decorator to override it.
+
+```ts
+@HistoryActionColumn({ type: "varchar" })
+public action!: HistoryActionType;
+```
+
 ## License
 
 [MIT](LICENSE)
