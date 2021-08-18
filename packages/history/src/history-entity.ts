@@ -5,12 +5,18 @@ import { HistoryActionType } from "./history-action.enum";
 export function HistoryActionColumn(column?: ColumnOptions): PropertyDecorator {
   return (target: Object, propertyKey: string | symbol) => {
     Reflect.defineMetadata(TYPEORM_HELPER_HISTORY_ACTION_TYPE, propertyKey, target);
-    Column({
+
+    const options: ColumnOptions = {
       default: HistoryActionType.CREATED,
-      enum: Object.values(HistoryActionType),
       type: "enum",
       ...column,
-    })(target, propertyKey);
+    };
+
+    if (options.type === "enum" && !options.enum) {
+      options.enum = Object.values(HistoryActionType);
+    }
+
+    Column(options)(target, propertyKey);
   };
 }
 
