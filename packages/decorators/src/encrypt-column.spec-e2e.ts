@@ -1,7 +1,7 @@
-import { BaseEntity, Column, Entity, getConnection, getManager, PrimaryGeneratedColumn } from "typeorm";
+import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
+import { BaseEntity, Column, Entity, getManager, PrimaryGeneratedColumn } from "typeorm";
 import { EncryptColumn } from "./encrypt-column";
-import { createTestConnection } from "./test-utils";
-describe("EncryptColumn", () => {
+e2eDatabaseTypeSetUp("EncryptColumn", (options) => {
   @Entity({ name: "encrypt_test" })
   class EncryptTransformerTest extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -14,9 +14,7 @@ describe("EncryptColumn", () => {
     public test!: string;
   }
 
-  beforeEach(async () => {
-    await createTestConnection([EncryptTransformerTest]);
-  });
+  e2eSetUp({ entities: [EncryptTransformerTest], ...options });
 
   it("should return hash", async () => {
     let test = await EncryptTransformerTest.create({
@@ -48,6 +46,4 @@ describe("EncryptColumn", () => {
 
     expect(password).toBe(password2);
   });
-
-  afterEach(() => getConnection().close());
 });

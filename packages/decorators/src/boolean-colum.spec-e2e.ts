@@ -1,27 +1,24 @@
-import { BaseEntity, Entity, getConnection, PrimaryGeneratedColumn } from "typeorm";
+import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
+import { BaseEntity, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { BooleanColumn } from "./boolean-column";
-import { createTestConnection } from "./test-utils";
 
-describe("BooleanColumn", () => {
+e2eDatabaseTypeSetUp("BooleanColumn", (options) => {
   @Entity({ name: "test" })
   class BooleanColumnTest extends BaseEntity {
     @PrimaryGeneratedColumn()
     public id!: number;
 
-    @BooleanColumn({ default: false })
+    @BooleanColumn({ default: false, type: "int" })
     public test!: boolean;
 
-    @BooleanColumn({ default: true })
+    @BooleanColumn({ default: true, type: "int" })
     public test2!: boolean;
 
-    @BooleanColumn()
+    @BooleanColumn({ type: "int" })
     public test3!: boolean;
   }
 
-  beforeEach(async () => {
-    await createTestConnection([BooleanColumnTest]);
-  });
-  afterEach(() => getConnection().close());
+  e2eSetUp({ entities: [BooleanColumnTest], ...options });
 
   it("should save entity", async () => {
     await BooleanColumnTest.create({

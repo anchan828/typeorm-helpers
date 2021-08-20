@@ -7,7 +7,7 @@
 
 Create History Entity for [TypeORM](http://typeorm.io)
 
-Tested: mysql5, mysql8 and postgres.
+Tested: mysql, postgres and sqlite.
 
 ## Installation
 

@@ -1,3 +1,4 @@
+import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
 import {
   Column,
   Entity,
@@ -11,9 +12,8 @@ import {
 import { HistoryActionType } from "../history-action.enum";
 import { HistoryActionColumn, HistoryEntityInterface } from "../history-entity";
 import { HistoryEntitySubscriber } from "../history-subscriber";
-import { e2eSetUp } from "./e2e-setup";
 
-describe("e2e test (many-to-many)", () => {
+e2eDatabaseTypeSetUp("e2e test (many-to-many)", (options) => {
   @Entity()
   class Category {
     @PrimaryGeneratedColumn()
@@ -44,7 +44,7 @@ describe("e2e test (many-to-many)", () => {
     @Column()
     public originalID!: number;
 
-    @HistoryActionColumn()
+    @HistoryActionColumn({ type: "varchar" })
     public action!: HistoryActionType;
 
     @PrimaryGeneratedColumn()
@@ -56,7 +56,7 @@ describe("e2e test (many-to-many)", () => {
     @Column()
     public originalID!: number;
 
-    @HistoryActionColumn()
+    @HistoryActionColumn({ type: "varchar" })
     public action!: HistoryActionType;
 
     @PrimaryGeneratedColumn()
@@ -78,6 +78,7 @@ describe("e2e test (many-to-many)", () => {
   e2eSetUp({
     entities: [Category, CategoryHistory, Question, QuestionHistory],
     subscribers: [CategoryHistorySubscriber, QuestionHistorySubscriber],
+    ...options,
   });
 
   it("should create many-to-many create/update/delete history", async () => {
@@ -112,7 +113,7 @@ describe("e2e test (many-to-many)", () => {
       },
     ]);
 
-    await expect(getRepository(Category).find({})).resolves.toEqual([
+    await expect(getRepository(Category).find({ order: { id: "ASC" } })).resolves.toEqual([
       { id: 1, name: "animals" },
       { id: 2, name: "zoo" },
     ]);
@@ -136,7 +137,7 @@ describe("e2e test (many-to-many)", () => {
       },
     ]);
 
-    await expect(getRepository(QuestionHistory).find({})).resolves.toEqual([
+    await expect(getRepository(QuestionHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
       {
         action: "CREATED",
         id: 1,
@@ -153,12 +154,12 @@ describe("e2e test (many-to-many)", () => {
       },
     ]);
 
-    await expect(getRepository(Category).find({})).resolves.toEqual([
+    await expect(getRepository(Category).find({ order: { id: "ASC" } })).resolves.toEqual([
       { id: 1, name: "updated" },
       { id: 2, name: "zoo" },
     ]);
 
-    await expect(getRepository(CategoryHistory).find({})).resolves.toEqual([
+    await expect(getRepository(CategoryHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
       { action: "CREATED", id: 1, name: "animals", originalID: 1 },
       { action: "CREATED", id: 2, name: "zoo", originalID: 2 },
       { action: "UPDATED", id: 3, name: "updated", originalID: 1 },
@@ -176,7 +177,7 @@ describe("e2e test (many-to-many)", () => {
       },
     ]);
 
-    await expect(getRepository(QuestionHistory).find({})).resolves.toEqual([
+    await expect(getRepository(QuestionHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
       {
         action: "CREATED",
         id: 1,
@@ -195,7 +196,7 @@ describe("e2e test (many-to-many)", () => {
 
     await expect(getRepository(Category).find({})).resolves.toEqual([{ id: 2, name: "zoo" }]);
 
-    await expect(getRepository(CategoryHistory).find({})).resolves.toEqual([
+    await expect(getRepository(CategoryHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
       { action: "CREATED", id: 1, name: "animals", originalID: 1 },
       { action: "CREATED", id: 2, name: "zoo", originalID: 2 },
       { action: "UPDATED", id: 3, name: "updated", originalID: 1 },
@@ -216,7 +217,7 @@ describe("e2e test (many-to-many)", () => {
       },
     ]);
 
-    await expect(getRepository(QuestionHistory).find({})).resolves.toEqual([
+    await expect(getRepository(QuestionHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
       {
         action: "CREATED",
         id: 1,
@@ -233,12 +234,12 @@ describe("e2e test (many-to-many)", () => {
       },
     ]);
 
-    await expect(getRepository(Category).find({})).resolves.toEqual([
+    await expect(getRepository(Category).find({ order: { id: "ASC" } })).resolves.toEqual([
       { id: 2, name: "zoo" },
       { id: 3, name: "bar" },
     ]);
 
-    await expect(getRepository(CategoryHistory).find({})).resolves.toEqual([
+    await expect(getRepository(CategoryHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
       { action: "CREATED", id: 1, name: "animals", originalID: 1 },
       { action: "CREATED", id: 2, name: "zoo", originalID: 2 },
       { action: "UPDATED", id: 3, name: "updated", originalID: 1 },

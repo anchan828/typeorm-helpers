@@ -1,9 +1,9 @@
+import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
 import { BaseEntity, Column, Entity, EventSubscriber, PrimaryGeneratedColumn } from "typeorm";
 import { ulid } from "ulid";
 import { HistoryActionType } from "../history-action.enum";
 import { HistoryActionColumn, HistoryEntityInterface } from "../history-entity";
 import { HistoryEntitySubscriber } from "../history-subscriber";
-import { e2eSetUp } from "./e2e-setup";
 
 let messages: Array<{ hook: string; history: any; entity: any }> = [];
 
@@ -21,7 +21,7 @@ class TestHistoryEntity extends TestEntity implements HistoryEntityInterface {
   @Column()
   public originalID!: number;
 
-  @HistoryActionColumn()
+  @HistoryActionColumn({ type: "varchar" })
   public action!: HistoryActionType;
   @PrimaryGeneratedColumn()
   public id!: number;
@@ -92,11 +92,12 @@ class TestHistoryEntitySubscriber extends HistoryEntitySubscriber<TestEntity, Te
   }
 }
 
-describe("e2e test (hooks)", () => {
+e2eDatabaseTypeSetUp("e2e test (hooks)", (options) => {
   e2eSetUp(
     {
       entities: [TestEntity, TestHistoryEntity],
       subscribers: [TestHistoryEntitySubscriber],
+      ...options,
     },
     async () => {
       messages = [];

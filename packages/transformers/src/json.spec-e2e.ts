@@ -1,7 +1,7 @@
+import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
 import { BaseEntity, Column, Entity, getConnection, PrimaryGeneratedColumn } from "typeorm";
 import { JsonTransformer } from "./json";
-import { createTestConnection } from "./test-utils";
-describe("JsonTransformer", () => {
+e2eDatabaseTypeSetUp("JsonTransformer", (options) => {
   class TestJson {
     public name!: string;
   }
@@ -20,26 +20,23 @@ describe("JsonTransformer", () => {
     public data!: TestJson;
   }
 
-  beforeEach(async () => {
-    await createTestConnection([JsonTransformerTest]);
-  });
+  @Entity()
+  class NoDefaultValueTest extends BaseEntity {
+    @PrimaryGeneratedColumn()
+    public id!: number;
+
+    @Column({
+      nullable: true,
+      transformer: new JsonTransformer(),
+      type: "varchar",
+      width: 255,
+    })
+    public data!: TestJson;
+  }
+
+  e2eSetUp({ entities: [JsonTransformerTest, NoDefaultValueTest], ...options });
 
   it("should return undefined", async () => {
-    @Entity()
-    class NoDefaultValueTest extends BaseEntity {
-      @PrimaryGeneratedColumn()
-      public id!: number;
-
-      @Column({
-        nullable: true,
-        transformer: new JsonTransformer(),
-        type: "varchar",
-        width: 255,
-      })
-      public data!: TestJson;
-    }
-    await getConnection().close();
-    await createTestConnection([NoDefaultValueTest]);
     const test = await NoDefaultValueTest.create({}).save();
 
     expect(await NoDefaultValueTest.findOne(test.id)).toEqual({
@@ -58,14 +55,21 @@ describe("JsonTransformer", () => {
       id: test.id,
     });
 
-    const rawQuery = await getConnection().query("SELECT * FROM `json_transformer_test` WHERE `id`=?", [test.id]);
+    const rawQuery = await getConnection()
+      .createQueryBuilder(JsonTransformerTest, "entity")
+      .whereInIds(test.id)
+      .getRawOne();
 
-    expect(rawQuery).toHaveLength(1);
-    expect(rawQuery[0]).toHaveProperty("data", JSON.stringify({ name: "test" }));
+    expect(rawQuery).toEqual({
+      entity_data: JSON.stringify({ name: "test" }),
+      entity_id: 1,
+    });
   });
 
   it("should return defaultValue", async () => {
-    await getConnection().query("INSERT INTO `json_transformer_test` (`id`, `data`) VALUES (?, ?)", [1, "test"]);
+    await JsonTransformerTest.create({
+      data: "{" as any,
+    }).save();
 
     expect(await JsonTransformerTest.findOne(1)).toEqual({
       data: {
@@ -74,6 +78,4 @@ describe("JsonTransformer", () => {
       id: 1,
     });
   });
-
-  afterEach(() => getConnection().close());
 });

@@ -1,13 +1,13 @@
-import { BaseEntity, Entity, getConnection, getManager, PrimaryGeneratedColumn } from "typeorm";
+import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
+import { BaseEntity, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { JsonColumn } from "./json-column";
-import { createTestConnection } from "./test-utils";
 
 interface TestInterface {
   hoge: string;
   foo: number;
 }
 
-describe("JsonColumn", () => {
+e2eDatabaseTypeSetUp("JsonColumn", (options) => {
   @Entity({ name: "test" })
   class JsonColumnTest extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -23,30 +23,21 @@ describe("JsonColumn", () => {
     public test3!: string;
   }
 
-  beforeEach(async () => {
-    await createTestConnection([JsonColumnTest]);
-  });
-  afterEach(() => getConnection().close());
+  e2eSetUp({ entities: [JsonColumnTest], ...options });
 
   it("should save entity", async () => {
     await JsonColumnTest.create({
       test: { tags: [1, 2, 3], date: new Date() },
     }).save();
-  });
 
-  it("should search array", async () => {
-    await JsonColumnTest.create({
-      test: { tags: [1, 2, 3], date: new Date() },
-    }).save();
-
-    await JsonColumnTest.create({
-      test: { tags: [3, 4, 5], date: new Date() },
-    }).save();
-
-    const result = await getManager()
-      .createQueryBuilder(JsonColumnTest, "entity")
-      .where("JSON_CONTAINS(test, ':tag', '$.tags')", { tag: 4 })
-      .getRawMany();
-    expect(result).toHaveLength(1);
+    await expect(JsonColumnTest.find({})).resolves.toEqual([
+      {
+        id: 1,
+        test: {
+          date: expect.any(Date),
+          tags: [1, 2, 3],
+        },
+      },
+    ]);
   });
 });

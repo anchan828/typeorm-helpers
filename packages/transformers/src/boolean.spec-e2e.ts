@@ -1,7 +1,7 @@
+import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
 import { BaseEntity, Column, Entity, getConnection, PrimaryGeneratedColumn } from "typeorm";
 import { BooleanTransformer } from "./boolean";
-import { createTestConnection } from "./test-utils";
-describe("BigintTransformer", () => {
+e2eDatabaseTypeSetUp("BigintTransformer", (options) => {
   @Entity()
   class BooleanTransformerTest extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -10,15 +10,14 @@ describe("BigintTransformer", () => {
     @Column({
       nullable: true,
       transformer: new BooleanTransformer(),
-      type: "tinyint",
+      type: "int",
       width: 1,
     })
     public bool!: boolean;
   }
 
-  beforeEach(async () => {
-    await createTestConnection([BooleanTransformerTest]);
-  });
+  e2eSetUp({ entities: [BooleanTransformerTest], ...options });
+
   it("should return undefined", async () => {
     const test = await BooleanTransformerTest.create({}).save();
 
@@ -37,10 +36,12 @@ describe("BigintTransformer", () => {
       id: 1,
     });
 
-    const rawQuery = await getConnection().query("SELECT * FROM `boolean_transformer_test` WHERE `id`=?", [test.id]);
+    const rawQuery = await getConnection()
+      .createQueryBuilder(BooleanTransformerTest, "entity")
+      .whereInIds(test.id)
+      .getRawOne();
 
-    expect(rawQuery).toHaveLength(1);
-    expect(rawQuery[0]).toHaveProperty("bool", 1);
+    expect(rawQuery).toEqual({ entity_bool: 1, entity_id: 1 });
   });
 
   it("should return false", async () => {
@@ -53,11 +54,11 @@ describe("BigintTransformer", () => {
       id: 1,
     });
 
-    const rawQuery = await getConnection().query("SELECT * FROM `boolean_transformer_test` WHERE `id`=?", [test.id]);
+    const rawQuery = await getConnection()
+      .createQueryBuilder(BooleanTransformerTest, "entity")
+      .whereInIds(test.id)
+      .getRawOne();
 
-    expect(rawQuery).toHaveLength(1);
-    expect(rawQuery[0]).toHaveProperty("bool", 0);
+    expect(rawQuery).toEqual({ entity_bool: 0, entity_id: 1 });
   });
-
-  afterEach(() => getConnection().close());
 });

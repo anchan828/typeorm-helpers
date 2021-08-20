@@ -7,7 +7,7 @@ import { isNullOrUndefined } from "./utils";
  */
 export const parseJSON = <T>(json: string): T | undefined => {
   return JSON.parse(json, (_: string, value: any): any => {
-    if (typeof value === "string" && value.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/)) {
+    if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(value)) {
       const date = Date.parse(value);
       if (!isNaN(date)) {
         return new Date(date);
@@ -42,6 +42,10 @@ export class JsonTransformer<T> implements ValueTransformer {
 
     if (isNullOrUndefined(value)) {
       return;
+    }
+
+    if (typeof value === "string") {
+      value = this.defaultValue;
     }
 
     return JSON.stringify(value);
