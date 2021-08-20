@@ -1,7 +1,7 @@
-import { BaseEntity, Column, Entity, getConnection, PrimaryGeneratedColumn } from "typeorm";
+import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { HmacTransformer } from "./hmac";
-import { createTestConnection } from "./test-utils";
-describe("HmacTransformer", () => {
+e2eDatabaseTypeSetUp("HmacTransformer", (options) => {
   @Entity()
   class HmacTransformerTest extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -21,10 +21,7 @@ describe("HmacTransformer", () => {
     })
     public password2!: string;
   }
-
-  beforeEach(async () => {
-    await createTestConnection([HmacTransformerTest]);
-  });
+  e2eSetUp({ entities: [HmacTransformerTest], ...options });
   it("should return undefined", async () => {
     const test = await HmacTransformerTest.create({}).save();
 
@@ -46,6 +43,4 @@ describe("HmacTransformer", () => {
       id: 1,
     });
   });
-
-  afterEach(() => getConnection().close());
 });

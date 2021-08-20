@@ -1,9 +1,9 @@
+import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
 import { BaseEntity, Column, Entity, EventSubscriber, PrimaryGeneratedColumn } from "typeorm";
 import { ulid } from "ulid";
 import { HistoryActionType } from "../history-action.enum";
 import { HistoryActionColumn, HistoryEntityInterface } from "../history-entity";
 import { HistoryEntitySubscriber } from "../history-subscriber";
-import { e2eSetUp } from "./e2e-setup";
 
 @Entity()
 class TestEntity extends BaseEntity {
@@ -70,10 +70,11 @@ class TestHistoryEntitySubscriber2 extends HistoryEntitySubscriber<TestEntity2, 
   }
 }
 
-describe("e2e test (overwrite type to varchar)", () => {
+e2eDatabaseTypeSetUp("e2e test (overwrite type to varchar)", ["sqlite"], (options) => {
   e2eSetUp({
     entities: [TestEntity, TestHistoryEntity, TestEntity2, TestHistoryEntity2],
     subscribers: [TestHistoryEntitySubscriber, TestHistoryEntitySubscriber2],
+    ...options,
   });
 
   it("create history", async () => {

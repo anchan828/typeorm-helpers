@@ -1,3 +1,4 @@
+import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
 import {
   BaseEntity,
   Column,
@@ -16,13 +17,12 @@ import { HistoryActionType } from "../history-action.enum";
 import { HistoryActionColumn, HistoryOriginalIdColumn } from "../history-entity";
 import { dropUniqueIndices } from "../history-migration";
 import { HistoryEntitySubscriber } from "../history-subscriber";
-import { e2eSetUp } from "./e2e-setup";
 
-describe("e2e test (remove unique index)", () => {
+e2eDatabaseTypeSetUp("e2e test (remove unique index)", (options) => {
   describe("basic", () => {
     @Entity()
     @Unique(["uniqueId4"])
-    @Index("test", ["uniqueId1", "uniqueId2"], { unique: true })
+    @Index(["uniqueId1", "uniqueId2"], { unique: true })
     @Index(
       () => {
         return {
@@ -60,7 +60,7 @@ describe("e2e test (remove unique index)", () => {
       @HistoryOriginalIdColumn()
       public originalID!: number;
 
-      @HistoryActionColumn()
+      @HistoryActionColumn({ type: "varchar" })
       public action!: HistoryActionType;
 
       @PrimaryGeneratedColumn()
@@ -83,6 +83,7 @@ describe("e2e test (remove unique index)", () => {
         },
       ],
       migrationsRun: true,
+      ...options,
     });
 
     it("create history", async () => {
@@ -125,7 +126,7 @@ describe("e2e test (remove unique index)", () => {
       @HistoryOriginalIdColumn()
       public originalID!: number;
 
-      @HistoryActionColumn()
+      @HistoryActionColumn({ type: "varchar" })
       public action!: HistoryActionType;
 
       @PrimaryGeneratedColumn()
@@ -185,7 +186,7 @@ describe("e2e test (remove unique index)", () => {
       @HistoryOriginalIdColumn()
       public originalID!: number;
 
-      @HistoryActionColumn()
+      @HistoryActionColumn({ type: "varchar" })
       public action!: HistoryActionType;
 
       @PrimaryGeneratedColumn()
@@ -248,7 +249,7 @@ describe("e2e test (remove unique index)", () => {
       @HistoryOriginalIdColumn()
       public originalID!: number;
 
-      @HistoryActionColumn()
+      @HistoryActionColumn({ type: "varchar" })
       public action!: HistoryActionType;
 
       @PrimaryGeneratedColumn()

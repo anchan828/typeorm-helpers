@@ -1,8 +1,8 @@
+import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
 import { BaseEntity, Column, Entity, EventSubscriber, getConnection, PrimaryGeneratedColumn } from "typeorm";
 import { HistoryActionType } from "../history-action.enum";
 import { HistoryActionColumn, HistoryOriginalIdColumn } from "../history-entity";
 import { HistoryEntitySubscriber } from "../history-subscriber";
-import { e2eSetUp } from "./e2e-setup";
 
 describe("e2e test (custom property)", () => {
   describe("create history (basic)", () => {
@@ -20,7 +20,7 @@ describe("e2e test (custom property)", () => {
       @HistoryOriginalIdColumn()
       public originalID!: number;
 
-      @HistoryActionColumn()
+      @HistoryActionColumn({ type: "varchar" })
       public action!: HistoryActionType;
 
       @PrimaryGeneratedColumn()
@@ -128,7 +128,7 @@ describe("e2e test (custom property)", () => {
     });
   });
 
-  describe("create history (change property name)", () => {
+  e2eDatabaseTypeSetUp("create history (change property name)", (options) => {
     @Entity()
     class TestEntity extends BaseEntity {
       @PrimaryGeneratedColumn()
@@ -143,7 +143,7 @@ describe("e2e test (custom property)", () => {
       @HistoryOriginalIdColumn()
       public historyOriginalID!: number;
 
-      @HistoryActionColumn()
+      @HistoryActionColumn({ type: "varchar" })
       public historyAction!: HistoryActionType;
 
       @PrimaryGeneratedColumn()
@@ -158,6 +158,7 @@ describe("e2e test (custom property)", () => {
     e2eSetUp({
       entities: [TestEntity, TestHistoryEntity],
       subscribers: [TestHistoryEntitySubscriber],
+      ...options,
     });
 
     it("test", async () => {

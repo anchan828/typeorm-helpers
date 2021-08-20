@@ -1,4 +1,4 @@
-import { EntityTarget, QueryRunner, TableIndex } from "typeorm";
+import { EntityTarget, QueryRunner, Table, TableIndex } from "typeorm";
 
 /**
  * Helper function for drop unique indices for history entity.
@@ -35,13 +35,9 @@ export async function dropUniqueIndices(
     await queryRunner.dropForeignKey(metadata.tableName, dropForeignKeyName);
   }
 
-  const table = await queryRunner.getTable(metadata.tablePath);
+  const table = await getTable(queryRunner, metadata.tablePath);
 
-  if (!table) {
-    throw Error(`'${metadata.tablePath}' table not found`);
-  }
-
-  const uniqueIndices = table.indices.filter((i) => i.isUnique);
+  const uniqueIndices = table.indices.filter((i) => i.isUnique).map((x) => x.clone());
 
   for (const uniqueIndex of uniqueIndices) {
     await queryRunner.dropIndex(table, uniqueIndex);
@@ -61,4 +57,29 @@ export async function dropUniqueIndices(
       );
     }
   }
+
+  const uniques = table.uniques.map((x) => x.clone());
+
+  for (const unique of uniques) {
+    await queryRunner.dropUniqueConstraint(table, unique);
+    if (keepIndex) {
+      await queryRunner.createIndex(
+        table,
+        new TableIndex({
+          columnNames: unique.columnNames,
+          isUnique: false,
+        }),
+      );
+    }
+  }
+}
+
+async function getTable(queryRunner: QueryRunner, tablePath: string): Promise<Table> {
+  const table = await queryRunner.getTable(tablePath);
+
+  if (!table) {
+    throw Error(`'${tablePath}' table not found`);
+  }
+
+  return table;
 }

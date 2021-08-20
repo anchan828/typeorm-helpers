@@ -1,11 +1,11 @@
 import { BinaryLike } from "crypto";
 import { readFileSync } from "fs";
 import { tmpdir } from "os";
+import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
 import { BaseEntity, Column, Entity, getConnection, PrimaryGeneratedColumn } from "typeorm";
 import { StaticFileTransformer } from "./static-file";
-import { createTestConnection } from "./test-utils";
 
-describe("StaticFileTransformer", () => {
+e2eDatabaseTypeSetUp("StaticFileTransformer", (options) => {
   const transformer = new StaticFileTransformer({ dirname: tmpdir() });
   @Entity()
   class StaticFileTransformerTest extends BaseEntity {
@@ -18,10 +18,7 @@ describe("StaticFileTransformer", () => {
     })
     public file!: BinaryLike;
   }
-
-  beforeEach(async () => {
-    await createTestConnection([StaticFileTransformerTest]);
-  });
+  e2eSetUp({ entities: [StaticFileTransformerTest], ...options });
 
   it("should store text", async () => {
     const test = await StaticFileTransformerTest.create({
@@ -29,11 +26,11 @@ describe("StaticFileTransformer", () => {
     }).save();
     expect(test.file).toBe("test");
 
-    const rawQuery = await getConnection().query("SELECT * FROM `static_file_transformer_test` WHERE `id`=?", [
-      test.id,
-    ]);
-    expect(rawQuery).toHaveLength(1);
-    expect((rawQuery[0].file as string).startsWith(tmpdir())).toBeTruthy();
+    const rawQuery = await getConnection()
+      .createQueryBuilder(StaticFileTransformerTest, "entity")
+      .whereInIds(test.id)
+      .getRawOne();
+    expect(rawQuery.entity_file.startsWith(tmpdir())).toBeTruthy();
   });
 
   it("should store image", async () => {
@@ -42,11 +39,11 @@ describe("StaticFileTransformer", () => {
     }).save();
     expect(test.file).toEqual(readFileSync("test-files/image.png"));
 
-    const rawQuery = await getConnection().query("SELECT * FROM `static_file_transformer_test` WHERE `id`=?", [
-      test.id,
-    ]);
-    expect(rawQuery).toHaveLength(1);
-    expect((rawQuery[0].file as string).startsWith(tmpdir())).toBeTruthy();
+    const rawQuery = await getConnection()
+      .createQueryBuilder(StaticFileTransformerTest, "entity")
+      .whereInIds(test.id)
+      .getRawOne();
+    expect(rawQuery.entity_file.startsWith(tmpdir())).toBeTruthy();
   });
 
   it("should not called when not select static file column", async () => {
@@ -61,6 +58,4 @@ describe("StaticFileTransformer", () => {
     await StaticFileTransformerTest.createQueryBuilder("test").select("test.id").getOne();
     expect(mock).not.toBeCalled();
   });
-
-  afterEach(() => getConnection().close());
 });

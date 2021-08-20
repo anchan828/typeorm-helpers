@@ -31,5 +31,8 @@
   "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/history#readme",
   "dependencies": {
     "ulid": "2.3.0"
+  },
+  "devDependencies": {
+    "testing": "*"
   }
 }
