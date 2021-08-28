@@ -1,6 +1,6 @@
 {
   "name": "@anchan828/typeorm-transformers",
-  "version": "0.6.6",
+  "version": "0.7.1",
   "description": "[TypeORM](https://github.com/typeorm/typeorm) transformers",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -31,5 +31,8 @@
   "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/transformers#readme",
   "dependencies": {
     "deepmerge": "4.2.2"
+  },
+  "devDependencies": {
+    "testing": "^0.7.1"
   }
 }

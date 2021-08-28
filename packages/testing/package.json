@@ -1,0 +1,20 @@
+{
+  "name": "testing",
+  "version": "0.7.1",
+  "private": true,
+  "description": "This is pacakge is for testing.",
+  "main": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anchan828/typeorm-helpers.git"
+  },
+  "author": "anchan828 <anchan828@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anchan828/typeorm-helpers/issues"
+  },
+  "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/testing#readme",
+  "dependencies": {
+    "deepmerge": "4.2.2"
+  }
+}
