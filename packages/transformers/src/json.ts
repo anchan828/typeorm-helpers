@@ -30,7 +30,7 @@ export class JsonTransformer<T> implements ValueTransformer {
 
     try {
       return parseJSON(value);
-    } catch (e) {
+    } catch (e: any) {
       return this.defaultValue;
     }
   }
