@@ -1,4 +1,4 @@
-name: Weekly Release
+name: Patch Release
 
 on:
   schedule:
