@@ -11,7 +11,7 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "eslint.options": {
-    "extensinons": [".js", ".ts"]
+    "extensions": [".js", ".ts"]
   },
   "eslint.validate": ["javascript", "typescript"],
   "eslint.workingDirectories": [
