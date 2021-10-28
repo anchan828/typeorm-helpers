@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.7.11 (2021-10-28)
+
+
+### Bug Fixes
+
+* should not use create function on manager to cast to EntityType ([#729](https://github.com/anchan828/typeorm-helpers/issues/729)) ([56f15a2](https://github.com/anchan828/typeorm-helpers/commit/56f15a25c65ab7a16023da9b0619c62822e0d203))
+
+
+
+
+
 ## 0.7.10 (2021-10-24)
 
 **Note:** Version bump only for package @anchan828/typeorm-decorators
