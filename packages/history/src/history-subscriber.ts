@@ -86,15 +86,13 @@ export abstract class HistoryEntitySubscriber<EntityType, HistoryEntityType exte
   }
 
   public async afterUpdate(event: UpdateEvent<EntityType>): Promise<void> {
-    const entity = event.manager.create(this.entity, { ...event.entity }) as EntityType;
-
     await this.createHistory(
       event.manager,
       event.metadata,
       this.beforeUpdateHistory,
       this.afterUpdateHistory,
       HistoryActionType.UPDATED,
-      entity,
+      event.entity as EntityType | undefined,
     );
   }
 
