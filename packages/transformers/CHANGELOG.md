@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.7.17 (2021-12-12)
+
+**Note:** Version bump only for package @anchan828/typeorm-transformers
+
+
+
+
+
 ## 0.7.16 (2021-12-05)
 
 **Note:** Version bump only for package @anchan828/typeorm-transformers
