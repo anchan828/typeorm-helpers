@@ -78,7 +78,7 @@ class TestHistoryEntity extends BaseEntity implements HistoryEntityInterface {
 
 ```ts
 @Entity()
-class TestHistoryEntity extends TestHistoryEntity implements HistoryEntityInterface {
+class TestHistoryEntity extends TestEntity implements HistoryEntityInterface {
   @HistoryOriginalIdColumn()
   public originalID!: number;
 
