@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.8.0 (2022-01-07)
+
+
+### Features
+
+* stop entity class inheritance ([#794](https://github.com/anchan828/typeorm-helpers/issues/794)) ([8108e3c](https://github.com/anchan828/typeorm-helpers/commit/8108e3c7f2835f44f2b04f862486353c9ff7ac4a))
+
+
+
+
+
 ## 0.7.20 (2022-01-02)
 
 **Note:** Version bump only for package testing
