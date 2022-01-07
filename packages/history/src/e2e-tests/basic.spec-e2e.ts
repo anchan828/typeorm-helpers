@@ -1,5 +1,5 @@
 import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
-import { BaseEntity, Column, Entity, EventSubscriber, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, EventSubscriber, Index, PrimaryGeneratedColumn } from "typeorm";
 import { ulid } from "ulid";
 import { HistoryActionType } from "../history-action.enum";
 import { HistoryActionColumn, HistoryEntityInterface } from "../history-entity";
@@ -15,14 +15,18 @@ class TestEntity extends BaseEntity {
 }
 
 @Entity()
-class TestHistoryEntity extends TestEntity implements HistoryEntityInterface {
+class TestHistoryEntity extends BaseEntity implements HistoryEntityInterface {
+  @PrimaryGeneratedColumn()
+  public id!: number;
+
+  @Column()
+  public test!: string;
+
   @Column()
   public originalID!: number;
 
   @HistoryActionColumn({ type: "varchar" })
   public action!: HistoryActionType;
-  @PrimaryGeneratedColumn()
-  public id!: number;
 }
 
 @EventSubscriber()
@@ -36,24 +40,37 @@ class TestEntity2 extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id!: number;
 
-  @Column({
-    default: false,
-  })
-  public deleted!: boolean;
+  @Column()
+  @Index({ unique: true })
+  public userId!: number;
 
   @Column()
   public test!: string;
+
+  @Column({ default: false })
+  public deleted!: boolean;
 }
 
 @Entity()
-class TestHistoryEntity2 extends TestEntity2 implements HistoryEntityInterface {
+class TestHistoryEntity2 extends BaseEntity implements HistoryEntityInterface {
+  @PrimaryGeneratedColumn()
+  public id!: number;
+
+  @Column()
+  @Index()
+  public userId!: number;
+
+  @Column()
+  public test!: string;
+
+  @Column({ default: false })
+  public deleted!: boolean;
+
   @Column()
   public originalID!: number;
 
   @HistoryActionColumn({ type: "varchar" })
   public action!: HistoryActionType;
-  @PrimaryGeneratedColumn()
-  public id!: number;
 }
 
 @EventSubscriber()
@@ -99,6 +116,7 @@ e2eDatabaseTypeSetUp("e2e test (basic)", (options) => {
     expect(histories[1].action).toBe(HistoryActionType.UPDATED);
     expect(histories[1].test).toBe("updated");
   });
+
   it("delete history", async () => {
     const testEntity = await TestEntity.create({ test: "test" }).save();
     await testEntity.remove();
@@ -108,8 +126,9 @@ e2eDatabaseTypeSetUp("e2e test (basic)", (options) => {
     expect(histories[0].action).toBe(HistoryActionType.CREATED);
     expect(histories[1].action).toBe(HistoryActionType.DELETED);
   });
+
   it("should be delete action when deleted column is true", async () => {
-    const testEntity = await TestEntity2.create({ test: "test" }).save();
+    const testEntity = await TestEntity2.create({ test: "test", userId: 1 }).save();
     testEntity.deleted = true;
     await testEntity.save();
 
@@ -134,5 +153,19 @@ e2eDatabaseTypeSetUp("e2e test (basic)", (options) => {
     await expect(TestHistoryEntity.count()).resolves.toBe(200);
     await TestEntity.remove(entities);
     await expect(TestHistoryEntity.count()).resolves.toBe(300);
+  });
+
+  it("should not have any unique indexes", async () => {
+    const testEntity = await TestEntity2.create({ test: "test", userId: 1 }).save();
+    await testEntity.save();
+
+    testEntity.test = "updated";
+
+    await testEntity.save();
+
+    await expect(TestHistoryEntity2.find()).resolves.toEqual([
+      { action: "CREATED", deleted: false, id: 1, originalID: 1, test: "test", userId: 1 },
+      { action: "UPDATED", deleted: false, id: 2, originalID: 1, test: "updated", userId: 1 },
+    ]);
   });
 });
