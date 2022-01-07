@@ -32,9 +32,19 @@ class TestEntity extends BaseEntity {
 
 ### 2. Create History Entity
 
+You need to add the same column properties as `TestEntity`.
+
 ```ts
 @Entity()
-class TestHistoryEntity extends TestEntity implements HistoryEntityInterface {
+class TestHistoryEntity extends BaseEntity implements HistoryEntityInterface {
+  // id is a property that holds the id of the TestHistoryEntity.
+  @PrimaryGeneratedColumn()
+  public id!: number;
+
+  @Column()
+  public test!: string;
+
+  // originalID is a property that holds the id of the TestEntity.
   @HistoryOriginalIdColumn()
   public originalID!: number;
 
@@ -47,7 +57,13 @@ Note: Starting with version 0.5.0, column names can be defined freely.
 
 ```ts
 @Entity()
-class TestHistoryEntity extends TestEntity implements HistoryEntityInterface {
+class TestHistoryEntity extends BaseEntity implements HistoryEntityInterface {
+  @PrimaryGeneratedColumn()
+  public id!: number;
+
+  @Column()
+  public test!: string;
+
   // You can use any property name you like.
   @HistoryOriginalIdColumn()
   public history_originalID!: number;
@@ -57,6 +73,21 @@ class TestHistoryEntity extends TestEntity implements HistoryEntityInterface {
   public action!: HistoryActionType;
 }
 ```
+
+#### Inheriting a Entity class
+
+```ts
+@Entity()
+class TestHistoryEntity extends TestHistoryEntity implements HistoryEntityInterface {
+  @HistoryOriginalIdColumn()
+  public originalID!: number;
+
+  @HistoryActionColumn()
+  public action!: HistoryActionType;
+}
+```
+
+Note: You can create a History entity by inheriting from the original Entity class. This is easy to do for simple entities. However, if you want to keep unique indexes, there is a problem. As many users have [reported the problem](https://github.com/anchan828/typeorm-helpers/issues/779), when you inherit a class, you also inherit the decorator, and you cannot overwrite it. This means that you cannot remove the restriction of unique indexes of `@Index` etc.
 
 ### 3. Create Entity Subscriber for History
 
