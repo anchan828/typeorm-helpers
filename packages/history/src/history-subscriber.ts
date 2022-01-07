@@ -32,7 +32,7 @@ export interface HistoryEntitySubscriberInterface<EntityType, HistoryEntityType>
   ): HistoryEntityType | Promise<HistoryEntityType>;
   afterRemoveHistory(history: HistoryEntityType, entity: Readonly<EntityType>): void | Promise<void>;
 }
-export abstract class HistoryEntitySubscriber<EntityType, HistoryEntityType extends EntityType>
+export abstract class HistoryEntitySubscriber<EntityType, HistoryEntityType>
   implements HistoryEntitySubscriberInterface<EntityType, HistoryEntityType>
 {
   public beforeInsertHistory(
