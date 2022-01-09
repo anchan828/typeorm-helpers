@@ -15,7 +15,7 @@
     "test:e2e": "lerna run test:e2e"
   },
   "devDependencies": {
-    "@commitlint/cli": "16.0.1",
+    "@commitlint/cli": "16.0.2",
     "@commitlint/config-conventional": "16.0.0",
     "@types/jest": "27.4.0",
     "@types/node": "16.11.19",
