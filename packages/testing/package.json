@@ -1,6 +1,6 @@
 {
   "name": "testing",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "private": true,
   "description": "This is pacakge is for testing.",
   "main": "src/index.ts",

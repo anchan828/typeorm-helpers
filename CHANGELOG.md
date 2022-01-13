@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.8.2 (2022-01-13)
+
+
+### Features
+
+* improve HistoryEntityInterface ([#800](https://github.com/anchan828/typeorm-helpers/issues/800)) ([e89e8cc](https://github.com/anchan828/typeorm-helpers/commit/e89e8cc1fae2e0a3b101e7986ec6f672f07cf23a))
+
+
+
+
+
 ## 0.8.1 (2022-01-09)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
