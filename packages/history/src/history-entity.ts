@@ -1,4 +1,4 @@
-import { Column, ColumnOptions } from "typeorm";
+import { BaseEntity, Column, ColumnOptions } from "typeorm";
 import { TYPEORM_HELPER_HISTORY_ACTION_TYPE, TYPEORM_HELPER_HISTORY_ORIGINAL_ID } from "./constants";
 import { HistoryActionType } from "./history-action.enum";
 
@@ -27,9 +27,10 @@ export function HistoryOriginalIdColumn(column?: ColumnOptions): PropertyDecorat
   };
 }
 
-export interface HistoryEntityInterface {
+export type HistoryEntityInterface<T = any> = {
   id: number | string;
   originalID: number | string;
-
   action: HistoryActionType;
-}
+} & T extends BaseEntity
+  ? Omit<T, keyof BaseEntity>
+  : T;
