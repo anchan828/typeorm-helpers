@@ -36,7 +36,7 @@ You need to add the same column properties as `TestEntity`.
 
 ```ts
 @Entity()
-class TestHistoryEntity extends BaseEntity implements HistoryEntityInterface {
+class TestHistoryEntity extends BaseEntity implements HistoryEntityInterface<TestEntity> {
   // id is a property that holds the id of the TestHistoryEntity.
   @PrimaryGeneratedColumn()
   public id!: number;
@@ -57,7 +57,7 @@ Note: Starting with version 0.5.0, column names can be defined freely.
 
 ```ts
 @Entity()
-class TestHistoryEntity extends BaseEntity implements HistoryEntityInterface {
+class TestHistoryEntity extends BaseEntity implements HistoryEntityInterface<TestEntity> {
   @PrimaryGeneratedColumn()
   public id!: number;
 

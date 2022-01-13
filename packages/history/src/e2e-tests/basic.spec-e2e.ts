@@ -15,7 +15,7 @@ class TestEntity extends BaseEntity {
 }
 
 @Entity()
-class TestHistoryEntity extends BaseEntity implements HistoryEntityInterface {
+class TestHistoryEntity extends BaseEntity implements HistoryEntityInterface<TestEntity> {
   @PrimaryGeneratedColumn()
   public id!: number;
 
@@ -52,7 +52,7 @@ class TestEntity2 extends BaseEntity {
 }
 
 @Entity()
-class TestHistoryEntity2 extends BaseEntity implements HistoryEntityInterface {
+class TestHistoryEntity2 extends BaseEntity implements HistoryEntityInterface<TestEntity2> {
   @PrimaryGeneratedColumn()
   public id!: number;
 
