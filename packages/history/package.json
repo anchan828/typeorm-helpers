@@ -1,6 +1,6 @@
 {
   "name": "@anchan828/typeorm-history",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "description": "History Entity for [TypeORM](http://typeorm.io)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/history#readme",
   "devDependencies": {
-    "testing": "^0.8.4",
+    "testing": "^0.8.5",
     "ulid": "2.3.0"
   }
 }
