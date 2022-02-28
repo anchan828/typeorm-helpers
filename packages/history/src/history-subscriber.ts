@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars */
 import {
+  DeepPartial,
   EntityManager,
   EntityMetadata,
   EntitySubscriberInterface,
@@ -67,11 +68,8 @@ export abstract class HistoryEntitySubscriber<EntityType, HistoryEntityType>
   public listenTo(): Function {
     return this.entity;
   }
-  public createHistoryEntity(
-    manager: Readonly<EntityManager>,
-    entity: EntityType,
-  ): HistoryEntityType | Promise<HistoryEntityType> {
-    return manager.create(this.historyEntity, entity);
+  public createHistoryEntity(manager: Readonly<EntityManager>, entity: EntityType): HistoryEntityType {
+    return manager.create(this.historyEntity, entity as unknown as DeepPartial<HistoryEntityType>);
   }
 
   public async afterInsert(event: InsertEvent<EntityType>): Promise<void> {
