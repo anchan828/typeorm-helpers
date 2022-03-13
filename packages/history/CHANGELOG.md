@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.8.10 (2022-03-13)
+
+**Note:** Version bump only for package @anchan828/typeorm-history
+
+
+
+
+
 ## 0.8.9 (2022-03-06)
 
 **Note:** Version bump only for package @anchan828/typeorm-history
