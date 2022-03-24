@@ -1,7 +1,7 @@
 import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
 import { BaseEntity, Column, Entity, getConnection, PrimaryGeneratedColumn } from "typeorm";
 import { BooleanTransformer } from "./boolean";
-e2eDatabaseTypeSetUp("BigintTransformer", (options) => {
+e2eDatabaseTypeSetUp("BooleanTransformer", (options) => {
   @Entity()
   class BooleanTransformerTest extends BaseEntity {
     @PrimaryGeneratedColumn()
