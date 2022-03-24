@@ -1,14 +1,5 @@
 import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
-import {
-  Column,
-  Entity,
-  EventSubscriber,
-  getConnection,
-  getRepository,
-  JoinTable,
-  ManyToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, DataSource, Entity, EventSubscriber, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import { HistoryActionType } from "../history-action.enum";
 import { HistoryActionColumn, HistoryEntityInterface } from "../history-entity";
 import { HistoryEntitySubscriber } from "../history-subscriber";
@@ -74,12 +65,17 @@ e2eDatabaseTypeSetUp("e2e test (many-to-many)", (options) => {
     public entity = Question;
     public historyEntity = QuestionHistory;
   }
-
-  e2eSetUp({
-    entities: [Category, CategoryHistory, Question, QuestionHistory],
-    subscribers: [CategoryHistorySubscriber, QuestionHistorySubscriber],
-    ...options,
-  });
+  let dataSource: DataSource;
+  e2eSetUp(
+    {
+      entities: [Category, CategoryHistory, Question, QuestionHistory],
+      subscribers: [CategoryHistorySubscriber, QuestionHistorySubscriber],
+      ...options,
+    },
+    (source) => {
+      dataSource = source;
+    },
+  );
 
   it("should create many-to-many create/update/delete history", async () => {
     // create tests
@@ -93,9 +89,9 @@ e2eDatabaseTypeSetUp("e2e test (many-to-many)", (options) => {
     question.title = "dogs";
     question.text = "who let the dogs out?";
     question.categories = [category1, category2];
-    await getConnection().manager.save(question);
+    await dataSource.manager.save(question);
 
-    await expect(getRepository(Question).find({})).resolves.toEqual([
+    await expect(dataSource.getRepository(Question).find({})).resolves.toEqual([
       {
         id: 1,
         text: "who let the dogs out?",
@@ -103,7 +99,7 @@ e2eDatabaseTypeSetUp("e2e test (many-to-many)", (options) => {
       },
     ]);
 
-    await expect(getRepository(QuestionHistory).find({})).resolves.toEqual([
+    await expect(dataSource.getRepository(QuestionHistory).find({})).resolves.toEqual([
       {
         action: "CREATED",
         id: 1,
@@ -113,12 +109,12 @@ e2eDatabaseTypeSetUp("e2e test (many-to-many)", (options) => {
       },
     ]);
 
-    await expect(getRepository(Category).find({ order: { id: "ASC" } })).resolves.toEqual([
+    await expect(dataSource.getRepository(Category).find({ order: { id: "ASC" } })).resolves.toEqual([
       { id: 1, name: "animals" },
       { id: 2, name: "zoo" },
     ]);
 
-    await expect(getRepository(CategoryHistory).find({})).resolves.toEqual([
+    await expect(dataSource.getRepository(CategoryHistory).find({})).resolves.toEqual([
       { action: "CREATED", id: 1, name: "animals", originalID: 1 },
       { action: "CREATED", id: 2, name: "zoo", originalID: 2 },
     ]);
@@ -127,9 +123,9 @@ e2eDatabaseTypeSetUp("e2e test (many-to-many)", (options) => {
     question.text = "updated";
     question.categories[0].name = "updated";
 
-    await getConnection().manager.save(question);
+    await dataSource.manager.save(question);
 
-    await expect(getRepository(Question).find({})).resolves.toEqual([
+    await expect(dataSource.getRepository(Question).find({})).resolves.toEqual([
       {
         id: 1,
         text: "updated",
@@ -137,7 +133,7 @@ e2eDatabaseTypeSetUp("e2e test (many-to-many)", (options) => {
       },
     ]);
 
-    await expect(getRepository(QuestionHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
+    await expect(dataSource.getRepository(QuestionHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
       {
         action: "CREATED",
         id: 1,
@@ -154,12 +150,12 @@ e2eDatabaseTypeSetUp("e2e test (many-to-many)", (options) => {
       },
     ]);
 
-    await expect(getRepository(Category).find({ order: { id: "ASC" } })).resolves.toEqual([
+    await expect(dataSource.getRepository(Category).find({ order: { id: "ASC" } })).resolves.toEqual([
       { id: 1, name: "updated" },
       { id: 2, name: "zoo" },
     ]);
 
-    await expect(getRepository(CategoryHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
+    await expect(dataSource.getRepository(CategoryHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
       { action: "CREATED", id: 1, name: "animals", originalID: 1 },
       { action: "CREATED", id: 2, name: "zoo", originalID: 2 },
       { action: "UPDATED", id: 3, name: "updated", originalID: 1 },
@@ -167,9 +163,9 @@ e2eDatabaseTypeSetUp("e2e test (many-to-many)", (options) => {
 
     // delete tests
     // remove first category
-    await getConnection().manager.remove(question.categories.shift());
+    await dataSource.manager.remove(question.categories.shift());
 
-    await expect(getRepository(Question).find({})).resolves.toEqual([
+    await expect(dataSource.getRepository(Question).find({})).resolves.toEqual([
       {
         id: 1,
         text: "updated",
@@ -177,7 +173,7 @@ e2eDatabaseTypeSetUp("e2e test (many-to-many)", (options) => {
       },
     ]);
 
-    await expect(getRepository(QuestionHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
+    await expect(dataSource.getRepository(QuestionHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
       {
         action: "CREATED",
         id: 1,
@@ -194,9 +190,9 @@ e2eDatabaseTypeSetUp("e2e test (many-to-many)", (options) => {
       },
     ]);
 
-    await expect(getRepository(Category).find({})).resolves.toEqual([{ id: 2, name: "zoo" }]);
+    await expect(dataSource.getRepository(Category).find({})).resolves.toEqual([{ id: 2, name: "zoo" }]);
 
-    await expect(getRepository(CategoryHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
+    await expect(dataSource.getRepository(CategoryHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
       { action: "CREATED", id: 1, name: "animals", originalID: 1 },
       { action: "CREATED", id: 2, name: "zoo", originalID: 2 },
       { action: "UPDATED", id: 3, name: "updated", originalID: 1 },
@@ -207,9 +203,9 @@ e2eDatabaseTypeSetUp("e2e test (many-to-many)", (options) => {
     const category3 = new Category();
     category3.name = "bar";
     question.categories.push(category3);
-    await getConnection().manager.save(question);
+    await dataSource.manager.save(question);
 
-    await expect(getRepository(Question).find({})).resolves.toEqual([
+    await expect(dataSource.getRepository(Question).find({})).resolves.toEqual([
       {
         id: 1,
         text: "updated",
@@ -217,7 +213,7 @@ e2eDatabaseTypeSetUp("e2e test (many-to-many)", (options) => {
       },
     ]);
 
-    await expect(getRepository(QuestionHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
+    await expect(dataSource.getRepository(QuestionHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
       {
         action: "CREATED",
         id: 1,
@@ -234,12 +230,12 @@ e2eDatabaseTypeSetUp("e2e test (many-to-many)", (options) => {
       },
     ]);
 
-    await expect(getRepository(Category).find({ order: { id: "ASC" } })).resolves.toEqual([
+    await expect(dataSource.getRepository(Category).find({ order: { id: "ASC" } })).resolves.toEqual([
       { id: 2, name: "zoo" },
       { id: 3, name: "bar" },
     ]);
 
-    await expect(getRepository(CategoryHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
+    await expect(dataSource.getRepository(CategoryHistory).find({ order: { id: "ASC" } })).resolves.toEqual([
       { action: "CREATED", id: 1, name: "animals", originalID: 1 },
       { action: "CREATED", id: 2, name: "zoo", originalID: 2 },
       { action: "UPDATED", id: 3, name: "updated", originalID: 1 },

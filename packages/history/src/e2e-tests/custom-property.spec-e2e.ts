@@ -1,5 +1,5 @@
 import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
-import { BaseEntity, Column, Entity, EventSubscriber, getConnection, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, DataSource, Entity, EventSubscriber, PrimaryGeneratedColumn } from "typeorm";
 import { HistoryActionType } from "../history-action.enum";
 import { HistoryActionColumn, HistoryOriginalIdColumn } from "../history-entity";
 import { HistoryEntitySubscriber } from "../history-subscriber";
@@ -155,6 +155,7 @@ describe("e2e test (custom property)", () => {
       public entity = TestEntity;
       public historyEntity = TestHistoryEntity;
     }
+
     e2eSetUp({
       entities: [TestEntity, TestHistoryEntity],
       subscribers: [TestHistoryEntitySubscriber],
@@ -198,10 +199,16 @@ describe("e2e test (custom property)", () => {
       public entity = TestEntity;
       public historyEntity = TestHistoryEntity;
     }
-    e2eSetUp({
-      entities: [TestEntity, TestHistoryEntity],
-      subscribers: [TestHistoryEntitySubscriber],
-    });
+    let dataSource: DataSource;
+    e2eSetUp(
+      {
+        entities: [TestEntity, TestHistoryEntity],
+        subscribers: [TestHistoryEntitySubscriber],
+      },
+      (source) => {
+        dataSource = source;
+      },
+    );
 
     it("test", async () => {
       const testEntity = await TestEntity.create({ test: "test" }).save();
@@ -213,7 +220,7 @@ describe("e2e test (custom property)", () => {
 
       await testEntity.remove();
 
-      await expect(getConnection().query("SELECT * FROM test_history_entity")).resolves.toEqual([
+      await expect(dataSource.query("SELECT * FROM test_history_entity")).resolves.toEqual([
         {
           historyAction: "CREATED",
           historyOriginalID: 1,

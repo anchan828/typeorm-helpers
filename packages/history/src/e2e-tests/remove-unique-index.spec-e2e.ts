@@ -72,19 +72,23 @@ e2eDatabaseTypeSetUp("e2e test (remove unique index)", (options) => {
       public entity = TestEntity;
       public historyEntity = TestHistoryEntity;
     }
-    e2eSetUp({
-      entities: [TestEntity, TestHistoryEntity],
-      subscribers: [TestHistoryEntitySubscriber],
-      migrations: [
-        class RemoveAllUniqueOfTestHistoryEntity1625470736630 {
-          async up(queryRunner: QueryRunner): Promise<void> {
-            await dropUniqueIndices(queryRunner, TestHistoryEntity /* "test_history_entity" */, true);
-          }
-        },
-      ],
-      migrationsRun: true,
-      ...options,
-    });
+    e2eSetUp(
+      {
+        entities: [TestEntity, TestHistoryEntity],
+        subscribers: [TestHistoryEntitySubscriber],
+        migrations: [
+          class RemoveAllUniqueOfTestHistoryEntity1625470736630 {
+            async up(queryRunner: QueryRunner): Promise<void> {
+              await dropUniqueIndices(queryRunner, TestHistoryEntity /* "test_history_entity" */, true);
+            }
+          },
+        ],
+        ...options,
+      },
+      async (source) => {
+        await source.runMigrations();
+      },
+    );
 
     it("create history", async () => {
       const testEntity = await TestEntity.create({
@@ -139,18 +143,22 @@ e2eDatabaseTypeSetUp("e2e test (remove unique index)", (options) => {
       public historyEntity = Test1HistoryEntity;
     }
 
-    e2eSetUp({
-      entities: [Test1Entity, Test2Entity, Test1HistoryEntity],
-      subscribers: [Test1HistoryEntitySubscriber],
-      migrations: [
-        class RemoveAllUniqueOfTestHistoryEntity1625470736630 {
-          async up(queryRunner: QueryRunner): Promise<void> {
-            await dropUniqueIndices(queryRunner, Test1HistoryEntity /* "test_history_entity" */, true);
-          }
-        },
-      ],
-      migrationsRun: true,
-    });
+    e2eSetUp(
+      {
+        entities: [Test1Entity, Test2Entity, Test1HistoryEntity],
+        subscribers: [Test1HistoryEntitySubscriber],
+        migrations: [
+          class RemoveAllUniqueOfTestHistoryEntity1625470736630 {
+            async up(queryRunner: QueryRunner): Promise<void> {
+              await dropUniqueIndices(queryRunner, Test1HistoryEntity /* "test_history_entity" */, true);
+            }
+          },
+        ],
+      },
+      async (source) => {
+        await source.runMigrations();
+      },
+    );
 
     it("create history", async () => {
       const test2 = await Test2Entity.create({}).save();
@@ -199,18 +207,22 @@ e2eDatabaseTypeSetUp("e2e test (remove unique index)", (options) => {
       public historyEntity = Test1HistoryEntity;
     }
 
-    e2eSetUp({
-      entities: [Test1Entity, Test2Entity, Test1HistoryEntity],
-      subscribers: [Test1HistoryEntitySubscriber],
-      migrations: [
-        class RemoveAllUniqueOfTestHistoryEntity1625470736630 {
-          async up(queryRunner: QueryRunner): Promise<void> {
-            await dropUniqueIndices(queryRunner, Test1HistoryEntity /* "test_history_entity" */, true);
-          }
-        },
-      ],
-      migrationsRun: true,
-    });
+    e2eSetUp(
+      {
+        entities: [Test1Entity, Test2Entity, Test1HistoryEntity],
+        subscribers: [Test1HistoryEntitySubscriber],
+        migrations: [
+          class RemoveAllUniqueOfTestHistoryEntity1625470736630 {
+            async up(queryRunner: QueryRunner): Promise<void> {
+              await dropUniqueIndices(queryRunner, Test1HistoryEntity /* "test_history_entity" */, true);
+            }
+          },
+        ],
+      },
+      async (source) => {
+        await source.runMigrations();
+      },
+    );
 
     it("create history", async () => {
       const test1 = await Test1Entity.create({ text: "text" }).save();
@@ -262,18 +274,22 @@ e2eDatabaseTypeSetUp("e2e test (remove unique index)", (options) => {
       public historyEntity = Test1HistoryEntity;
     }
 
-    e2eSetUp({
-      entities: [Test1Entity, Test2Entity, Test1HistoryEntity],
-      subscribers: [Test1HistoryEntitySubscriber],
-      migrations: [
-        class RemoveAllUniqueOfTestHistoryEntity1625470736630 {
-          async up(queryRunner: QueryRunner): Promise<void> {
-            await dropUniqueIndices(queryRunner, Test1HistoryEntity /* "test_history_entity" */, true);
-          }
-        },
-      ],
-      migrationsRun: true,
-    });
+    e2eSetUp(
+      {
+        entities: [Test1Entity, Test2Entity, Test1HistoryEntity],
+        subscribers: [Test1HistoryEntitySubscriber],
+        migrations: [
+          class RemoveAllUniqueOfTestHistoryEntity1625470736630 {
+            async up(queryRunner: QueryRunner): Promise<void> {
+              await dropUniqueIndices(queryRunner, Test1HistoryEntity /* "test_history_entity" */, true);
+            }
+          },
+        ],
+      },
+      async (source) => {
+        await source.runMigrations();
+      },
+    );
 
     it("create history", async () => {
       const test1 = await Test1Entity.create({ text: "text" }).save();

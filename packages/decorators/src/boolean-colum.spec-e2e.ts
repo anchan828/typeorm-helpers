@@ -30,7 +30,7 @@ e2eDatabaseTypeSetUp("BooleanColumn", (options) => {
 
   it("should use default value", async () => {
     const { id } = await BooleanColumnTest.create({ test3: true }).save();
-    const entity = await BooleanColumnTest.findOne(id);
+    const entity = await BooleanColumnTest.findOneBy({ id });
 
     expect(entity).toEqual({
       id: 1,

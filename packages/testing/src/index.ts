@@ -1,15 +1,15 @@
-import { Connection, ConnectionOptions, createConnection } from "typeorm";
+import { DataSource, DataSourceOptions } from "typeorm";
 
-export function e2eDatabaseTypeSetUp(name: string, callback: (options: Partial<ConnectionOptions>) => void): void;
+export function e2eDatabaseTypeSetUp(name: string, callback: (options: Partial<DataSourceOptions>) => void): void;
 export function e2eDatabaseTypeSetUp(
   name: string,
   ignoreTypes: string[],
-  callback: (options: Partial<ConnectionOptions>) => void,
+  callback: (options: Partial<DataSourceOptions>) => void,
 ): void;
 export function e2eDatabaseTypeSetUp(
   name: string,
   callbackOrIgnoreTypes: string[] | Function,
-  callbackFunction?: (options: Partial<ConnectionOptions>) => void,
+  callbackFunction?: (options: Partial<DataSourceOptions>) => void,
 ): void {
   const ignoreTypes: string[] = [];
   let callback: Function | undefined;
@@ -20,25 +20,25 @@ export function e2eDatabaseTypeSetUp(
     callback = callbackOrIgnoreTypes;
   }
 
-  const options: Array<Partial<ConnectionOptions>> = [
+  const options: Array<Partial<DataSourceOptions>> = [
     { type: "mysql", database: "test" },
     { type: "postgres", database: "test" },
     { type: "sqlite", database: ":memory:" },
-  ].filter((x) => !ignoreTypes.includes(x.type + "")) as Array<Partial<ConnectionOptions>>;
+  ].filter((x) => !ignoreTypes.includes(x.type + "")) as Array<Partial<DataSourceOptions>>;
 
-  describe.each<Partial<ConnectionOptions>>(options)(`[$type] ${name}`, (options) => {
+  describe.each<Partial<DataSourceOptions>>(options)(`[$type] ${name}`, (options) => {
     jest.retryTimes(5);
     callback?.(options);
   });
 }
 
 export async function e2eSetUp(
-  options?: Partial<ConnectionOptions>,
-  callback?: (connection: Connection) => Promise<void>,
+  options?: Partial<DataSourceOptions>,
+  callback?: (dataSource: DataSource) => void | Promise<void>,
 ): Promise<void> {
-  let connection: Connection;
+  let dataSource: DataSource;
   beforeEach(async () => {
-    const opt = Object.assign<ConnectionOptions, Partial<ConnectionOptions>>(
+    const opt = Object.assign<DataSourceOptions, Partial<DataSourceOptions>>(
       {
         database: "test",
         dropSchema: true,
@@ -53,11 +53,12 @@ export async function e2eSetUp(
       options || {},
     );
 
-    connection = await createConnection(opt);
-    await callback?.(connection);
+    dataSource = await new DataSource(opt).initialize();
+
+    await callback?.(dataSource);
   });
 
   afterEach(async () => {
-    await connection.close();
+    await dataSource.destroy();
   });
 }

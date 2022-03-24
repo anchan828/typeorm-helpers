@@ -20,7 +20,7 @@ e2eDatabaseTypeSetUp("NullToUndefinedTransformer", (options) => {
   it("should return undefined", async () => {
     const test = await NullToUndefinedTransformerTest.create({}).save();
 
-    expect(await NullToUndefinedTransformerTest.findOne(test.id)).toEqual({
+    expect(await NullToUndefinedTransformerTest.findOneBy({ id: test.id })).toEqual({
       test: undefined,
       id: 1,
     });
@@ -31,6 +31,6 @@ e2eDatabaseTypeSetUp("NullToUndefinedTransformer", (options) => {
       test: "test",
     }).save();
 
-    expect(await NullToUndefinedTransformerTest.findOne(test.id)).toEqual({ test: "test", id: 1 });
+    expect(await NullToUndefinedTransformerTest.findOneBy({ id: test.id })).toEqual({ test: "test", id: 1 });
   });
 });

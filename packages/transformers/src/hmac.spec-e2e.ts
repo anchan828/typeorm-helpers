@@ -25,7 +25,7 @@ e2eDatabaseTypeSetUp("HmacTransformer", (options) => {
   it("should return undefined", async () => {
     const test = await HmacTransformerTest.create({}).save();
 
-    expect(await HmacTransformerTest.findOne(test.id)).toEqual({
+    expect(await HmacTransformerTest.findOneBy({ id: test.id })).toEqual({
       password: undefined,
       id: 1,
     });
@@ -36,7 +36,7 @@ e2eDatabaseTypeSetUp("HmacTransformer", (options) => {
       password2: "test",
     }).save();
 
-    expect(await HmacTransformerTest.findOne(test.id)).toEqual({
+    expect(await HmacTransformerTest.findOneBy({ id: test.id })).toEqual({
       password: "88cd2108b5347d973cf39cdf9053d7dd42704876d8c9a9bd8e2d168259d3ddf7",
       password2:
         "287a0fb89a7fbdfa5b5538636918e537a5b83065e4ff331268b7aaa115dde047a9b0f4fb5b828608fc0b6327f10055f7637b058e9e0dbb9e698901a3e6dd461c",
