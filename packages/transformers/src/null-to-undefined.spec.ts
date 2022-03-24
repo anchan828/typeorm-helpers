@@ -1,7 +1,7 @@
-import { UndefinedTransformer } from "./undefined";
+import { NullToUndefinedTransformer } from "./null-to-undefined";
 
-describe("UndefinedTransformer", () => {
-  const undefinedTransformer = new UndefinedTransformer();
+describe("NullToUndefinedTransformer", () => {
+  const undefinedTransformer = new NullToUndefinedTransformer();
 
   it("should be defined", () => {
     expect(undefinedTransformer).toBeDefined();
