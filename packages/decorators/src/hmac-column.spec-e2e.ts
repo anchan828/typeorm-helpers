@@ -22,13 +22,11 @@ e2eDatabaseTypeSetUp("HmacColumn", (options) => {
       password2: "test",
     }).save();
 
-    await expect(HmacTransformerTest.findOne(test.id)).resolves.toEqual({
+    await expect(HmacTransformerTest.findOneBy({ id: test.id })).resolves.toEqual({
       id: 1,
     });
     await expect(
-      HmacTransformerTest.findOne(test.id, {
-        select: ["password", "password2"],
-      }),
+      HmacTransformerTest.findOne({ where: { id: test.id }, select: { password: true, password2: true } }),
     ).resolves.toEqual({
       password: "88cd2108b5347d973cf39cdf9053d7dd42704876d8c9a9bd8e2d168259d3ddf7",
       password2:

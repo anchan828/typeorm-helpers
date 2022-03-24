@@ -2,9 +2,9 @@ import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
 import {
   BaseEntity,
   Column,
+  DataSource,
   Entity,
   EventSubscriber,
-  getConnection,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -84,11 +84,17 @@ export class PageHistorySubscriber extends HistoryEntitySubscriber<Page, PageHis
 }
 
 e2eDatabaseTypeSetUp("e2e test (basic)", (options) => {
-  e2eSetUp({
-    entities: [Book, BookHistory, Page, PageHistory],
-    subscribers: [BookHistorySubscriber, PageHistorySubscriber],
-    ...options,
-  });
+  let dataSource: DataSource;
+  e2eSetUp(
+    {
+      entities: [Book, BookHistory, Page, PageHistory],
+      subscribers: [BookHistorySubscriber, PageHistorySubscriber],
+      ...options,
+    },
+    (source) => {
+      dataSource = source;
+    },
+  );
 
   it("create history", async () => {
     await Page.create({ name: "page", book: await Book.create({ name: "book" }).save() }).save();
@@ -108,7 +114,7 @@ e2eDatabaseTypeSetUp("e2e test (basic)", (options) => {
     firstPage.book = Book.create(secondBook);
     secondPage.book = Book.create(firstBook);
 
-    await getConnection().transaction((manager) => manager.save([firstPage, secondPage]));
+    await dataSource.transaction((manager) => manager.save([firstPage, secondPage]));
 
     await expect(BookHistory.createQueryBuilder("book_history").getRawMany()).resolves.toEqual([
       {

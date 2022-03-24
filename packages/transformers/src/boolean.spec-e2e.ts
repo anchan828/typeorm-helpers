@@ -1,5 +1,5 @@
 import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
-import { BaseEntity, Column, Entity, getConnection, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, DataSource, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { BooleanTransformer } from "./boolean";
 e2eDatabaseTypeSetUp("BooleanTransformer", (options) => {
   @Entity()
@@ -16,12 +16,16 @@ e2eDatabaseTypeSetUp("BooleanTransformer", (options) => {
     public bool!: boolean;
   }
 
-  e2eSetUp({ entities: [BooleanTransformerTest], ...options });
+  let dataSource: DataSource;
+
+  e2eSetUp({ entities: [BooleanTransformerTest], ...options }, (source) => {
+    dataSource = source;
+  });
 
   it("should return undefined", async () => {
     const test = await BooleanTransformerTest.create({}).save();
 
-    expect(await BooleanTransformerTest.findOne(test.id)).toEqual({
+    expect(await BooleanTransformerTest.findOneBy({ id: test.id })).toEqual({
       bool: undefined,
       id: 1,
     });
@@ -31,12 +35,12 @@ e2eDatabaseTypeSetUp("BooleanTransformer", (options) => {
       bool: true,
     }).save();
 
-    expect(await BooleanTransformerTest.findOne(test.id)).toEqual({
+    expect(await BooleanTransformerTest.findOneBy({ id: test.id })).toEqual({
       bool: true,
       id: 1,
     });
 
-    const rawQuery = await getConnection()
+    const rawQuery = await dataSource
       .createQueryBuilder(BooleanTransformerTest, "entity")
       .whereInIds(test.id)
       .getRawOne();
@@ -49,12 +53,12 @@ e2eDatabaseTypeSetUp("BooleanTransformer", (options) => {
       bool: false,
     }).save();
 
-    expect(await BooleanTransformerTest.findOne(test.id)).toEqual({
+    expect(await BooleanTransformerTest.findOneBy({ id: test.id })).toEqual({
       bool: false,
       id: 1,
     });
 
-    const rawQuery = await getConnection()
+    const rawQuery = await dataSource
       .createQueryBuilder(BooleanTransformerTest, "entity")
       .whereInIds(test.id)
       .getRawOne();

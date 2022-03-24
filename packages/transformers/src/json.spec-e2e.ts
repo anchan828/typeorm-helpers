@@ -1,5 +1,5 @@
 import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
-import { BaseEntity, Column, Entity, getConnection, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, DataSource, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { JsonTransformer } from "./json";
 e2eDatabaseTypeSetUp("JsonTransformer", (options) => {
   class TestJson {
@@ -34,12 +34,16 @@ e2eDatabaseTypeSetUp("JsonTransformer", (options) => {
     public data!: TestJson;
   }
 
-  e2eSetUp({ entities: [JsonTransformerTest, NoDefaultValueTest], ...options });
+  let dataSource: DataSource;
+
+  e2eSetUp({ entities: [JsonTransformerTest, NoDefaultValueTest], ...options }, (source) => {
+    dataSource = source;
+  });
 
   it("should return undefined", async () => {
     const test = await NoDefaultValueTest.create({}).save();
 
-    expect(await NoDefaultValueTest.findOne(test.id)).toEqual({
+    expect(await NoDefaultValueTest.findOneBy({ id: test.id })).toEqual({
       data: undefined,
       id: 1,
     });
@@ -48,17 +52,14 @@ e2eDatabaseTypeSetUp("JsonTransformer", (options) => {
   it("should return defaultValue", async () => {
     const test = await JsonTransformerTest.create().save();
 
-    expect(await JsonTransformerTest.findOne(test.id)).toEqual({
+    expect(await JsonTransformerTest.findOneBy({ id: test.id })).toEqual({
       data: {
         name: "test",
       },
       id: test.id,
     });
 
-    const rawQuery = await getConnection()
-      .createQueryBuilder(JsonTransformerTest, "entity")
-      .whereInIds(test.id)
-      .getRawOne();
+    const rawQuery = await dataSource.createQueryBuilder(JsonTransformerTest, "entity").whereInIds(test.id).getRawOne();
 
     expect(rawQuery).toEqual({
       entity_data: JSON.stringify({ name: "test" }),
@@ -71,7 +72,7 @@ e2eDatabaseTypeSetUp("JsonTransformer", (options) => {
       data: "{" as any,
     }).save();
 
-    expect(await JsonTransformerTest.findOne(1)).toEqual({
+    expect(await JsonTransformerTest.findOneBy({ id: 1 })).toEqual({
       data: {
         name: "test",
       },

@@ -2,7 +2,7 @@ import { BinaryLike } from "crypto";
 import { readFileSync } from "fs";
 import { tmpdir } from "os";
 import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
-import { BaseEntity, Column, Entity, getConnection, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, DataSource, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { StaticFileTransformer } from "./static-file";
 
 e2eDatabaseTypeSetUp("StaticFileTransformer", (options) => {
@@ -18,7 +18,12 @@ e2eDatabaseTypeSetUp("StaticFileTransformer", (options) => {
     })
     public file!: BinaryLike;
   }
-  e2eSetUp({ entities: [StaticFileTransformerTest], ...options });
+
+  let dataSource: DataSource;
+
+  e2eSetUp({ entities: [StaticFileTransformerTest], ...options }, (source) => {
+    dataSource = source;
+  });
 
   it("should store text", async () => {
     const test = await StaticFileTransformerTest.create({
@@ -26,7 +31,7 @@ e2eDatabaseTypeSetUp("StaticFileTransformer", (options) => {
     }).save();
     expect(test.file).toBe("test");
 
-    const rawQuery = await getConnection()
+    const rawQuery = await dataSource
       .createQueryBuilder(StaticFileTransformerTest, "entity")
       .whereInIds(test.id)
       .getRawOne();
@@ -39,7 +44,7 @@ e2eDatabaseTypeSetUp("StaticFileTransformer", (options) => {
     }).save();
     expect(test.file).toEqual(readFileSync("test-files/image.png"));
 
-    const rawQuery = await getConnection()
+    const rawQuery = await dataSource
       .createQueryBuilder(StaticFileTransformerTest, "entity")
       .whereInIds(test.id)
       .getRawOne();
