@@ -1,5 +1,5 @@
 import { Column, ColumnOptions, ValueTransformer } from "typeorm";
-import { monotonicFactory, ulid } from "ulid";
+import { monotonicFactory, ulid } from "ulidx";
 const monotonic = monotonicFactory();
 
 export interface UlidColumnOptions {
