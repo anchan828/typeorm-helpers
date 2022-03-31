@@ -29,9 +29,6 @@
     "url": "https://github.com/anchan828/typeorm-helpers/issues"
   },
   "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/transformers#readme",
-  "dependencies": {
-    "deepmerge": "4.2.2"
-  },
   "devDependencies": {
     "testing": "^1.0.1"
   }

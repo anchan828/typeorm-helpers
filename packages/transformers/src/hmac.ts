@@ -1,5 +1,4 @@
 import { BinaryLike, createHmac } from "crypto";
-import * as deepmerge from "deepmerge";
 import { ValueTransformer } from "typeorm";
 import { isNullOrUndefined } from "./utils";
 export interface HmacTransformerOptions {
@@ -17,8 +16,10 @@ export interface HmacTransformerOptions {
  * Transform value to hashed value by crypto.createHmac
  */
 export class HmacTransformer implements ValueTransformer {
+  private transformerOptions: Pick<HmacTransformerOptions, "key"> & Required<Pick<HmacTransformerOptions, "algorithm">>;
+
   constructor(private options?: HmacTransformerOptions) {
-    this.options = deepmerge({ algorithm: "sha256" }, options || {});
+    this.transformerOptions = { algorithm: "sha256", ...options };
   }
   public from(value?: string | null): string | undefined {
     if (isNullOrUndefined(value)) {
@@ -33,8 +34,8 @@ export class HmacTransformer implements ValueTransformer {
       return;
     }
 
-    const { algorithm, key } = this.options!;
-    return createHmac(algorithm!, key ? key : value)
+    const { algorithm, key } = this.transformerOptions;
+    return createHmac(algorithm, key ? key : value)
       .update(value)
       .digest("hex");
   }

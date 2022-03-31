@@ -1,13 +1,10 @@
 import { JsonTransformer } from "@anchan828/typeorm-transformers";
-import * as deepmerge from "deepmerge";
 import { Column, ColumnOptions } from "typeorm";
 export function JsonColumn<T>(options?: ColumnOptions): Function {
-  const columnOptions = deepmerge(
-    {
-      type: "text",
-    } as ColumnOptions,
-    options || {},
-  );
+  const columnOptions = {
+    type: "text",
+    ...options,
+  } as ColumnOptions;
   const defaultValue = columnOptions.default;
 
   if (columnOptions.default) {

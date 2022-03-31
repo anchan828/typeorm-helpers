@@ -1,5 +1,4 @@
 import { createCipheriv, createDecipheriv, randomBytes } from "crypto";
-import * as deepmerge from "deepmerge";
 import { ValueTransformer } from "typeorm";
 import { isNullOrUndefined } from "./utils";
 export interface EncryptTransformerOptions {
@@ -24,7 +23,7 @@ export interface EncryptTransformerOptions {
  */
 export class EncryptTransformer implements ValueTransformer {
   constructor(private options: EncryptTransformerOptions) {
-    this.options = deepmerge<EncryptTransformerOptions>({ algorithm: "aes-256-cbc", ivLength: 16 }, options);
+    this.options = { algorithm: "aes-256-cbc", ivLength: 16, ...options };
   }
 
   public from(value?: string | null): string | undefined {
