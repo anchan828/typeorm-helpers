@@ -7,7 +7,7 @@ describe("UlidColumn", () => {
 
   it("should be defined", () => {
     class Test {
-      @PrimaryUlidColumn()
+      @PrimaryUlidColumn({ isMonotonic: true, prng: () => 0.96, seedTime: 1000 })
       public test1!: string;
 
       @UlidColumn()

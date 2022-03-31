@@ -1,13 +1,18 @@
 import { Column, ColumnOptions, ValueTransformer } from "typeorm";
-import { monotonicFactory, ulid } from "ulidx";
-const monotonic = monotonicFactory();
+import { monotonicFactory, PRNG, ulid, ULIDFactory } from "ulidx";
 
 export interface UlidColumnOptions {
-  // defaul: true
-  isMonotonic: boolean;
+  isMonotonic?: boolean;
+  prng?: PRNG | undefined;
+  seedTime?: number | undefined;
 }
 class UlidTransformer implements ValueTransformer {
-  constructor(private readonly options: UlidColumnOptions) {}
+  private readonly monotonic: ULIDFactory | undefined;
+  constructor(private readonly options: UlidColumnOptions) {
+    if (options.isMonotonic) {
+      this.monotonic = monotonicFactory(options.prng);
+    }
+  }
   public from(value: string): string {
     return value;
   }
@@ -16,7 +21,9 @@ class UlidTransformer implements ValueTransformer {
       return value;
     }
 
-    return this.options.isMonotonic ? monotonic() : ulid();
+    return this.options.isMonotonic && this.monotonic
+      ? this.monotonic(this.options.seedTime)
+      : ulid(this.options.seedTime);
   }
 }
 export function UlidColumn(trasformerOptions?: UlidColumnOptions, options?: ColumnOptions) {
