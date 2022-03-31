@@ -1,4 +1,3 @@
-import * as deepmerge from "deepmerge";
 import { Column, ColumnOptions, ValueTransformer } from "typeorm";
 import { monotonicFactory, ulid } from "ulid";
 const monotonic = monotonicFactory();
@@ -21,22 +20,18 @@ class UlidTransformer implements ValueTransformer {
   }
 }
 export function UlidColumn(trasformerOptions?: UlidColumnOptions, options?: ColumnOptions) {
-  trasformerOptions = deepmerge(
-    {
-      isMonotonic: true,
-    },
-    trasformerOptions || {},
-  );
+  const columnTrasformerOptions = {
+    isMonotonic: true,
+    ...trasformerOptions,
+  };
 
-  options = deepmerge(
-    {
-      length: "26",
+  const columnOptions = {
+    length: "26",
+    type: "varchar",
+    unique: true,
+    ...options,
+  } as ColumnOptions;
 
-      type: "varchar",
-      unique: true,
-    } as ColumnOptions,
-    options || {},
-  ) as ColumnOptions;
-  options.transformer = new UlidTransformer(trasformerOptions);
-  return Column(options);
+  columnOptions.transformer = new UlidTransformer(columnTrasformerOptions);
+  return Column(columnOptions);
 }

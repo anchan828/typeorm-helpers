@@ -13,8 +13,5 @@
   "bugs": {
     "url": "https://github.com/anchan828/typeorm-helpers/issues"
   },
-  "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/testing#readme",
-  "dependencies": {
-    "deepmerge": "4.2.2"
-  }
+  "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/testing#readme"
 }

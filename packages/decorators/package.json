@@ -31,7 +31,6 @@
   "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/decorators#readme",
   "dependencies": {
     "@anchan828/typeorm-transformers": "^1.0.1",
-    "deepmerge": "4.2.2",
     "ulid": "2.3.0"
   },
   "devDependencies": {
