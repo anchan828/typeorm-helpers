@@ -41,28 +41,28 @@ e2eDatabaseTypeSetUp("UlidColumn", (options) => {
 
   it("should set ulid", async () => {
     await UlidColumnMonotonicTest.create().save();
-    const test = await UlidColumnMonotonicTest.findOne({});
-    test!.text2 = "a";
-    await test!.save();
-    const test2 = await UlidColumnMonotonicTest.findOne({});
+    const test = await UlidColumnMonotonicTest.find();
+    test[0].text2 = "a";
+    await test[0].save();
+    const test2 = await UlidColumnMonotonicTest.find();
 
-    expect(test!.text).toBe(test2!.text);
-    test2!.text = "a";
-    await test2!.save();
-    const test3 = await UlidColumnMonotonicTest.findOne({});
-    expect(test3!.text).toBe("a");
+    expect(test[0].text).toBe(test2[0].text);
+    test2[0].text = "a";
+    await test2[0].save();
+    const test3 = await UlidColumnMonotonicTest.find();
+    expect(test3[0].text).toBe("a");
 
     await PrimaryUlidColumnTest.create().save();
-    const test4 = await PrimaryUlidColumnTest.findOne({});
-    expect(test4!.id.length).toEqual(26);
+    const test4 = await PrimaryUlidColumnTest.find();
+    expect(test4[0].id.length).toEqual(26);
   });
 
   it("should not set ulid when set to text", async () => {
     await UlidColumnMonotonicTest.create().save();
-    const test = await UlidColumnMonotonicTest.findOne({});
-    test!.text = "a";
-    await test!.save();
-    const test2 = await UlidColumnMonotonicTest.findOne({});
-    expect(test2!.text).toBe("a");
+    const test = await UlidColumnMonotonicTest.find();
+    test[0].text = "a";
+    await test[0].save();
+    const test2 = await UlidColumnMonotonicTest.find();
+    expect(test2[0].text).toBe("a");
   });
 });
