@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { e2eDatabaseTypeSetUp, e2eSetUp } from "testing";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { UlidColumn } from "./ulid-column";
+import { PrimaryUlidColumn, UlidColumn } from "./ulid-column";
 
 e2eDatabaseTypeSetUp("UlidColumn", (options) => {
   @Entity()
@@ -24,11 +24,19 @@ e2eDatabaseTypeSetUp("UlidColumn", (options) => {
     @UlidColumn({ isMonotonic: false })
     public text!: string;
   }
-  e2eSetUp({ entities: [UlidColumnMonotonicTest, UlidColumnNotMonotonicTest], ...options });
+
+  @Entity()
+  class PrimaryUlidColumnTest extends BaseEntity {
+    @PrimaryUlidColumn()
+    public id!: string;
+  }
+
+  e2eSetUp({ entities: [UlidColumnMonotonicTest, UlidColumnNotMonotonicTest, PrimaryUlidColumnTest], ...options });
 
   it("should be defined", async () => {
     await UlidColumnMonotonicTest.create().save();
     await UlidColumnNotMonotonicTest.create().save();
+    await PrimaryUlidColumnTest.create().save();
   });
 
   it("should set ulid", async () => {
@@ -43,6 +51,10 @@ e2eDatabaseTypeSetUp("UlidColumn", (options) => {
     await test2!.save();
     const test3 = await UlidColumnMonotonicTest.findOne({});
     expect(test3!.text).toBe("a");
+
+    await PrimaryUlidColumnTest.create().save();
+    const test4 = await PrimaryUlidColumnTest.findOne({});
+    expect(test4!.id.length).toEqual(26);
   });
 
   it("should not set ulid when set to text", async () => {

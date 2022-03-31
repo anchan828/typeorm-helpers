@@ -28,10 +28,18 @@ export function UlidColumn(trasformerOptions?: UlidColumnOptions, options?: Colu
   const columnOptions = {
     length: "26",
     type: "varchar",
-    unique: true,
     ...options,
   } as ColumnOptions;
 
   columnOptions.transformer = new UlidTransformer(columnTrasformerOptions);
   return Column(columnOptions);
+}
+
+export function PrimaryUlidColumn(trasformerOptions?: UlidColumnOptions, options?: ColumnOptions) {
+  const columnOptions = {
+    primary: true,
+    ...options,
+  } as ColumnOptions;
+
+  return UlidColumn(trasformerOptions, columnOptions);
 }
