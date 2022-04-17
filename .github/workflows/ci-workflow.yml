@@ -31,6 +31,6 @@ jobs:
         uses: codecov/codecov-action@v3
       - name: e2e test monorepo packages
         run: |
-          npm run test:e2e -- --scope=@anchan828/typeorm-history
-          npm run test:e2e -- --scope=@anchan828/typeorm-transformers
-          npm run test:e2e -- --scope=@anchan828/typeorm-decorators
+          npm run test:e2e -- --filter=@anchan828/typeorm-history
+          npm run test:e2e -- --filter=@anchan828/typeorm-transformers
+          npm run test:e2e -- --filter=@anchan828/typeorm-decorators
