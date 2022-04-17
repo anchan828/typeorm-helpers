@@ -1,18 +1,21 @@
 {
   "name": "@anchan828/typeorm-helpers",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "postinstall": "husky install && npm run bootstrap && npm run build",
+    "postinstall": "husky install",
     "bootstrap": "lerna bootstrap",
-    "build": "lerna run build",
+    "build": "turbo run build",
     "format": "prettier --write '**/*.{js,json,yml,yaml,md}'",
-    "lint": "lerna run --parallel lint",
-    "lint:fix": "lerna run --parallel lint:fix",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
     "publish": "lerna publish --yes patch",
     "publish:minor": "lerna publish --yes minor",
     "publish:major": "lerna publish --yes major",
-    "test": "lerna run test && npx @anchan828/merge-coverage",
-    "test:e2e": "lerna run test:e2e"
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e"
   },
   "devDependencies": {
     "@commitlint/cli": "16.2.3",
@@ -27,14 +30,15 @@
     "fast-glob": "3.2.11",
     "husky": "7.0.4",
     "jest": "27.5.1",
-    "lerna": "4.0.0",
+    "@lerna-lite/cli": "1.0.5",
     "lint-staged": "12.3.8",
     "mysql": "2.18.1",
     "pg": "8.7.3",
-    "sqlite3": "5.0.3",
     "prettier": "2.6.2",
+    "sqlite3": "5.0.3",
     "ts-jest": "27.1.4",
     "ts-node": "10.7.0",
+    "turbo": "1.2.4",
     "typeorm": "0.3.6",
     "typescript": "4.6.3"
   }

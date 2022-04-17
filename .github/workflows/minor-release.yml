@@ -15,7 +15,7 @@ jobs:
           node-version: 16
           cache: npm
       - name: Install npm packages
-        run: npm i
+        run: npm ci
       - name: Publish monorepo packages
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
