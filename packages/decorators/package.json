@@ -7,13 +7,13 @@
   "scripts": {
     "prepublishOnly": "rm -rf dist && npm run build && rm -f dist/*.tsbuildinfo && npm run copy:license",
     "copy:license": "cp ../../LICENSE ./",
-    "build": "node ../../node_modules/typescript/bin/tsc -p tsconfig.build.json",
-    "lint": "node ../../node_modules/eslint/bin/eslint --ignore-path ../../.eslintignore '**/*.ts'",
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "eslint --ignore-path ../../.eslintignore '**/*.ts'",
     "lint:fix": "npm run lint -- --fix",
-    "watch": "node ../../node_modules/typescript/bin/tsc --watch",
-    "test": "node ../../node_modules/jest/bin/jest --coverage",
+    "watch": "tsc --watch",
+    "test": "jest --coverage",
     "test:watch": "npm run test -- --watch",
-    "test:e2e": "node ../../node_modules/jest/bin/jest --coverage --runInBand --config=jest-e2e.config.js",
+    "test:e2e": "jest --coverage --runInBand --config=jest-e2e.config.js",
     "test:e2e:watch": "npm run test:e2e -- --watch"
   },
   "publishConfig": {
