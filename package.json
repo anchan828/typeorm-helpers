@@ -5,21 +5,22 @@
     "packages/*"
   ],
   "scripts": {
-    "postinstall": "husky install",
     "bootstrap": "lerna bootstrap",
     "build": "turbo run build",
     "format": "prettier --write '**/*.{js,json,yml,yaml,md}'",
+    "postinstall": "husky install",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "publish": "lerna publish --yes patch",
-    "publish:minor": "lerna publish --yes minor",
     "publish:major": "lerna publish --yes major",
+    "publish:minor": "lerna publish --yes minor",
     "test": "turbo run test",
     "test:e2e": "turbo run test:e2e"
   },
   "devDependencies": {
     "@commitlint/cli": "16.2.3",
     "@commitlint/config-conventional": "16.2.1",
+    "@lerna-lite/cli": "1.0.5",
     "@types/jest": "27.4.1",
     "@types/node": "16.11.27",
     "@typescript-eslint/eslint-plugin": "5.20.0",
@@ -30,7 +31,6 @@
     "fast-glob": "3.2.11",
     "husky": "7.0.4",
     "jest": "27.5.1",
-    "@lerna-lite/cli": "1.0.5",
     "lint-staged": "12.3.8",
     "mysql": "2.18.1",
     "pg": "8.7.3",

@@ -2,35 +2,35 @@
   "name": "@anchan828/typeorm-history",
   "version": "1.0.5",
   "description": "History Entity for [TypeORM](http://typeorm.io)",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "prepublishOnly": "rm -rf dist && npm run build && rm -f dist/*.tsbuildinfo && npm run copy:license",
-    "copy:license": "cp ../../LICENSE ./",
-    "build": "tsc -p tsconfig.build.json",
-    "lint": "eslint --ignore-path ../../.eslintignore '**/*.ts'",
-    "lint:fix": "npm run lint -- --fix",
-    "watch": "tsc --watch",
-    "test": "jest --coverage",
-    "test:watch": "npm run test -- --watch",
-    "test:e2e": "jest --coverage --runInBand --config=jest-e2e.config.js",
-    "test:e2e:watch": "npm run test:e2e -- --watch"
-  },
-  "publishConfig": {
-    "access": "public"
+  "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/history#readme",
+  "bugs": {
+    "url": "https://github.com/anchan828/typeorm-helpers/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/anchan828/typeorm-helpers.git"
   },
-  "author": "anchan828 <anchan828@gmail.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/anchan828/typeorm-helpers/issues"
+  "author": "anchan828 <anchan828@gmail.com>",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "copy:license": "cp ../../LICENSE ./",
+    "lint": "eslint --ignore-path ../../.eslintignore '**/*.ts'",
+    "lint:fix": "npm run lint -- --fix",
+    "prepublishOnly": "rm -rf dist && npm run build && rm -f dist/*.tsbuildinfo && npm run copy:license",
+    "test": "jest --coverage",
+    "test:e2e": "jest --coverage --runInBand --config=jest-e2e.config.js",
+    "test:e2e:watch": "npm run test:e2e -- --watch",
+    "test:watch": "npm run test -- --watch",
+    "watch": "tsc --watch"
   },
-  "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/history#readme",
   "devDependencies": {
     "testing": "^1.0.5",
     "ulid": "2.3.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
