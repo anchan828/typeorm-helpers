@@ -37,7 +37,7 @@
     "sqlite3": "5.0.4",
     "ts-jest": "27.1.4",
     "ts-node": "10.7.0",
-    "turbo": "1.2.4",
+    "turbo": "1.2.5",
     "typeorm": "0.3.6",
     "typescript": "4.6.3"
   }
