@@ -19,7 +19,7 @@
     "copy:license": "cp ../../LICENSE ./",
     "lint": "TIMING=1 eslint --ignore-path ../../.eslintignore '**/*.ts'",
     "lint:fix": "npm run lint -- --fix",
-    "prepublishOnly": "rm -rf dist && npm run build && rm -f dist/*.tsbuildinfo && npm run copy:license",
+    "prepublishOnly": "npm run build && rm -f dist/*.tsbuildinfo && npm run copy:license",
     "test": "jest --coverage",
     "test:e2e": "jest --coverage --runInBand --config=jest-e2e.config.js",
     "test:e2e:watch": "npm run test:e2e -- --watch",
