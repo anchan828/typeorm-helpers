@@ -21,7 +21,7 @@
     "@commitlint/config-conventional": "17.1.0",
     "@lerna-lite/cli": "1.11.2",
     "@types/jest": "28.1.8",
-    "@types/node": "18.7.13",
+    "@types/node": "18.7.14",
     "@typescript-eslint/eslint-plugin": "5.35.1",
     "@typescript-eslint/parser": "5.35.1",
     "eslint": "8.23.0",
