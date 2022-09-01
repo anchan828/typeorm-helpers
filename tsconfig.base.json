@@ -8,6 +8,7 @@
     "target": "es2021",
     "sourceMap": false,
     "strict": true,
-    "incremental": true
+    "incremental": true,
+    "skipLibCheck": true
   }
 }
