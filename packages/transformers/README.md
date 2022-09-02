@@ -78,6 +78,36 @@ class StaticFileTransformerTest extends BaseEntity {
 }
 ```
 
+### MessagePackTransformer
+
+Please install msgpackr when using this Transformer.
+
+```shell
+npm i msgpackr
+```
+
+Transform value between object and messagepack.
+Currently only mysql and postgres are supported.
+
+The type of column depends on the database used:
+
+- mysql: Use `blob`
+- postgres: Use `bytea`
+
+```ts
+@Entity()
+class MessagePackTransformerTest extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  public id!: number;
+
+  @Column({
+    transformer: new MessagePackTransformer<TestJson>({ name: "test" }),
+    type: options.type === "mysql" ? "blob" : "bytea",
+  })
+  public data!: TestJson;
+}
+```
+
 ## License
 
 [MIT](LICENSE)
