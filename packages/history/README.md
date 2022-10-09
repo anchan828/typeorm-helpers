@@ -9,6 +9,10 @@ Create History Entity for [TypeORM](http://typeorm.io)
 
 Tested: mysql, postgres and sqlite.
 
+> **Warning**  
+> This package only works with `repository.save` and `repository.remove`.
+> You can't use `repository.insert`/`repository.update`/`repository.delete`.
+
 ## Installation
 
 ```bash
