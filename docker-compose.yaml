@@ -19,7 +19,7 @@ services:
         "--innodb-use-native-aio=0",
       ]
   postgres:
-    image: postgres:14
+    image: postgres:15
     ports:
       - "5432:5432"
     environment:
