@@ -1,6 +1,6 @@
 {
   "name": "@anchan828/typeorm-transformers",
-  "version": "1.0.35",
+  "version": "1.0.36",
   "description": "[TypeORM](https://github.com/typeorm/typeorm) transformers",
   "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/transformers#readme",
   "bugs": {
@@ -27,7 +27,7 @@
     "watch": "tsc --watch"
   },
   "devDependencies": {
-    "testing": "^1.0.35"
+    "testing": "^1.0.36"
   },
   "publishConfig": {
     "access": "public"
