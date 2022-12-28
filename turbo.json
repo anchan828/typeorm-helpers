@@ -16,7 +16,7 @@
     },
     "test": {
       "dependsOn": ["^build"],
-      "outputs": []
+      "outputs": ["coverage/**"]
     },
     "test:e2e": {
       "dependsOn": ["^build"],

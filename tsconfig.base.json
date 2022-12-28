@@ -6,7 +6,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es2021",
-    "sourceMap": false,
+    "sourceMap": true,
     "strict": true,
     "incremental": true,
     "skipLibCheck": true
