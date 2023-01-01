@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.42 (2023-01-01)
+
+### Bug Fixes
+
+* **deps:** update dependency ulidx to ^0.4.0 ([02250b8](https://github.com/anchan828/typeorm-helpers/commit/02250b8f1c89beb2d90d8145b1ed40ac72b90647))
+
 ## 1.0.41 (2022-12-25)
 
 **Note:** Version bump only for package @anchan828/typeorm-transformers
