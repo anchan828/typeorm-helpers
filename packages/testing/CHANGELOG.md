@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.44 (2023-01-15)
+
+**Note:** Version bump only for package testing
+
 ## 1.0.43 (2023-01-08)
 
 **Note:** Version bump only for package testing
