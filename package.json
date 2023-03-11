@@ -19,7 +19,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
-    "@lerna-lite/cli": "^1.16.0",
+    "@lerna-lite/cli": "^1.16.1",
     "@types/jest": "^29.4.0",
     "@types/node": "^18.15.0",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
