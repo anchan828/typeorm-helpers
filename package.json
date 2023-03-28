@@ -17,7 +17,7 @@
     "test:e2e": "turbo run test:e2e"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.5.0",
+    "@commitlint/cli": "^17.5.1",
     "@commitlint/config-conventional": "^17.4.4",
     "@lerna-lite/cli": "^1.17.0",
     "@types/jest": "^29.5.0",
