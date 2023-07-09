@@ -2,7 +2,8 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "declarationMap": true
   },
   "exclude": ["node_modules", "dist", "scripts", "src/test-utils.ts"]
 }
