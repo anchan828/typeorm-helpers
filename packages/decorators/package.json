@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@anchan828/typeorm-transformers": "^1.0.66",
-    "ulidx": "^2.0.0"
+    "ulidx": "^2.1.0"
   },
   "devDependencies": {
     "testing": "^1.0.66"
