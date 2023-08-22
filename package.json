@@ -22,7 +22,7 @@
     "@lerna-lite/cli": "^2.5.0",
     "@lerna-lite/publish": "^2.5.0",
     "@types/jest": "^29.5.3",
-    "@types/node": "^20.5.1",
+    "@types/node": "^20.5.2",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
     "eslint": "^8.47.0",
