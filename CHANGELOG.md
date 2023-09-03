@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.72 (2023-09-03)
+
+**Note:** Version bump only for package @anchan828/typeorm-helpers
+
 ## 1.0.71 (2023-08-27)
 
 **Note:** Version bump only for package @anchan828/typeorm-helpers
