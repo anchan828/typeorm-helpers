@@ -27,7 +27,7 @@
     "watch": "tsc --watch"
   },
   "devDependencies": {
-    "testing": "^1.0.76"
+    "testing": "1.0.76"
   },
   "publishConfig": {
     "access": "public"
