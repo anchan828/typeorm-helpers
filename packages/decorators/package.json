@@ -1,6 +1,6 @@
 {
   "name": "@anchan828/typeorm-decorators",
-  "version": "1.0.83",
+  "version": "1.0.84",
   "description": "[TypeORM](https://github.com/typeorm/typeorm) decorators",
   "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/decorators#readme",
   "bugs": {
@@ -27,11 +27,11 @@
     "watch": "tsc --watch"
   },
   "dependencies": {
-    "@anchan828/typeorm-transformers": "^1.0.83",
+    "@anchan828/typeorm-transformers": "^1.0.84",
     "ulidx": "^2.1.0"
   },
   "devDependencies": {
-    "testing": "^1.0.83"
+    "testing": "^1.0.84"
   },
   "publishConfig": {
     "access": "public"

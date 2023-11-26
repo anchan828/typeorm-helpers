@@ -1,6 +1,6 @@
 {
   "name": "testing",
-  "version": "1.0.83",
+  "version": "1.0.84",
   "private": true,
   "description": "This is pacakge is for testing.",
   "homepage": "https://github.com/anchan828/typeorm-helpers/tree/master/packages/testing#readme",
