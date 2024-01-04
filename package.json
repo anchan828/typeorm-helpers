@@ -17,8 +17,8 @@
     "test:e2e": "turbo run test:e2e"
   },
   "devDependencies": {
-    "@commitlint/cli": "18.4.3",
-    "@commitlint/config-conventional": "18.4.3",
+    "@commitlint/cli": "18.4.4",
+    "@commitlint/config-conventional": "18.4.4",
     "@lerna-lite/cli": "3.1.0",
     "@lerna-lite/publish": "3.1.0",
     "@types/jest": "29.5.11",
@@ -38,7 +38,7 @@
     "sqlite3": "5.1.6",
     "ts-jest": "29.1.1",
     "ts-node": "10.9.2",
-    "turbo": "1.11.2",
+    "turbo": "1.11.3",
     "typeorm": "0.3.19",
     "typescript": "5.3.3"
   }
