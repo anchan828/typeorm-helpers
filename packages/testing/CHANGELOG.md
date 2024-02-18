@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.96 (2024-02-18)
+
+**Note:** Version bump only for package testing
+
 ## 1.0.95 (2024-02-11)
 
 **Note:** Version bump only for package testing
